@@ -1,0 +1,204 @@
+// Money utilitie
+.money {
+	@include component_base();
+	font-weight: bold;
+	font-size: 22px;
+
+	&::before {
+		content: 'R$ ';
+	}
+
+	&.money-no-space::before {
+		content: 'R$';
+	}
+
+	&-xlg {
+		@extend .money;
+		font-size: 36px;
+	}
+	&-sm {
+		@extend .money;
+    font-weight: normal;
+    font-size: 14px;
+	}
+}
+
+// Date Utilitie
+.mp-date {
+	@include component_base();
+	font-size: $font-size-sm;
+	font-weight: normal;
+	text-align: center;
+
+	> strong {
+		display: block;
+		font-size: 38px;
+		vertical-align: middle;
+
+		> span {
+			font-size: $font-size;
+		}
+	}
+}
+
+//visibilitie utilities
+//Small
+.mp-hide-mobile,
+.mp-hide-small {
+	@media (max-width: $small) {
+		display: none !important;
+	}
+}
+
+.mp-show-mobile,
+.mp-show-small {
+	@media (max-width: $small) {
+		display: block !important;
+	}
+}
+
+// Medium
+.mp-hide-medium {
+	@media (min-width: $small) and (max-width: $medium) {
+		display: none !important;
+	}
+}
+
+.mp-show-medium {
+	@media (min-width: $small) and (max-width: $medium) {
+		display: block !important;
+	}
+}
+
+// Large
+.mp-hide-large {
+	@media (min-width: $large) {
+		display: none !important;
+	}
+}
+
+.mp-show-large {
+	@media (min-width: $large) {
+		display: block !important;
+	}
+}
+
+.mp-text-center {
+	text-align: center;
+
+	&-mb {
+		@media (max-width: $small) {
+			text-align: center;
+		}
+	}
+}
+
+.mp-text-left {
+	text-align: center;
+
+	&-mb {
+		@media (max-width: $small) {
+			text-align: left;
+		}
+	}
+}
+
+.mp-text-right {
+	text-align: right;
+}
+
+@for $i from 1 through 6 {
+	.mp-text-#{$i}x, .mp-text-#{$i}x.fai {
+		font-size: $i * 1em !important;
+	}
+}
+
+.mb-img-responsive  {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.mp-bg-gray {
+	background-color: #f5f5f5;
+}
+
+.mp-itens-center {
+	display: table;
+	width: 100%;
+	text-align: center;
+
+	.mp-item {
+		display: table-cell;
+		padding: 0 15px;
+	}
+}
+
+
+// Text Utility
+.text-uppercase {
+	text-transform: uppercase;
+}
+
+.text-center {
+	text-align: center;
+}
+
+// Margin Utility
+@for $i from 1 through 5 {
+	.mb-#{$i} {
+		margin-bottom: $i * 15px;
+	}
+}
+
+// Width Utility
+.w-100 {
+	width: 100%;
+}
+
+// Modal Utility
+.fade {
+	background: $grey-darker;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	opacity: 0.8 !important;
+	display: none;
+}
+//color
+.mp-primary-color {
+	color: var( --primary-color );
+}
+
+.mp-secundary-color {
+	color: $secundary-color !important;
+}
+
+//display
+
+.mp-inline-block {
+	display: inline-block !important;
+}
+
+
+// Text Align
+.mp-text-right {
+	text-align: right;
+}
+
+// Separators
+hr {
+	&.bold {
+		border-top: 1px solid $grey-darker;
+	}
+	&.mp-divisor-simple {
+		margin: 0 0 10px;
+	}
+}
+
+// Padding
+.mp-pb1 {
+	margin-bottom: 10px;
+}

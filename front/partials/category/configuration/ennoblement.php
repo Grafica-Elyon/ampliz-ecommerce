@@ -1,0 +1,17 @@
+<h3 class="mp-painel-title"><?= $this->data['titulo']?></h3>
+<div class="mp-listing" data-item="2">
+	<?php if(!empty($this->data['items'])) { ?>
+		<?php foreach($this->data['items'] as $key => $item) { ?>
+			<div class="mp-item">
+				<label class="mp-checkbox">
+					<?php $checked = ($this->data['item'] == $item['slug']) ? 'checked data-previous-value="checked"' : ''; ?>
+					<input type="radio" class="enobrecimentos" name="configuration_ennoblement" data-description="<?php echo $item['descricao'] ?>" value="<?php echo $item['slug'] ?>" <?php echo $checked ?> />
+					<span class="checkmark"></span>
+					<div class="mp-checkbox-label"><strong><?php echo $item['descricao'] ?></strong></div>
+				</label>
+			</div>
+		<?php } ?>
+	<?php } else { ?>
+		<div class="mp-listing-empty"><?= $this->data['painel_2_sem_dados']?></div>
+	<?php } ?>
+</div>

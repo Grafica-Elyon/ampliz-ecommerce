@@ -1,0 +1,36 @@
+.mp-cart {
+	.mp-cart-footer {
+		margin: 35px 0 0 0;
+
+		.mp-cart-footer-left,
+		.mp-cart-footer-right {
+			width: 50%;
+			float: left;
+			padding: 20px;
+		}
+
+		.mp-cart-footer-left {
+			text-align: right;
+		}
+
+		.mp-cart-footer-right {
+			text-align: left;
+		}
+
+		@media (max-width: $medium) {
+			.mp-cart-footer-left,
+			.mp-cart-footer-right {
+				width: 100%;
+				float: none;
+				text-align: center;
+				padding: 10px;
+			}
+		}
+
+		&::after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+	}
+}

@@ -1,0 +1,99 @@
+.mp-tab {
+	@include component_base();
+
+	.mp-tab-nav {
+		text-align: center;
+		padding-bottom: 50px;
+
+		.mp-nav {
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+
+			@media(min-width: $medium) {
+				border-radius: 50px;
+			}
+
+			> li {
+				display: inline-block;
+				background-color: $grey-light;
+				color: #fff;
+				padding: 15px 65px;
+				font-size: 12px;
+				font-weight: bold;
+				cursor: pointer;
+				width: 100%;
+				border-radius: 25px;
+				margin-bottom: 10px;
+
+				@media(min-width: $medium) {
+					width: auto;
+					border-radius: 0;
+					margin-bottom: 0;
+				}
+
+				&.active,
+				&.active:hover {
+					background-color: var( --primary-color );
+					cursor: auto;
+				}
+
+				&:hover {
+					background-color: darken($grey-light, 10%);
+				}
+			}
+		}
+
+		@media (max-width: $small) {
+			display: none;
+		}
+	}
+
+	.mp-tab-contents {
+		.mp-tab-content {
+			.mp-tab-header {
+				background-color: var( --primary-color );
+				border: 1px solid var( --primary-color );
+				padding: 18px;
+				text-align: center;
+				transition: all 0.2s ease-in-out;
+				cursor: pointer;
+				display: none;
+
+				span {
+					font-size: 15px;
+					font-weight: 700;
+					color: #fff;
+					transition: all 0.2s ease-in-out;
+				}
+
+				@media (max-width: $small) {
+					display: block;
+				}
+			}
+
+			.mp-tab-body {
+				display: none;
+				padding: 10px;
+
+				@media (max-width: $small) {
+					border: none;
+					border-top: 0;
+				}
+			}
+
+			&.active {
+				.mp-tab-header {
+					display: none;
+					background-color: transparent;
+					border-color: $grey;
+				}
+
+				.mp-tab-body {
+					display: block;
+				}
+			}
+		}
+	}
+}

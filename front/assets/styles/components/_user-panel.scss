@@ -1,0 +1,103 @@
+.mp-user-panel {
+	.menu li {
+		float: none;
+	}
+
+	.menu a {
+		position: relative;
+		display: block;
+		padding: 17px 0;
+		font-size: 16px;
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			top: 24px;
+			right: 0;
+			display: block;
+			width: 8px;
+			height: 2px;
+			background: $grey-dark;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+
+		&:after {
+			transform: rotate(-45deg);
+			top: 29px;
+		}
+
+		&:hover:before,
+		&:hover:after {
+			background: var( --primary-color );
+		}
+
+		&.active {
+			color: var( --primary-color );
+
+			&:before,
+			&:after {
+				background: var( --primary-color );
+			}
+		}
+	}
+
+	.menu li:not(:last-child) {
+		border-bottom: 1px solid $grey-lighter;
+	}
+
+	.mp-addresses-table {
+		width: 100%;
+		margin-bottom: 50px;
+	}
+
+	#save-address {
+		display: none;
+		padding: 15px 0;
+	}
+
+	.user-data strong {
+		display: inline-block;
+		padding-right: 7px;
+	}
+
+	.user-data .data {
+		word-break: break-all;
+	}
+
+	table {
+		font-size: 13px;
+
+		thead {
+			border-bottom: 1px solid $grey-lighter;
+		}
+
+		thead th {
+			white-space: nowrap;
+			font-size: 16px;
+		}
+
+		tbody .actions {
+			font-size: 20px;
+		}
+
+		tbody tr:not(:last-child) td {
+			border-bottom: 1px solid $grey-lighter;
+		}
+
+
+		.order-code {
+			min-width: 80px;
+			color: var( --primary-color );
+			font-size: 14px;
+			font-weight: 700;
+		}
+
+		.mp-btn-primary {
+			white-space: nowrap;
+		}
+	}
+}

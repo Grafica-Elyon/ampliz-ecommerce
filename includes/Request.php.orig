@@ -1,0 +1,102 @@
+<?php
+
+namespace MisterPrint;
+
+use MisterPrint\Support\HttpRequest;
+
+use MisterPrint\Helper\Url;
+
+class Request extends HttpRequest
+{
+	const COD_EMPRESA = 'codigoEmpresa';
+	protected $codEmpresaId;
+
+	public function __construct( $method, $body = [], $headers = [], $base_url = 'http://api.mrprint.localhost/api/' ) {
+		$this->url = $base_url . $method;
+		$this->codEmpresaId = get_option('mp_cod_empresa', 4);
+		$this->body = array_merge( [
+			self::COD_EMPRESA => $this->codEmpresaId,
+			'session_id'   => uniqid(),
+			'date'         => current_time( 'Y-m-d H:i:s' ),
+			'remote_addr'  => $_SERVER['REMOTE_ADDR'],
+			'subdomain'    => Url::getSubdomain(),
+		], $body );
+
+		$this->headers = array_merge( [
+			'Content-Type'  => 'application/json',
+			'Accept'        => 'application/json',
+			'Authorization' => 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo='
+		], $headers );
+	}
+
+	public function get($params = []) {
+		if(!isset($params[self::COD_EMPRESA])) {
+			$params[self::COD_EMPRESA] = $this->codEmpresaId;
+		}
+
+		// Starting clock time in seconds
+		$start_time = microtime(true);
+
+		$request = parent::get($params);
+		$this->log( $this->getLogData( $request, $params, microtime(true) - $start_time ) );
+		return $request;
+	}
+
+	public function post($params = []) {
+		if(!isset($params[self::COD_EMPRESA])) {
+			$params[self::COD_EMPRESA] = $this->codEmpresaId;
+		}
+
+		// Starting clock time in seconds
+		$start_time = microtime(true);
+
+		$request = parent::post($params);
+		$this->log( $this->getLogData( $request, $params, microtime(true) - $start_time ) );
+		return $request;
+	}
+
+	public function getLogData( $request, $params, $timeInSeconds )
+	{
+		$request = json_decode(json_encode($request), true);
+
+		return [
+			'url' => $this->url,
+			'status' => $request['response']['code'],
+			'time' => $timeInSeconds . 's',
+			'params' => array_merge($this->body, $params),
+			'body' => $request['body'],
+		];
+	}
+
+
+	public function log($data)
+	{
+		if ( config('plugin','debug') == false ) {
+			return;
+		}
+		if ( !in_array($_SERVER['REMOTE_ADDR'], config('plugin','debug.log_request_ips')) ) {
+			return;
+		}
+		$file = __DIR__.'/../request.json';
+		$log = json_decode(file_get_contents($file), true);
+		if ( !is_array($log) ) {
+			$log = [];
+		}
+		$serverTime = date('m/d h:i:s.u', $_SERVER['REQUEST_TIME_FLOAT']);
+		if ( !isset($log[$serverTime]) ) {
+			$log[$serverTime] = [
+				// '$_SERVER' => $_SERVER,
+				'REQUEST' => [
+					'SERVER' => "{$_SERVER['REQUEST_METHOD']} {$_SERVER['SERVER_NAME']}{$_SERVER['REQUEST_URI']}",
+					'post' => $_POST,
+					'get' => $_GET,
+				],
+				'requests' => []
+			];
+			unset($log[$serverTime]['REQUEST']['post']['params']);
+			krsort($log);
+		}
+		array_unshift($log[$serverTime]['requests'], $data);
+		file_put_contents( $file, json_encode($log, JSON_PRETTY_PRINT) );
+	}
+}

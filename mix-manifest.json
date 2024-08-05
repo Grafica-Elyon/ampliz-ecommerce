@@ -1,0 +1,6 @@
+{
+    "/front/dist/app.js": "/front/dist/app.js",
+    "/admin/dist/admin.js": "/admin/dist/admin.js",
+    "/front/dist/app.css": "/front/dist/app.css",
+    "/admin/dist/admin.css": "/admin/dist/admin.css"
+}

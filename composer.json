@@ -1,0 +1,53 @@
+{
+	"name": "studiovisual/misterprint-ecommerce",
+	"version": "1.1.9",
+	"time": "2020-09-16",
+	"authors": [
+		{
+			"name": "Daniel Hernandes",
+			"email": "dhernandes@studiovisual.com.br"
+		},
+		{
+			"name": "Leonardo Zivieri",
+			"email": "leonardo.zivieri@misterprint.com.br"
+		}
+	],
+	"require": {
+		"brain/cortex": "~1.0.0",
+		"lramos/wp-support": "dev-master",
+		"nesbot/carbon": "dev-master",
+		"anthonybudd/wp_route": "dev-master",
+		"endroid/qr-code": "^3.0@dev",
+		"google/apiclient": "^2.15",
+        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/psr7": "^2.0"
+
+	},
+	"autoload": {
+		"psr-4": {
+			"StudioVisual\\Support\\": "vendor/lramos/wp-support/",
+			"MisterPrint\\Response\\": "includes/Response/",
+			"MisterPrint\\": "includes/",
+			"MisterPrint\\Core\\": "includes/Core/",
+			"MisterPrint\\Admin\\": "admin/",
+			"MisterPrint\\Admin\\Includes\\": "admin/includes",
+			"MisterPrint\\Front\\": "front/",
+			"MisterPrint\\Components\\": "includes/Components/",
+			"MisterPrint\\BO\\": "includes/BO/",
+			"MisterPrint\\Support\\": "includes/Support/",
+			"MisterPrint\\Ajax\\": "includes/Ajax/",
+			"MisterPrint\\Helper\\": "includes/Helper/"
+		},
+		"files": [
+			"includes/Helper/helpers.php"
+		]
+	},
+	"minimum-stability": "dev",
+	"scripts": {
+		"configure-git": [
+			"git config core.hooksPath .githooks",
+			"git config gitflow.path.hooks .githooks",
+			"chmod +x .githooks/*"
+		]
+	}
+}

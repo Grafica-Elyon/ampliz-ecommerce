@@ -1,0 +1,122 @@
+.mp-painel {
+	@include component_base();
+
+	box-shadow: 0 2px 30px rgba(0, 0, 0, 0.13);
+	border-radius: 10px;
+	overflow: hidden;
+
+	&.mp-painel-lg {
+		min-height: 593px;
+	}
+
+	.mp-painel-header {
+		background-color: #19202a;
+		color: #fff;
+		padding: 25px 35px 20px;
+
+		@media (max-width: $small) {
+			padding: 15px;
+		}
+
+		.mp-painel-title {
+			margin: 0 0 5px 0;
+			font-weight: 500;
+			color: #fff;
+		}
+
+		.mp-painel-title-sm {
+			@extend .mp-painel-title;
+
+			font-size: 22px;
+		}
+
+		.mp-painel-subtitle {
+			@extend .mp-painel-title;
+
+			font-size: 16px;
+			font-weight: 400;
+		}
+
+		.mp-painel-counter {
+			font-size: 38px;
+			font-weight: bold;
+			color: #fff;
+			left: 25px;
+			top: 0;
+			bottom: 0;
+			position: absolute;
+			width: 55px;
+			height: 55px;
+			text-align: center;
+			background-color: var( --primary-color );
+			border-radius: 100%;
+			vertical-align: middle;
+			margin: auto
+		}
+
+		&.mp-has-counter {
+			padding-left: 100px;
+			position: relative;
+		}
+	}
+
+	.mp-painel-close {
+		font-size: 20px;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 30px;
+		height: 30px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.mp-painel-body {
+		padding: 35px;
+
+		@media (max-width: $small) {
+			padding: 15px;
+		}
+
+		.mp-painel-title {
+			font-weight: 700;
+			margin: 0 0 20px 0;
+		}
+	}
+
+	&.mp-painel-fix-body {
+		position: relative;
+		.mp-painel-header {
+			max-height: 75px;
+		}
+		.mp-painel-body {
+			position: absolute;
+			top: 75px;
+			bottom: 0;
+			left: 5px;
+			right: 5px;
+			overflow: auto;
+		}
+	}
+	&.mp-painel-auto {
+		$extra-padding: 50px;
+		&-size, &-height {
+			height: auto;
+		    top: 50%;
+		    transform: translateY(-50%);
+			.mp-painel-body {
+				padding-top: $extra-padding;
+				padding-bottom: $extra-padding;
+			}
+		}
+		&-size, &-width {
+			width: auto;
+			display: table;
+			margin: auto;
+			.mp-painel-body {
+				padding-left: $extra-padding;
+				padding-right: $extra-padding;
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+.mp-flash {
+	display: flex;
+	margin-bottom: 15px;
+	padding: 15px;
+	background: $secundary-color;
+	color: white;
+	font-weight: bold;
+
+	&.hidden {
+		display: none;
+	}
+
+	.flash-body {
+		flex-grow: 1;
+	}
+
+	.close {
+		position: relative;
+		width: 20px;
+		height: 20px;
+		background: lighten($secundary-color, 50%);
+		border-radius: 50%;
+		transform: rotate(45deg);
+		cursor: pointer;
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			top: 10px;
+			left: 3px;
+			width: 15px;
+			height: 1px;
+			background: $secundary-color;
+		}
+
+		&:before {
+			transform: rotate(90deg);
+		}
+	}
+}

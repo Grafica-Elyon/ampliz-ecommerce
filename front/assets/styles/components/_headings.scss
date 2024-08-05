@@ -1,0 +1,67 @@
+.mp-heading {
+	@include component_base();
+	text-align: center;
+
+	.mp-head {
+		color: #19202a;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	p {
+		padding: 10px 0;
+	}
+
+	.mp-heading-line {
+		position: relative;
+		width: 100%;
+
+		.mp-head {
+			background: transparent;
+			position: relative;
+			z-index: 30;
+			padding: 0 25px;
+			display: inline-block;
+			width: 43%;
+
+			@media(max-width: $small) {
+				display: inline-block;
+				padding: 0;
+				width: 100%;
+			}
+		}
+
+		@media(min-width: $medium) {
+			padding: 0 45px;
+		}
+
+		@media(max-width: $small) {
+			text-align: center;
+			padding: 0 10%;
+		}
+
+		&::after,
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 33%;
+			margin: auto 0;
+			height: 1px;
+			background-color: $grey-lighter;
+
+			@media(max-width: $small) {
+				width: 10%;
+			}
+		}
+
+		&::after {
+			left: 0;
+		}
+
+		&::before {
+			right: 0;
+		}
+	}
+}

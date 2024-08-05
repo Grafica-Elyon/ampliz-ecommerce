@@ -1,0 +1,98 @@
+.mp-block-gray {
+	border-radius: 10px;
+	background-color: #f1f1f1;
+	padding: 50px;
+	display: inline-block;
+	position: relative;
+	width: 60%;
+
+	@media (max-width: $small) {
+		width: 100%;
+		padding: 15px;
+	}
+
+	h2 {
+		color: #19202a;
+		/*font-family: $primary-font-family;*/
+		font-size: 26px;
+		font-weight: 700;
+		letter-spacing: 0.29px;
+	}
+
+	p {
+		color: #696969;
+		/*font-family: $primary-font-family;*/
+		font-size: 16px;
+		font-weight: 400;
+	}
+}
+
+.mp-blocks {
+	position: relative;
+	margin-bottom: 140px;
+
+	@media (max-width: $small) {
+		margin-bottom: 70px;
+	}
+
+	&::after {
+		content: '';
+		clear: both;
+		display: table;
+	}
+
+	.mp-block-gray {
+		float: left;
+	}
+
+	.mp-block-img {
+		width: 40%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 60%;
+
+		@media (max-width: $small) {
+			display: none;
+		}
+
+		img {
+			position: absolute;
+			bottom: 0;
+			left: -40px;
+
+			&.img-bottom {
+				bottom: -120px;
+				top: initial;
+			}
+
+			&.img-left {
+				left: -120px;
+			}
+		}
+	}
+
+	&.mp-block-img-inverse {
+		.mp-block-gray {
+			float: right;
+		}
+
+		.mp-block-img {
+			left: 0;
+
+			img {
+				left: 40px;
+				z-index: 1;
+			}
+		}
+	}
+}
+
+.mp-section-dashed {
+	background-image: url("../assets/imgs/dashed.png");
+	background-size: cover;
+
+	@media (max-width: $small) {
+		background: none;
+	}
+}

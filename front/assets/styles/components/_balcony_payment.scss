@@ -1,0 +1,44 @@
+[data-component="mp_balcony_payment"] {
+	display: inline-block;
+
+	.balcony-payment-table {
+		font-size: 17px;
+		td:first-child {
+			text-align: left;
+		}
+		td:last-child {
+			text-align: right;
+			font-family: monospace;
+			font-size: 15px;
+			&:before {
+				content: 'R$ ';
+				float: left;
+			}
+		}
+	}
+
+
+
+	.mp-modal {
+		background-color: #0004;
+		> * {
+			height: 100%;
+			background-color: white;
+			position: relative;
+		}
+
+		@media ( min-width: $small ) {
+			padding: 5vh 5vw;
+		}
+		@media ( min-width: $extra-large ) {
+			padding: 5vh 20vw;
+		}
+
+		.mp-painel-body:not(.mp-painel-body-loading) > .body-payment-loading,
+		.mp-painel-body:not(.mp-painel-body-error) > .body-payment-error,
+		.mp-painel-body:not(.mp-painel-body-form) > .body-payment-form,
+		.mp-painel-body:not(.mp-painel-body-success) > .body-payment-success {
+			display: none;
+		}
+	}
+}

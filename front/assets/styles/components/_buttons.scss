@@ -1,0 +1,146 @@
+.mp-btn {
+	@include component_base();
+
+	padding: 10px 30px;
+	border-radius: 20px;
+	font-size: $font-size;
+	font-weight: bold;
+	/*font-family: $primary-font-family;*/
+	text-transform: none !important;
+	display: inline-block;
+	min-height: 40px;
+	line-height: $line-height;
+	cursor: pointer;
+
+	&.wide {
+		padding-left: 75px;
+		padding-right: 75px;
+	}
+
+	&:disabled {
+		background-color: $grey-lighter;
+		color: #fff;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: $grey-lighter !important;
+			color: #fff;
+			cursor: not-allowed;
+		}
+	}
+
+	&.fa, &.fai {
+		width: 40px;
+		padding: 0;
+	}
+}
+
+.mp-btn-primary {
+	@extend .mp-btn;
+
+	background-color: var( --primary-color );
+	color: #fff;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: var( --primary-color-darken-1 ) !important;
+		color: #fff;
+	}
+}
+
+.mp-btn-black {
+	@extend .mp-btn;
+
+	background-color: $grey-darker;
+	color: #fff;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: darken($grey-darker, 10%) !important;
+		color: #fff;
+	}
+}
+
+.mp-btn-darker-transparent {
+	@extend .mp-btn;
+
+	background: transparent !important;
+	color: $grey-darker;
+	border: 1px solid $grey-darker;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: darken(#fff, 3%) !important;
+		color: $grey-darker;
+	}
+}
+
+
+.mp-btn-square {
+	border-radius: 0;
+}
+
+.mp-btn-transparent {
+	color: $grey;
+	font-size: 14px;
+	font-weight: 400;
+	background: transparent;
+	position: relative;
+	text-transform: capitalize !important;
+	transition: all 0.2s ease-in-out;
+	border-bottom: 2px solid transparent;
+	display: inline-block;
+}
+
+// Size Variations
+.mp-btn-xsm {
+	padding: 5px 10px;
+	border-radius: 50px;
+	font-size: 12px;
+}
+
+.mp-btn-sm {
+	padding: 10px 30px;
+	border-radius: 50px;
+	font-size: 13px;
+}
+
+.mp-btn-lg {
+	padding: 20px 50px 20px;
+	border-radius: 50px;
+}
+
+.mp-btn-xlg {
+	padding: 20px 100px;
+	border-radius: 50px;
+}
+
+.mp-btn-link {
+	text-decoration: underline;
+}
+
+.mp-btn-group {
+	button {
+		float: left;
+		margin: 0;
+		padding: 5px 15px;
+
+		&:not(:first-child) {
+			border-bottom-left-radius: 0;
+			border-top-left-radius: 0;
+		}
+		&:not(:last-child) {
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+		}
+		&:active,
+		&:focus {
+			opacity: 1;
+			filter: none !important;
+		}
+	}
+}

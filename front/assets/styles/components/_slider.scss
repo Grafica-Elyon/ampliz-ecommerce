@@ -1,0 +1,147 @@
+.owl-carousel{
+	@include component_base();
+
+	.owl-item {
+		img {
+			width: auto;
+			margin: 0 auto;
+			max-width: 100%;
+		}
+	}
+
+	.owl-dots {
+		position: absolute;
+		bottom: 20px;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+
+		.owl-dot {
+			span {
+				background: transparent;
+				border: 1px solid #fff;
+				box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+			}
+
+			&.active,
+			&:hover {
+				background-color: transparent !important;
+
+				span {
+					background: var( --primary-color );
+					border: 1px solid var( --primary-color );
+				}
+			}
+		}
+	}
+
+	.owl-nav {
+		position: absolute;
+		top: calc(50% - 50px);
+		margin-top: calc(-100% / 3);
+		width: 105%;
+		display: flex !important;
+		justify-content: space-between;
+		left: 0;
+		transform: translateX(-2%);
+		> .owl-prev,
+		> .owl-next {
+    		font-size: 3em !important;;
+    		margin-top: 0px !important;
+			display: block;
+			background: var( --primary-color );
+			margin: 0;
+			vertical-align: middle;
+			border-radius: 0;
+			&::after {
+				content: '';
+				display: inline-block;
+				vertical-align: middle;
+			}
+			&:hover {
+				background-color: #71be00 !important;
+			}
+		}
+
+		> .owl-prev {
+			float: left;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			padding: 19px 30px 19px 20px !important;
+		}
+
+		> .owl-next {
+			float: right;
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			padding: 19px 20px 19px 30px !important;
+		}
+
+		@media (max-width: $medium) {
+			display: none;
+		}
+	}
+}
+
+.owl-carousel.graphic-production {
+	.owl-dot.active,
+	.owl-dot:hover  {
+		background: transparent !important;
+	}
+
+	.owl-nav > * {
+		position: relative;
+		width: 35px;
+		height: 35px;
+		border-radius: 0;
+		background: var( --primary-color ) !important;
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			display: block;
+			width: 10px;
+			height: 2px;
+			background: white;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+
+		&:after {
+			transform: rotate(-45deg);
+		}
+	}
+
+	.owl-prev {
+		border-top-right-radius: 3px;
+		border-bottom-right-radius: 3px;
+
+		&:before {
+			top: 20px;
+			left: 12px;
+		}
+
+		&:after {
+			bottom: 20px;
+			left: 12px;
+		}
+	}
+
+	.owl-next {
+		border-top-left-radius: 3px;
+		border-bottom-left-radius: 3px;
+
+		&:before {
+			bottom: 20px;
+			right: 12px;
+		}
+
+		&:after {
+			top: 20px;
+			right: 12px;
+		}
+	}
+}

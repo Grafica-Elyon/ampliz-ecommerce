@@ -1,0 +1,376 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$arrow-down-grey-name: 'arrow-down-grey';
+$arrow-down-grey-x: 98px;
+$arrow-down-grey-y: 79px;
+$arrow-down-grey-offset-x: -98px;
+$arrow-down-grey-offset-y: -79px;
+$arrow-down-grey-width: 13px;
+$arrow-down-grey-height: 7px;
+$arrow-down-grey-total-width: 157px;
+$arrow-down-grey-total-height: 128px;
+$arrow-down-grey-image: '../assets/imgs/sprite.png';
+$arrow-down-grey: (98px, 79px, -98px, -79px, 13px, 7px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-down-grey', );
+$arrow-left-grey-name: 'arrow-left-grey';
+$arrow-left-grey-x: 151px;
+$arrow-left-grey-y: 102px;
+$arrow-left-grey-offset-x: -151px;
+$arrow-left-grey-offset-y: -102px;
+$arrow-left-grey-width: 6px;
+$arrow-left-grey-height: 10px;
+$arrow-left-grey-total-width: 157px;
+$arrow-left-grey-total-height: 128px;
+$arrow-left-grey-image: '../assets/imgs/sprite.png';
+$arrow-left-grey: (151px, 102px, -151px, -102px, 6px, 10px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-left-grey', );
+$arrow-left-name: 'arrow-left';
+$arrow-left-x: 137px;
+$arrow-left-y: 50px;
+$arrow-left-offset-x: -137px;
+$arrow-left-offset-y: -50px;
+$arrow-left-width: 15px;
+$arrow-left-height: 26px;
+$arrow-left-total-width: 157px;
+$arrow-left-total-height: 128px;
+$arrow-left-image: '../assets/imgs/sprite.png';
+$arrow-left: (137px, 50px, -137px, -50px, 15px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-left', );
+$arrow-right-gray-small-name: 'arrow-right-gray-small';
+$arrow-right-gray-small-x: 152px;
+$arrow-right-gray-small-y: 50px;
+$arrow-right-gray-small-offset-x: -152px;
+$arrow-right-gray-small-offset-y: -50px;
+$arrow-right-gray-small-width: 5px;
+$arrow-right-gray-small-height: 8px;
+$arrow-right-gray-small-total-width: 157px;
+$arrow-right-gray-small-total-height: 128px;
+$arrow-right-gray-small-image: '../assets/imgs/sprite.png';
+$arrow-right-gray-small: (152px, 50px, -152px, -50px, 5px, 8px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-right-gray-small', );
+$arrow-right-red-small-name: 'arrow-right-red-small';
+$arrow-right-red-small-x: 152px;
+$arrow-right-red-small-y: 58px;
+$arrow-right-red-small-offset-x: -152px;
+$arrow-right-red-small-offset-y: -58px;
+$arrow-right-red-small-width: 5px;
+$arrow-right-red-small-height: 8px;
+$arrow-right-red-small-total-width: 157px;
+$arrow-right-red-small-total-height: 128px;
+$arrow-right-red-small-image: '../assets/imgs/sprite.png';
+$arrow-right-red-small: (152px, 58px, -152px, -58px, 5px, 8px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-right-red-small', );
+$arrow-right-name: 'arrow-right';
+$arrow-right-x: 137px;
+$arrow-right-y: 76px;
+$arrow-right-offset-x: -137px;
+$arrow-right-offset-y: -76px;
+$arrow-right-width: 15px;
+$arrow-right-height: 26px;
+$arrow-right-total-width: 157px;
+$arrow-right-total-height: 128px;
+$arrow-right-image: '../assets/imgs/sprite.png';
+$arrow-right: (137px, 76px, -137px, -76px, 15px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'arrow-right', );
+$cart-white-name: 'cart-white';
+$cart-white-x: 137px;
+$cart-white-y: 102px;
+$cart-white-offset-x: -137px;
+$cart-white-offset-y: -102px;
+$cart-white-width: 14px;
+$cart-white-height: 12px;
+$cart-white-total-width: 157px;
+$cart-white-total-height: 128px;
+$cart-white-image: '../assets/imgs/sprite.png';
+$cart-white: (137px, 102px, -137px, -102px, 14px, 12px, 157px, 128px, '../assets/imgs/sprite.png', 'cart-white', );
+$cart-name: 'cart';
+$cart-x: 118px;
+$cart-y: 88px;
+$cart-offset-x: -118px;
+$cart-offset-y: -88px;
+$cart-width: 14px;
+$cart-height: 12px;
+$cart-total-width: 157px;
+$cart-total-height: 128px;
+$cart-image: '../assets/imgs/sprite.png';
+$cart: (118px, 88px, -118px, -88px, 14px, 12px, 157px, 128px, '../assets/imgs/sprite.png', 'cart', );
+$check-name: 'check';
+$check-x: 98px;
+$check-y: 53px;
+$check-offset-x: -98px;
+$check-offset-y: -53px;
+$check-width: 27px;
+$check-height: 26px;
+$check-total-width: 157px;
+$check-total-height: 128px;
+$check-image: '../assets/imgs/sprite.png';
+$check: (98px, 53px, -98px, -53px, 27px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'check', );
+$close-name: 'close';
+$close-x: 0px;
+$close-y: 88px;
+$close-offset-x: 0px;
+$close-offset-y: -88px;
+$close-width: 26px;
+$close-height: 26px;
+$close-total-width: 157px;
+$close-total-height: 128px;
+$close-image: '../assets/imgs/sprite.png';
+$close: (0px, 88px, 0px, -88px, 26px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'close', );
+$copy-name: 'copy';
+$copy-x: 137px;
+$copy-y: 0px;
+$copy-offset-x: -137px;
+$copy-offset-y: 0px;
+$copy-width: 20px;
+$copy-height: 24px;
+$copy-total-width: 157px;
+$copy-total-height: 128px;
+$copy-image: '../assets/imgs/sprite.png';
+$copy: (137px, 0px, -137px, 0px, 20px, 24px, 157px, 128px, '../assets/imgs/sprite.png', 'copy', );
+$credit-card-name: 'credit-card';
+$credit-card-x: 98px;
+$credit-card-y: 0px;
+$credit-card-offset-x: -98px;
+$credit-card-offset-y: 0px;
+$credit-card-width: 39px;
+$credit-card-height: 26px;
+$credit-card-total-width: 157px;
+$credit-card-total-height: 128px;
+$credit-card-image: '../assets/imgs/sprite.png';
+$credit-card: (98px, 0px, -98px, 0px, 39px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'credit-card', );
+$download-name: 'download';
+$download-x: 81px;
+$download-y: 49px;
+$download-offset-x: -81px;
+$download-offset-y: -49px;
+$download-width: 16px;
+$download-height: 18px;
+$download-total-width: 157px;
+$download-total-height: 128px;
+$download-image: '../assets/imgs/sprite.png';
+$download: (81px, 49px, -81px, -49px, 16px, 18px, 157px, 128px, '../assets/imgs/sprite.png', 'download', );
+$facebook-small-name: 'facebook-small';
+$facebook-small-x: 125px;
+$facebook-small-y: 53px;
+$facebook-small-offset-x: -125px;
+$facebook-small-offset-y: -53px;
+$facebook-small-width: 9px;
+$facebook-small-height: 18px;
+$facebook-small-total-width: 157px;
+$facebook-small-total-height: 128px;
+$facebook-small-image: '../assets/imgs/sprite.png';
+$facebook-small: (125px, 53px, -125px, -53px, 9px, 18px, 157px, 128px, '../assets/imgs/sprite.png', 'facebook-small', );
+$facebook-name: 'facebook';
+$facebook-x: 0px;
+$facebook-y: 0px;
+$facebook-offset-x: 0px;
+$facebook-offset-y: 0px;
+$facebook-width: 49px;
+$facebook-height: 49px;
+$facebook-total-width: 157px;
+$facebook-total-height: 128px;
+$facebook-image: '../assets/imgs/sprite.png';
+$facebook: (0px, 0px, 0px, 0px, 49px, 49px, 157px, 128px, '../assets/imgs/sprite.png', 'facebook', );
+$google-name: 'google';
+$google-x: 49px;
+$google-y: 0px;
+$google-offset-x: -49px;
+$google-offset-y: 0px;
+$google-width: 49px;
+$google-height: 49px;
+$google-total-width: 157px;
+$google-total-height: 128px;
+$google-image: '../assets/imgs/sprite.png';
+$google: (49px, 0px, -49px, 0px, 49px, 49px, 157px, 128px, '../assets/imgs/sprite.png', 'google', );
+$icon-pagseguro-name: 'icon-pagseguro';
+$icon-pagseguro-x: 39px;
+$icon-pagseguro-y: 49px;
+$icon-pagseguro-offset-x: -39px;
+$icon-pagseguro-offset-y: -49px;
+$icon-pagseguro-width: 42px;
+$icon-pagseguro-height: 35px;
+$icon-pagseguro-total-width: 157px;
+$icon-pagseguro-total-height: 128px;
+$icon-pagseguro-image: '../assets/imgs/sprite.png';
+$icon-pagseguro: (39px, 49px, -39px, -49px, 42px, 35px, 157px, 128px, '../assets/imgs/sprite.png', 'icon-pagseguro', );
+$instagram-small-name: 'instagram-small';
+$instagram-small-x: 0px;
+$instagram-small-y: 114px;
+$instagram-small-offset-x: 0px;
+$instagram-small-offset-y: -114px;
+$instagram-small-width: 14px;
+$instagram-small-height: 14px;
+$instagram-small-total-width: 157px;
+$instagram-small-total-height: 128px;
+$instagram-small-image: '../assets/imgs/sprite.png';
+$instagram-small: (0px, 114px, 0px, -114px, 14px, 14px, 157px, 128px, '../assets/imgs/sprite.png', 'instagram-small', );
+$linkedin-small-name: 'linkedin-small';
+$linkedin-small-x: 81px;
+$linkedin-small-y: 67px;
+$linkedin-small-offset-x: -81px;
+$linkedin-small-offset-y: -67px;
+$linkedin-small-width: 16px;
+$linkedin-small-height: 16px;
+$linkedin-small-total-width: 157px;
+$linkedin-small-total-height: 128px;
+$linkedin-small-image: '../assets/imgs/sprite.png';
+$linkedin-small: (81px, 67px, -81px, -67px, 16px, 16px, 157px, 128px, '../assets/imgs/sprite.png', 'linkedin-small', );
+$list-name: 'list';
+$list-x: 103px;
+$list-y: 88px;
+$list-offset-x: -103px;
+$list-offset-y: -88px;
+$list-width: 15px;
+$list-height: 13px;
+$list-total-width: 157px;
+$list-total-height: 128px;
+$list-image: '../assets/imgs/sprite.png';
+$list: (103px, 88px, -103px, -88px, 15px, 13px, 157px, 128px, '../assets/imgs/sprite.png', 'list', );
+$paper-name: 'paper';
+$paper-x: 49px;
+$paper-y: 88px;
+$paper-offset-x: -49px;
+$paper-offset-y: -88px;
+$paper-width: 19px;
+$paper-height: 19px;
+$paper-total-width: 157px;
+$paper-total-height: 128px;
+$paper-image: '../assets/imgs/sprite.png';
+$paper: (49px, 88px, -49px, -88px, 19px, 19px, 157px, 128px, '../assets/imgs/sprite.png', 'paper', );
+$progress-check-name: 'progress-check';
+$progress-check-x: 98px;
+$progress-check-y: 26px;
+$progress-check-offset-x: -98px;
+$progress-check-offset-y: -26px;
+$progress-check-width: 33px;
+$progress-check-height: 27px;
+$progress-check-total-width: 157px;
+$progress-check-total-height: 128px;
+$progress-check-image: '../assets/imgs/sprite.png';
+$progress-check: (98px, 26px, -98px, -26px, 33px, 27px, 157px, 128px, '../assets/imgs/sprite.png', 'progress-check', );
+$star-name: 'star';
+$star-x: 26px;
+$star-y: 88px;
+$star-offset-x: -26px;
+$star-offset-y: -88px;
+$star-width: 23px;
+$star-height: 23px;
+$star-total-width: 157px;
+$star-total-height: 128px;
+$star-image: '../assets/imgs/sprite.png';
+$star: (26px, 88px, -26px, -88px, 23px, 23px, 157px, 128px, '../assets/imgs/sprite.png', 'star', );
+$transfer-money-name: 'transfer-money';
+$transfer-money-x: 0px;
+$transfer-money-y: 49px;
+$transfer-money-offset-x: 0px;
+$transfer-money-offset-y: -49px;
+$transfer-money-width: 39px;
+$transfer-money-height: 39px;
+$transfer-money-total-width: 157px;
+$transfer-money-total-height: 128px;
+$transfer-money-image: '../assets/imgs/sprite.png';
+$transfer-money: (0px, 49px, 0px, -49px, 39px, 39px, 157px, 128px, '../assets/imgs/sprite.png', 'transfer-money', );
+$trash-name: 'trash';
+$trash-x: 137px;
+$trash-y: 24px;
+$trash-offset-x: -137px;
+$trash-offset-y: -24px;
+$trash-width: 18px;
+$trash-height: 26px;
+$trash-total-width: 157px;
+$trash-total-height: 128px;
+$trash-image: '../assets/imgs/sprite.png';
+$trash: (137px, 24px, -137px, -24px, 18px, 26px, 157px, 128px, '../assets/imgs/sprite.png', 'trash', );
+$twitter-small-name: 'twitter-small';
+$twitter-small-x: 68px;
+$twitter-small-y: 88px;
+$twitter-small-offset-x: -68px;
+$twitter-small-offset-y: -88px;
+$twitter-small-width: 17px;
+$twitter-small-height: 15px;
+$twitter-small-total-width: 157px;
+$twitter-small-total-height: 128px;
+$twitter-small-image: '../assets/imgs/sprite.png';
+$twitter-small: (68px, 88px, -68px, -88px, 17px, 15px, 157px, 128px, '../assets/imgs/sprite.png', 'twitter-small', );
+$youtube-small-name: 'youtube-small';
+$youtube-small-x: 85px;
+$youtube-small-y: 88px;
+$youtube-small-offset-x: -85px;
+$youtube-small-offset-y: -88px;
+$youtube-small-width: 18px;
+$youtube-small-height: 13px;
+$youtube-small-total-width: 157px;
+$youtube-small-total-height: 128px;
+$youtube-small-image: '../assets/imgs/sprite.png';
+$youtube-small: (85px, 88px, -85px, -88px, 18px, 13px, 157px, 128px, '../assets/imgs/sprite.png', 'youtube-small', );
+$spritesheet-width: 157px;
+$spritesheet-height: 128px;
+$spritesheet-image: '../assets/imgs/sprite.png';
+$spritesheet-sprites: ($arrow-down-grey, $arrow-left-grey, $arrow-left, $arrow-right-gray-small, $arrow-right-red-small, $arrow-right, $cart-white, $cart, $check, $close, $copy, $credit-card, $download, $facebook-small, $facebook, $google, $icon-pagseguro, $instagram-small, $linkedin-small, $list, $paper, $progress-check, $star, $transfer-money, $trash, $twitter-small, $youtube-small, );
+$spritesheet: (157px, 128px, '../assets/imgs/sprite.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

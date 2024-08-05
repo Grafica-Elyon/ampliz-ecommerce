@@ -1,0 +1,261 @@
+.mp-card {
+	@include component_base();
+
+	margin-bottom: 50px;
+
+	.mp-card-thumbnail {
+		border: 1px solid $grey-lighter;
+		border-radius: 5px;
+		text-align: center;
+		position: relative;
+		margin-bottom: 15px;
+		overflow: hidden;
+
+		> img {
+			width: 100%;
+			height: auto;
+		}
+
+		&.no-image {
+			min-height: 300px;
+
+			> img {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				width: auto;
+			}
+		}
+
+		> .mp-card-overlay {
+			content: '';
+			display: none;
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.7);
+			color: #fff;
+			padding: 110px 0 100px;
+		}
+
+		.mp-link-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-bottom: 74px;
+			cursor: pointer;
+
+			strong {
+				color: white;
+			}
+		}
+
+		.mp-btn {
+			position: absolute;
+			z-index: 1;
+			top: 50%;
+			left: calc(50% - 106px);
+		}
+	}
+
+	.mp-card-caption {
+		min-height: 150px;
+		.mp-card-title {
+			white-space: nowrap;
+			color: $grey-dark;
+			font-weight: bold;
+			font-size: $font-size-lg;
+			margin: 0 0 10px 0;
+			width: 100%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.mp-card-description{
+			height:30px;
+			margin-bottom: 10px;
+			font-size:12px;
+		}
+		p {
+			vertical-align: middle;
+			margin-bottom: 5px;
+			font-size: $font-size-sm;
+			@media (max-width: 970px){
+				font-size: 1.2rem;
+			}
+			@media (max-width: 770px){
+				font-size: 1.4rem;
+			}
+		}
+	}
+
+	&:hover {
+		.mp-card-thumbnail {
+			box-shadow: 0 12px 19px rgba(0, 0, 0, 0.2);
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			> .mp-card-overlay {
+				display: block;
+			}
+		}
+	}
+}
+
+.mp-card-list {
+	width: 100%;
+	max-width: 310px;
+	background-color: #fff;
+	border-radius: 5px;
+	display: inline-block;
+	vertical-align: middle;
+
+	@media (max-width: $small) {
+		max-width: 100%;
+	}
+
+	@media (min-width: $small) and (max-width: $medium) {
+		max-width: 150px;
+	}
+
+	@media (min-width: $medium) and (max-width: $large) {
+		max-width: 230px;
+	}
+
+	@media (min-width: $large) and (max-width: $extra-large) {
+		max-width: 270px;
+	}
+
+	.mp-card-list-image {
+		height: 150px;
+		width: 100%;
+		overflow: hidden;
+		position: relative;
+		padding: 10px;
+
+		span,
+		img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+			display: inline-block;
+		}
+
+		&.mp-card-list-image-text {
+			display: table;
+			vertical-align: middle;
+
+			span {
+				display: table-cell;
+				vertical-align: middle;
+				position: relative;
+				color: $grey-dark;
+				/*font-family: $primary-font-family;*/
+				font-size: 18px;
+				font-weight: 700;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+	.mp-card-body {
+		padding: 0 25px 40px;
+
+		.mp-card-list-item {
+			text-align: left;
+			padding: 15px 0;
+			border-bottom: 1px solid $grey-lighter;
+			&:last-child {
+				border-bottom: 0;
+			}
+
+			i {
+				padding-right: 15px;
+			}
+
+			span {
+				color: $grey-darker;
+				/*font-family: $primary-font-family;*/
+				font-size: 13px;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.mp-card-footer {
+		padding-bottom: 40px;
+	}
+
+	&.active {
+		max-width: 340px;
+		box-shadow: 0 2px 28px rgba(0, 0, 0, 0.24);
+		z-index: 99;
+		position: relative;
+
+		@media (max-width: $small) {
+			max-width: 100%;
+		}
+
+		@media (min-width: $small) and (max-width: $medium) {
+			max-width: 160px;
+		}
+
+		@media (min-width: $medium) and (max-width: $large) {
+			max-width: 250px;
+		}
+
+		@media (min-width: $large) and (max-width: $extra-large) {
+			max-width: 300px;
+		}
+	}
+}
+
+.mp-card-simple {
+	.mp-card-img {
+		width: 100%;
+		height: 220px;
+		position: relative;
+		overflow: hidden;
+
+		img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			width: auto;
+			height: auto;
+		}
+	}
+
+	.mp-card-body {
+		.mp-card-title {
+			color: $grey-dark;
+			font-size: 22px;
+			font-weight: 700;
+			display: block;
+			padding-bottom: 15px;
+		}
+	}
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: none;
+
+		.mp-btn-primary {
+			@extend .mp-btn-primary, :hover;
+		}
+	}
+}

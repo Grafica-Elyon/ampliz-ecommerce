@@ -1,0 +1,54 @@
+.mp-modal {
+	overflow: auto;
+	position: fixed;
+	display: none;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	padding: 15px;
+	background: rgba(255, 255, 255 , .99);
+
+	.loader {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 40;
+		display: none;
+		background: rgba(255, 255, 255, .8);
+
+		&::after {
+			content: '';
+			position: absolute;
+			z-index: 41;
+			top: calc(50% - 50px);
+			left: calc(50% - 50px);
+			display: block;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			background: var( --primary-color );
+			animation: loading 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+		}
+	}
+
+	&.active {
+		display: block;
+	}
+	.mp-modal-inner {
+	    transform: translate3d(-50%, -50%, 0px);
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    max-width: 80%;
+	    box-shadow: 0px 2px 30px -7px #3333;
+	    padding: 31px 15px;
+	    border-radius: 15px;
+	}
+	.mp-modal-inner[data-loading=on] + .loader {
+		display: block;
+	}
+}

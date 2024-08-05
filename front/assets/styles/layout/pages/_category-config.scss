@@ -1,0 +1,255 @@
+.mp-category-config {
+	margin-left: -15px;
+	margin-right: -15px;
+
+	.mp-config-content {
+		padding: 0 15px;
+
+		&.active {
+			.mp-painel-body {
+				display: block;
+			}
+		}
+	}
+
+	form .content {
+		main {
+			float: left;
+			width: 75%;
+		}
+
+		aside {
+			float: right;
+			width: 25%;
+		}
+		@media(max-width: $medium) {
+			main,
+			aside {
+				float: none;
+				width: 100%;
+				display: block !important;
+			}
+		}
+
+		&::after {
+			content: '';
+			clear:both;
+		}
+	}
+
+	.mp-painel {
+		width: 100%;
+		margin: 0 0 50px 0;
+	}
+
+	.mp-painel-body {
+		display: none;
+
+		.mp-config-print-prices {
+			width: 100%;
+			overflow-x: auto;
+		}
+	}
+
+	.mp-tooltip{
+		position: absolute;
+		background: rgb(192,192,192);
+		transform: translateY(-34%);
+		padding: 1px 12px;
+		right: 0;
+		top: 50%;
+		border-radius: 100%;
+		font-size: 20px;
+		color: White;
+
+		&::before, &::after {
+			position: absolute;
+			left: 50%;
+			opacity: 0;
+			transform-origin: center right;
+			transition: all ease .3s;
+		}
+
+		&:hover {
+			&::before, &::after {
+				opacity: 1;
+			}
+		}
+
+		&:not(:hover) {
+			&::before, &::after {
+				transform: scale(0.1);
+			}
+		}
+
+		&::before {
+			content: "";
+			border-width: 18px 14px 0 14px;
+			border-style: solid;
+			transform-origin: unset;
+			transform: rotate(-90deg);
+			border-color:  rgb(192,192,192) transparent transparent transparent;
+			margin-left: -47px;
+			top: 6px;
+		}
+		&::after{
+			content: attr(data-tooltip);
+			font-family: "Montserrat", sans-serif;
+			background: inherit;
+			font-size: 14px;
+			width: 499px;
+			margin-left: -540px;
+			padding: 25px 10px 25px 10px;
+			color: #8B8989;
+			transform-origin: unset;
+			transform: translateY(-34%);
+		}
+	}
+	.art .mp-checkbox {
+		padding-left: 50px;
+	}
+
+	.mp-config-sidebar {
+		position: relative;
+		float: left;
+		padding: 0 15px;
+		color: $grey-dark;
+
+		.sidebar-inner {
+			position: absolute;
+			z-index: 2;
+			background: white;
+		}
+
+		@media(max-width: $medium) {
+			.sidebar-inner {
+				position: relative;
+				padding-bottom: 20px;
+			}
+		}
+
+		p {
+			display: none;
+
+			&.active {
+				display: block;
+			}
+		}
+	}
+
+	/* Sob Medida */
+	.mp-sob-medida {
+		.mp-left-input,
+		.mp-right-input {
+			position: relative;
+			width: 50%;
+			display: block;
+			float: left;
+
+			&::after {
+				position: absolute;
+				right: 1px;
+				top: 0;
+				height: 40px;
+				width: 40px;
+				background: #e0dede;
+				vertical-align: middle;
+				text-align: center;
+				font-weight: bold;
+				line-height: 40px;
+				font-size: 12px;
+			}
+		}
+
+		.mp-left-input {
+			input[type="text"] {
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+				padding-right: 35px;
+			}
+			&::after {
+				content: 'x';
+				width: 30px;
+			}
+		}
+
+		.mp-right-input {
+			input[type="text"] {
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				padding-right: 45px;
+			}
+
+			&::after {
+				content: 'cm';
+				border-top-right-radius: 20px;
+				border-bottom-right-radius: 20px;
+			}
+		}
+
+		.mp-message {
+			font-size: 13px;
+			font-weight: bold;
+
+			&.mp-error {
+				color: red;
+			}
+		}
+
+		.mp-sob-medida-bottom {
+			padding: 5px 0 0 0;
+			clear: both;
+			text-align: right;
+		}
+	}
+
+	.mp-custom-quantity {
+		max-width: 200px;
+		position: relative;
+		margin: -5px -15px;
+
+		> .mp-input {
+			display: block;
+			padding: 10px 25px 10px 15px;
+		}
+
+		> .mp-btn-custom-quantity {
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto 0;
+			background: transparent;
+			color: #9b9b9b;
+			font-size: 22px;
+			line-height: 1.3;
+			font-weight: 600;
+
+			&:hover,
+			&:active,
+			&:focus {
+				background-color: transparent !important;
+			}
+		}
+	}
+
+	&::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+	:not(.t1) a.mp-btn-darker-transparent[class*="mp-gabarito-"] {
+		&[href=""], &[href="javascript:void(0)"], &[href="#"] {
+			border-color: #9b9b9b;
+			color: #9b9b9b;
+
+			i {
+				display: none;
+			}
+			&:after {
+				content: " Indisponível"
+			}
+		}
+	}
+}

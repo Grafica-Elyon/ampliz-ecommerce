@@ -1,0 +1,134 @@
+.mp-icon {
+	vertical-align: middle;
+
+	&::after {
+		content: '';
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+.mp-icon-list {
+	margin-right: 5px;
+	vertical-align: baseline;
+
+	&::after {
+		@include sprite($list);
+	}
+}
+
+.mp-icon-copy {
+	margin-right: 5px;
+	vertical-align: baseline;
+
+	&::after {
+		@include sprite($copy);
+	}
+}
+
+.mp-icon-download {
+	margin-right: 5px;
+	vertical-align: baseline;
+
+	&::after {
+		@include sprite($download);
+	}
+}
+
+.mp-icon-trash {
+	margin-right: 5px;
+	vertical-align: baseline;
+
+	&::after {
+		@include sprite($trash);
+	}
+}
+
+.mp-icon-arrow-left-grey {
+	margin-right: 15px;
+	vertical-align: text-bottom;
+
+	&::after {
+		@include sprite($arrow-left-grey);
+	}
+}
+
+.mp-icon-arrow-down-grey {
+	margin-right: 7px;
+	vertical-align: text-bottom;
+
+	&::after {
+		@include sprite($arrow-down-grey);
+	}
+}
+
+.mp-accordion-icon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-color: $grey-dark;
+	position: relative;
+	vertical-align: middle;
+	transition: all 0.2s ease-in-out;
+
+	&::before,
+	&::after {
+		content: '';
+		display: inline-block;
+		background-color: #fff;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		transition: all 0.2s ease-in-out;
+		width: 11px;
+		height: 3px;
+	}
+
+	&::after {
+		transform: rotate(90deg);
+	}
+
+	.active & {
+		background-color: var( --primary-color );
+
+		&::after {
+			transform: rotate(0);
+		}
+	}
+}
+
+.icon-star {
+	vertical-align: text-bottom !important;
+}
+
+@each $name, $icon in (
+close: $close,
+check: $check,
+facebook: $facebook,
+google: $google,
+cart: $cart,
+cart-white: $cart-white,
+paper: $paper,
+transfer-money: $transfer-money,
+credit-card: $credit-card,
+icon-pagseguro: $icon-pagseguro,
+linkedin-small: $linkedin-small,
+facebook-small: $facebook-small,
+twitter-small: $twitter-small,
+instagram-small: $instagram-small,
+youtube-small: $youtube-small,
+arrow-right-gray-small: $arrow-right-gray-small,
+arrow-down-grey: $arrow-down-grey,
+star: $star,
+) {
+	.icon-#{$name} {
+		@extend .mp-icon;
+
+		&::after {
+			@include sprite($icon);
+		}
+	}
+}

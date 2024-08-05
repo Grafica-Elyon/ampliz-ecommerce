@@ -1,0 +1,18 @@
+// Placeholder style.
+@mixin placeholder {
+	::-webkit-input-placeholder {@content}
+	:-moz-placeholder           {@content}
+	::-moz-placeholder          {@content}
+	:-ms-input-placeholder      {@content}
+}
+
+@mixin component_base {
+	/*font-family: $primary-font-family;*/
+	font-size: $font-size;
+	line-height: $line-height;
+	color: $grey-dark;
+
+	* {
+		/*font-family: $primary-font-family;*/
+	}
+}

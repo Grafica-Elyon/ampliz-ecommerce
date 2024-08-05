@@ -1,0 +1,31 @@
+.mp-pagination {
+	padding: 10px 30px;
+	.mp-pagination-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		> li {
+			display: inline-block;
+			> a {
+				color: var( --primary-color );
+				background-color: #fff;
+				border: 1px solid var( --primary-color );
+				padding: 10px;
+			}
+
+			&.helper {
+				> a {
+					border-color: transparent;
+				}
+			}
+
+			&.active {
+				> a {
+					color: #fff;
+					background-color: var( --primary-color );
+					border: 1px solid var( --primary-color );
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,96 @@
+.mp-progress {
+	.mp-progress-inner {
+		counter-reset: step;
+		overflow: auto;
+		max-width: 500px;
+		margin: 0 auto 40px;
+		padding: 0;
+		display: flex;
+		justify-content: center;
+	}
+
+	li {
+		float: left;
+		position: relative;
+		width: 33.33%;
+		list-style-type: none;
+		color: $progress-red;
+		font-size: 13px;
+		text-align: center;
+
+		> a {
+			z-index: 50;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: block;
+			top: 0;
+			left: 0;
+		}
+	}
+
+	li:before {
+		content: counter(step);
+		counter-increment: step;
+		position: relative;
+		z-index: 1;
+		display: block;
+		margin: 0 auto 10px auto;
+		width: 56px;
+		height: 56px;
+		border: 2px solid $progress-red;
+		border-radius: 50%;
+		background: $progress-red;
+		color: white;
+		font-size: 38px;
+		font-weight: 700;
+		line-height: 50px;
+		text-align: center;
+	}
+
+	li:after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 5px;
+		background-color: $progress-red;
+		top: 25px;
+		left: -50%;
+		z-index: 0;
+	}
+
+	li:first-child:after {
+		content: none;
+	}
+
+	li.active {
+		color: $progress-green;
+	}
+
+	li.active:before {
+		content: "";
+		border-color: $progress-green;
+		background: $progress-green url(../assets/imgs/icons/progress-check.png) center center no-repeat;
+	}
+
+	li.active + li:after {
+		background: $progress-green;
+	}
+
+	li.active + li:not(.active):after {
+		background: linear-gradient(to right, $progress-green 0%, $progress-green 15%, $progress-red 85%, $progress-red 100%);
+	}
+
+	li:not(.active) + li {
+		color: $grey;
+	}
+
+	li:not(.active) + li:before {
+		background: $grey;
+		border-color: $grey;
+	}
+
+	li:not(.active) + li:after {
+		background-color: $grey;
+	}
+}

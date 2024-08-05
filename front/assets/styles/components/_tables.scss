@@ -1,0 +1,203 @@
+// Tabela de preços
+.mp-prices-table {
+	overflow: auto;
+	max-width: 762px;
+
+	@media(max-width: $medium) {
+		max-width: calc(100vw - 30px);
+	}
+
+	table {
+		overflow: hidden;
+		width: 100%;
+		border-collapse: collapse;
+
+		td:first-child {
+			width: 130px;
+		}
+
+		.mp-date > strong {
+			font-size: 24px
+		}
+
+		.mp-price {
+			&:before {
+				content: 'R$ ';
+				font-size: 9px;
+			}
+			&.mp-price-per-unit {
+				font-size: 11px;
+				&:after {
+					content: '/un'
+				}
+			}
+		}
+
+		.mp-checkbox {
+			margin-bottom: 0px;
+			padding-right: 35px;
+			text-align: center;
+		}
+
+		thead {
+			* {
+				color: #fff;
+			}
+
+			td:first-child {
+				border-top-left-radius: 10px;
+			}
+
+			td:last-child {
+				border-top-right-radius: 10px;
+			}
+
+			td:nth-child(2) {
+				background: var( --primary-color );
+			}
+
+			> tr > td {
+				padding: 15px;
+				border-right: 1px solid $grey-lighter;
+				background-color: #19202a;
+				font-size: 16px;
+				font-weight: bold;
+				text-align: center;
+
+				@media (max-width: $small) {
+					font-size: 15px;
+				}
+			}
+		}
+
+		tbody  tr td {
+			padding: 15px 25px;
+			border: 1px solid $grey-lighter;
+
+			@media(max-width: $medium) {
+				padding: 10px;
+			}
+		}
+
+		tbody td:first-child {
+			font-weight: bold;
+			white-space: nowrap;
+		}
+
+		tbody td:nth-child(2) {
+			background: #ececec;
+		}
+	}
+
+  &.mp-product-prices-table {
+    &.has-art .not-on-art {
+      display: none;
+    }
+    &:not(.has-art) .on-art {
+      display: none;
+    }
+    &.has-prev-price .not-on-prev-price {
+      display: none;
+    }
+    &:not(.has-prev-price) .on-prev-price {
+      display: none;
+    }
+
+  	[class*="-price"] {
+  		text-align: justify;
+  		text-align-last: justify;
+  	}
+  	.mp-prev-price {
+
+  	}
+  	.mp-price {
+      .on-prev-price.not-on-art,
+      .not-on-prev-price.not-on-art {
+        [class*="money"] {
+          font-weight: bold;
+        }
+      }
+  	}
+  	.mp-total-price {
+  	  [class*="money"] {
+  	    font-weight: bold;
+  	  }
+  	}
+  }
+}
+
+// Tabela de items no carrinho
+
+.mp-cart-table {
+	min-height: .01%;
+	overflow-x: auto;
+
+	table {
+		width: 100%;
+		max-width: 100%;
+
+		thead > tr {
+			border-bottom: 3px solid $grey-lighter;
+			> th {
+				padding: 10px;
+				font-size: $font-size-lg;
+
+				@media (max-width: $small) {
+					font-size: 15px;
+				}
+			}
+		}
+
+		tbody > tr {
+			border-bottom: 1px solid $grey-lighter;
+			> td {
+				padding: 10px 10px 15px;
+				font-size: $font-size;
+				vertical-align: top;
+
+				span:not(.single) {
+					font-size:1.3rem;
+				    width: 100%;
+				    display: flex;
+				    justify-content: space-between;
+				    margin:3px;
+				}
+				span.single{
+					font-size:1.3rem;
+				    width:100%;
+				    text-align:right;
+				    display: block;
+				}
+			}
+			> td.coluna-precos{
+				padding-left:0px;
+			}
+
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
+	}
+}
+
+.mp-table,
+.mp-table-sm {
+	width: 100%;
+}
+
+.mp-table-sm {
+	thead {
+		tr {
+			th {
+				padding: 3px 3px 5px;
+			}
+		}
+	}
+	tbody {
+		tr {
+			td {
+				padding: 3px;
+			}
+		}
+	}
+}

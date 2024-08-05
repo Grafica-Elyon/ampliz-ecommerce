@@ -1,0 +1,36 @@
+.mp-alert {
+	display: block;
+
+	&:not( .mp-alert-light ) {
+		padding: 15px;
+		margin: 0 20px 15px;
+		border-radius: 3px;
+		border: 1px solid;
+	}
+
+	&.mp-alert-error {
+		&:not( .mp-alert-light ) {
+			background: lighten($error, 55);
+		}
+		border-color: $error;
+		color: $error;
+	}
+
+	a {
+		font-weight: bold;
+		color: $error;
+		margin-left: 5px;
+
+		&:hover  {
+			text-decoration: underline;
+		}
+	}
+}
+
+.mp-alert-darker{
+	background-color: red;
+	color: white;
+	line-height:90px;
+	text-align: center;
+	font-size: 20px;
+}

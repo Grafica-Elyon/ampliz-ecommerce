@@ -1,0 +1,45 @@
+//padding
+@for $i from 0 through 6 {
+	.mp-py-#{$i},
+	.mp-pt-#{$i} {
+		padding-top: $i * 15px !important;
+	}
+
+	.mp-py-#{$i},
+	.mp-pb-#{$i} {
+		padding-bottom: $i * 15px !important;
+	}
+
+	.mp-px-#{$i},
+	.mp-pr-#{$i} {
+		padding-right: $i * 15px !important;
+	}
+
+	.mp-px-#{$i},
+	.mp-pl-#{$i} {
+		padding-left: $i * 15px !important;
+	}
+}
+
+//margin
+@for $i from 0 through 6 {
+	.mp-my-#{$i},
+	.mp-mt-#{$i} {
+		margin-top: $i * 15px !important;
+	}
+
+	.mp-my-#{$i},
+	.mp-mb-#{$i} {
+		margin-bottom: $i * 15px !important;
+	}
+
+	.mp-mx-#{$i},
+	.mp-mr-#{$i} {
+		margin-right: $i * 15px !important;
+	}
+
+	.mp-mx-#{$i},
+	.mp-ml-#{$i} {
+		margin-left: $i * 15px !important;
+	}
+}

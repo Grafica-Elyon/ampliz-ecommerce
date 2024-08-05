@@ -1,0 +1,47 @@
+.mp-testimonial {
+	@include component_base();
+
+	font-size: $font-size-lg;
+	line-height: 1.8;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+
+	> .thumb {
+		text-align: center;
+		margin: 5px;
+		img {
+			width: auto;
+			border-radius: 50%;
+			max-width: 70px;
+			margin: 0 auto;
+		}
+	}
+
+	> .message {
+		margin-bottom: 25px;
+	}
+}
+
+.owl-carousel.mp-testimonials {
+	.owl-dots {
+		.owl-dot {
+			span {
+				background: transparent;
+				border: 1px solid #cdcdcd;
+				width: 13px;
+				height: 13px;
+			}
+
+			&.active,
+			&:hover {
+				background-color: transparent !important;
+
+				span {
+					background: var( --primary-color );
+					border: 1px solid var( --primary-color );
+				}
+			}
+		}
+	}
+}

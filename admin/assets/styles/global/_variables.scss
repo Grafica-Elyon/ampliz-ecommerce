@@ -1,0 +1,36 @@
+// Colors
+$primary-color: #ea1d20;
+$secundary-color: #71be00;
+
+$grey-lighter: #e0dede;
+$grey-light: #c8c8c8;
+$grey: #9b9b9b;
+$grey-dark: #4a4a4a;
+$grey-darker: #19202a;
+$error: #d8000c;
+
+$progress-red: #e81f1b;
+$progress-green: #75bd00;
+
+// Fonts
+$font-size-sm: 13px;
+$font-size: 15px;
+$font-size-lg: 18px;
+
+$line-height: 1.4;
+
+$primary-font-family: 'Montserrat', sans-serif;
+
+//headings
+$font-size-h1: 38px;
+
+//breakpoints
+$small: 576px;
+$medium: 768px;
+$large: 992px;
+$extra-large: 1200px;
+
+:root {
+  --gg: 30px;
+  --gtc: 1fr 1fr;
+}
