@@ -10,7 +10,7 @@ $FBObject = new \Facebook\Facebook([
 ]);
 
  $handler = $FBObject -> getRedirectLoginHelper();
- var_dump($handler);
+ //var_dump($handler);
 ?>
 
 

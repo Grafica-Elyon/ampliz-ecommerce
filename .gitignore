@@ -1,6 +1,10 @@
+#Config
 *.env
 node_modules/
 node_modules_bkp/
 vendor/
 package-lock.json
 composer.lock
+
+#logs
+.log
