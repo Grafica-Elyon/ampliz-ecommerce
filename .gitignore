@@ -7,4 +7,4 @@ package-lock.json
 composer.lock
 
 #logs
-.log
+*.log
