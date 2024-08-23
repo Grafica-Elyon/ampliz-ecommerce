@@ -1,4 +1,5 @@
 <?php
+use MisterPrint\Support\View;
 use MisterPrint\Helper\Log;
 $data = $this->data['params'];
 $is_balcony = $this->data['is_balcony']; ?>
