@@ -1,15 +1,5 @@
 <?php
-require_once('faceboockconfig.php');
-
-$redirectTo = "https://ampliz.com.br";
-$data = ['email'];
-$fullURL = $handler->getLoginUrl($redirectTo, $data);
-
-?>
-
-
-<?php
-use MisterPrint\Support\View;
+use MisterPrint\Helper\Log;
 $data = $this->data['params'];
 $is_balcony = $this->data['is_balcony']; ?>
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
