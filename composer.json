@@ -20,7 +20,8 @@
 		"endroid/qr-code": "^3.0@dev",
 		"google/apiclient": "*",
         "guzzlehttp/guzzle": "^7.0",
-        "guzzlehttp/psr7": "^2.0"
+        "guzzlehttp/psr7": "^2.0",
+		"facebook/graph-sdk": "^5.1"
 
 	},
 	"autoload": {
