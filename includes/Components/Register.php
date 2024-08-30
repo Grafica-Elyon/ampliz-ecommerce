@@ -65,7 +65,7 @@ class Register extends Component
 			$post['cpf'] = $output = preg_replace('/[^0-9]/', '', $post['cpf']);
 			$post['cnpj'] = $output = preg_replace('/[^0-9]/', '', $post['cnpj']);
 			$post['telefone'] = $output = preg_replace('/[^0-9]/', '', $post['telefone']);
-			$post['celular'] = $output = preg_replace('/[^0-9]/', '', $post['celular']);
+			$post['celular'] =  preg_replace('/[^0-9]/', '', $post['celular']);
 			$post['cep'] = $output = preg_replace('/[^0-9]/', '', $post['cep']);
 			$cpfCnpj = $post['cnpj'] ? $post['cnpj'] : $post['cpf'];
 
@@ -286,7 +286,7 @@ class Register extends Component
 			Vc::paramText('Formulario senha placeholder', 'Digite uma senha'),
 			Vc::paramText('Formulario senha confirmação', 'Confirmar Senha'),
 			Vc::paramText('Formulario senha confirmação placeholder', 'Confirme sua senha'),
-			Vc::paramText('Formulario receber email', 'Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Mr. Print e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento.'),
+			Vc::paramText('Formulario receber email', 'Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento.'),
 
 			// Campos de identificação de Lead
 			Vc::paramText('Formulario info', 'Informações Adicionais'),
