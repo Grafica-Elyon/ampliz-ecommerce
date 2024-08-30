@@ -3,6 +3,7 @@ use MisterPrint\Support\View;
 use MisterPrint\Helper\Log;
 $data = $this->data['params'];
 $is_balcony = $this->data['is_balcony']; ?>
+
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
 
 <div class="mp-login">
@@ -10,47 +11,6 @@ $is_balcony = $this->data['is_balcony']; ?>
 		<div class="mp-painel-header">
 			<h3 class="mp-painel-title"><?= $data['titulo'] ?></h3>
 		</div>
-
-		<?php if ( $is_balcony ): ?>
-			<div class="mp-painel-body">
-				<form method="POST" class="mp-login-form mp-form">
-					<input type="hidden" name="action" value="mp_login_funcionario" />
-					<input type="hidden" name="from-session" value="<?= json_encode(!!$this->data['funcionario-session']) ?>" />
-					<?php if(isset($this->data['redirect'])) { ?>
-						<input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
-					<?php } ?>
-
-					<?php wp_nonce_field( 'mp_login_action', 'mp_login' ); ?>
-
-					<?php echo (new View('misc/errors', [
-						'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
-					]))->get() ?>
-						<div class="mp-form-group">
-							<label class="mp-label"><?= $data['funcionario_label_email'] ?></label>
-							<input class="mp-input" type="text" name="func_email"
-								   value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
-								   placeholder="<?= $data['funcionario_placeholder_email'] ?>" />
-						</div>
-
-						<div class="mp-form-group">
-							<label class="mp-label"><?= $data['funcionario_label_senha'] ?></label>
-							<input class="mp-input" type="password" name="func_senha" value="" placeholder="<?= $data['funcionario_placeholder_senha'] ?>" />
-						</div>
-
-					<div class="mp-form-group">
-						<label class="mp-label"><?= $data['funcionario_login_cliente'] ?></label>
-						<input class="mp-input" type="text" name="email"
-							   autocomplete="off"
-							   value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
-							   placeholder="<?= $data['placeholder_email'] ?>" />
-					</div>
-
-					<div class="mp-form-footer">
-						<button type="submit" class="mp-btn-primary mp-link" ><?= $data['botao'] ?></button>
-					</div>
-				</form>
-			</div>
-		<?php else: ?>
 
 		<div class="mp-painel-body">
 			<form method="POST" class="mp-login-form mp-form">
@@ -84,7 +44,6 @@ $is_balcony = $this->data['is_balcony']; ?>
 			</form>
 		</div>
 
-		<?php endif; ?>
 	</div>
 </div>
 

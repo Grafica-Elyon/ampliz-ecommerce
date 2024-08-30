@@ -592,7 +592,7 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 										<input class="mp-input" type="text" name="direct_endereco"
 											value="<?= $inputs['direct_endereco'] ?: $this->data['data']['past']['direct_endereco'] ?>"
 											<?php if ( $inputs['direct_endereco'] ) echo "disabled" ?>
-											placeholder="Rua MisterPrint" />
+											placeholder="Rua" />
 									</div>
 								</div>
 								<div class="mp-form-col-2">
