@@ -5,7 +5,7 @@ $data = $this->data['params'];
 <div class="mp-login">
 	<div class="mp-painel">
 		<div class="mp-painel-header">
-			<h3 class="mp-painel-title"><?= $data['titulo'] ?></h3>
+			<h3 class="mp-painel-title"><?= $data['titulo_incomplete_register'] ?></h3>
 		</div>
 
 		<div class="mp-painel-body">
@@ -23,36 +23,36 @@ $data = $this->data['params'];
 				]))->get() ?>
 
 				<!-- <div class="mp-form-group">
-					<label class="mp-label"><?= $data['label_nome'] ?></label>
-					<input class="mp-input" type="text" name="nome-completo" value="" placeholder="<?= $data['placeholder_nome'] ?>"/>
+					<label class="mp-label"><?= $data['label_nome_incomplete_register'] ?></label>
+					<input class="mp-input" type="text" name="nome-completo-incomplete-register" value="" placeholder="<?= $data['placeholder_nome_incomplete_register'] ?>"/>
 				</div> -->
 				
 				<div class="mp-form-group">
-					<label class="mp-label"><?= $data['label_email'] ?></label>
-					<input class="mp-input" type="text" name="email"
+					<label class="mp-label"><?= $data['label_email_incomplete_register'] ?></label>
+					<input class="mp-input" type="text" name="email-incomplete-register"
 						   value=""
-						   placeholder="<?= $data['placeholder_email'] ?>"/>
+						   placeholder="<?= $data['placeholder_email_incomplete_register'] ?>"/>
 				</div>
 
 				
 
 				<div class="mp-form-group">
-							<label class="mp-label"><?= $data['label_celular']?></label>
-							<input class="mp-input" type="text" name="celular"
-								   value="<?= isset($this->data['fields']['celular']) ? $this->data['fields']['celular'] : '' ?>"
-								   placeholder="<?= $data['placeholder_celular']?>"/>
+							<label class="mp-label"><?= $data['label_celular_incomplete_register']?></label>
+							<input class="mp-input" type="text" name="celular-incomplete-register"
+								   value="<?= isset($this->data['fields']['celular-incomplete-register']) ? $this->data['fields']['celular-incomplete-register'] : '' ?>"
+								   placeholder="<?= $data['placeholder_celular_incomplete_register']?>"/>
 				</div>
 
 
 				<!-- <div class="mp-form-group">
-					<label class="mp-label"><?= $data['label_confirmacao_email'] ?></label>
-					<input class="mp-input" type="text" name="confirm-email"
+					<label class="mp-label"><?= $data['label_confirmacao_email_incomplete_register'] ?></label>
+					<input class="mp-input" type="text" name="confirm-email-incomplete-register"
 						   value=""
-						   placeholder="<?= $data['placeholder_confirmacao_email'] ?>"/>
+						   placeholder="<?= $data['placeholder_confirmacao_email_incomplete_register'] ?>"/>
 				</div> -->
 
 				<div class="mp-form-footer">
-					<button type="submit" class="mp-btn-primary mp-link"><?= $data['botao'] ?></button>
+					<button type="submit" class="mp-btn-primary mp-link"><?= $data['button_incomplete_register'] ?></button>
 				</div>
 			</form>
 		</div>

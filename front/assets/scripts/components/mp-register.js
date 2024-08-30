@@ -2,7 +2,7 @@ import Form from "../Form";
 import Components from "../Components";
 
 // Verificar se $_SESSION['userData']['id'] está vazio ou nulo
-var isUserIdEmpty = !Boolean($_SESSION['userData']['id']);
+//var isUserIdEmpty = !Boolean($_SESSION['userData']['id']);
 
 export default function (el) {
 	var ruleRequired = function( inputName, message ) {		
@@ -45,7 +45,7 @@ export default function (el) {
 			'rules': { 
 				stop: false,
 				required: {
-					message: 'E-mail é obrigatório!',
+					message: 'E-mail é obrigatórioooooo!',
 				},
 				email: {
 					message: 'E-mail inválido',
@@ -66,7 +66,7 @@ export default function (el) {
 			}
 		},
 		//ruleRequired( 'password', 'A senha é obrigatória!' ),
-		isUserIdEmpty ? ruleRequired('password', 'A senha é obrigatória!') : null,
+		//isUserIdEmpty ? ruleRequired('password', 'A senha é obrigatória!') : null,
 		{
 			'name': 'confirm-password',
 			'rules': {
