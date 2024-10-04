@@ -1,5 +1,7 @@
 <?php
+
 use MisterPrint\Support\View;
+
 $data = $this->data['params'];
 $prod = $this->data['info'];
 $user = $this->data['user'];
@@ -10,37 +12,38 @@ $icons = [
 	'pagar-na-retirada' => 'icon-transfer-money',
 	'sinal' => 'icon-transfer-money',
 	'pagseguro' => 'icon-transfer-money',
-	'e-rede-card' => 'icon-credit-card',
+	'e-rede-cartao' => 'icon-credit-card',
 	'e-rede-pix' => 'icon-transfer-money',
 ];
-if(!$this->data['payments']){//se vier vazio ?>
+if (!$this->data['payments']) { //se vier vazio
+	?>
 	<div class="mp-checkbox-group">
 		<label class="mp-checkbox mp-checkbox-icon">
-			<div class="mp-checkbox-label mp-checkbox-label-icon" >
+			<div class="mp-checkbox-label mp-checkbox-label-icon">
 				<strong>Entre em contato com o setor comercial para liberar o fechamento de pedidos</strong>
 			</div>
 		</label>
 	</div>
 	<?php
-return;
+	return;
 }
 
 $selectablePayments = array_filter(
 	$this->data['payments'],
-	function ( $p ) {
-		return !in_array( $p['slugFormPgto'], ['cupom','credito'] );
+	function ($p) {
+		return !in_array($p['slugFormPgto'], ['cupom', 'credito']);
 	}
 );
 ?>
 <div class="mp-checkbox-group">
-	<input type="radio" name="payment" style="display: none" data-payment="" value=""/>
-	<?php foreach($selectablePayments as $payment) { ?>
+	<input type="radio" name="payment" style="display: none" data-payment="" value="" />
+	<?php foreach ($selectablePayments as $payment) { ?>
 		<?php $slug = sanitize_title($payment['slugFormPgto']) ?>
 		<label class="mp-checkbox mp-checkbox-icon">
-			<input type="radio" name="payment" data-payment="<?= $slug ?>" value="<?= $slug ?>"/>
+			<input type="radio" name="payment" data-payment="<?= $slug ?>" value="<?= $slug ?>" />
 			<span class="checkmark"></span>
-			<div class="mp-checkbox-label mp-checkbox-label-icon" >
-				<?php if ( isset($icons[$slug]) ): ?>
+			<div class="mp-checkbox-label mp-checkbox-label-icon">
+				<?php if (isset($icons[$slug])) : ?>
 					<i class="<?= $icons[$slug] ?>"></i>
 				<?php endif; ?>
 				<strong><?= $payment['nomeFormPgto'] ?></strong>
@@ -50,100 +53,89 @@ $selectablePayments = array_filter(
 </div>
 <br /><br />
 <div class="mp-checkout-payments">
-	<?php foreach($selectablePayments as $payment) { ?>
+	<?php foreach ($selectablePayments as $payment) { ?>
 		<?php $slug = sanitize_title($payment['slugFormPgto']) ?>
 		<div class="mp-checkout-payment" data-inputs="<?= $slug ?>">
-			<?php if('cartao-de-credito' == $slug) { ?>
+			<?php if ('cartao-de-credito' == $slug) { ?>
 				<div class="mp-form-group">
-					<label class="mp-label"><?= $data['painel_pagamento_cartao_nome']?></label>
-					<input class="mp-input" type="text" name="card-name"
-						   placeholder="<?= $data['painel_pagamento_cartao_nome_placeholder']?>"/>
+					<label class="mp-label"><?= $data['painel_pagamento_cartao_nome'] ?></label>
+					<input class="mp-input" type="text" name="card-name" placeholder="<?= $data['painel_pagamento_cartao_nome_placeholder'] ?>" />
 				</div>
 				<div class="mp-form-row">
 					<div class="mp-form-col-5">
 						<div class="mp-form-group">
-							<label class="mp-label"><?= $data['painel_pagamento_cartao_numero']?></label>
-							<input class="mp-input" type="text" name="card-number"
-								   placeholder="<?= $data['painel_pagamento_cartao_numero_placeholder']?>"/>
+							<label class="mp-label"><?= $data['painel_pagamento_cartao_numero'] ?></label>
+							<input class="mp-input" type="text" name="card-number" placeholder="<?= $data['painel_pagamento_cartao_numero_placeholder'] ?>" />
 						</div>
 					</div>
 					<div class="mp-form-col-5">
 						<div class="mp-form-row">
 							<div class="mp-form-col-5">
 								<div class="mp-form-group">
-									<label class="mp-label"><?= $data['painel_pagamento_cartao_vencimento']?></label>
-									<input class="mp-input" type="text" name="card-valid"
-										   placeholder="<?= $data['painel_pagamento_cartao_vencimento_placeholder']?>"/>
+									<label class="mp-label"><?= $data['painel_pagamento_cartao_vencimento'] ?></label>
+									<input class="mp-input" type="text" name="card-valid" placeholder="<?= $data['painel_pagamento_cartao_vencimento_placeholder'] ?>" />
 								</div>
 							</div>
 							<div class="mp-form-col-5">
 								<div class="mp-form-group">
-									<label class="mp-label"><?= $data['painel_pagamento_cartao_cvv']?></label>
-									<input class="mp-input" type="text" name="card-code"
-										   placeholder="<?= $data['painel_pagamento_cartao_cvv_placeholder']?>"/>
+									<label class="mp-label"><?= $data['painel_pagamento_cartao_cvv'] ?></label>
+									<input class="mp-input" type="text" name="card-code" placeholder="<?= $data['painel_pagamento_cartao_cvv_placeholder'] ?>" />
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<?php $temParcelas = (isset($payment['parcelas']) && $payment['parcelas'] > 1) ?>
-				<div id="parcelas-cartao"
-					class="mp-form-group"
-					data-max-parcelas="<?= $payment['max_parcelas'] ?>"
-					data-min-valor-parcela="<?= $payment['min_valor_parcela'] ?>"
-					data-text-first="<?= $data['painel_pagamento_cartao_parcelas_1'] ?>"
-					data-text="<?= $data['painel_pagamento_cartao_parcelas_outros'] ?>"
-					<?php if ( $temParcelas == false ) echo 'style="display: none"' ?>
-					>
+				<div id="parcelas-cartao" class="mp-form-group" data-max-parcelas="<?= $payment['max_parcelas'] ?>" data-min-valor-parcela="<?= $payment['min_valor_parcela'] ?>" data-text-first="<?= $data['painel_pagamento_cartao_parcelas_1'] ?>" data-text="<?= $data['painel_pagamento_cartao_parcelas_outros'] ?>" <?php if ($temParcelas == false) echo 'style="display: none"' ?>>
 					<label class="mp-label"><?= $data['painel_pagamento_cartao_parcelas'] ?></label>
 					<select class="mp-select" name="card-parcelas">
-						<?php if ( $temParcelas ): ?>
-							<?php foreach (range(1, $payment['parcelas']) as $numParcelas): ?>
-								<option value="<?= $numParcelas ?>" <?= $numParcelas == 1 ?'selected':'' ?>><?=
+						<?php if ($temParcelas) : ?>
+							<?php foreach (range(1, $payment['parcelas']) as $numParcelas) : ?>
+								<option value="<?= $numParcelas ?>" <?= $numParcelas == 1 ? 'selected' : '' ?>><?=
 									str_replace(
 										['%qtde%', '%valor%'],
-										[$numParcelas, number_format( ($this->data['info']['total'] / $numParcelas) - 0.0049, 2, ',', '.' )],
+										[$numParcelas, number_format(($this->data['info']['total'] / $numParcelas) - 0.0049, 2, ',', '.')],
 										$numParcelas == 1 ? $data['painel_pagamento_cartao_parcelas_1'] : $data['painel_pagamento_cartao_parcelas_outros']
 									)
-								?></option>
+									?></option>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</select>
 				</div>
 				<div class="mp-errors-container"></div>
 			<?php } ?>
-			<?php if('pix-deposito-transferencia' == $slug) { ?>
+			<?php if ('pix-deposito-transferencia' == $slug) { ?>
 				<div class="mp-form-group" id="tela1">
 					<label class="mp-label">Comprovante</label>
-					<input class="mp-input" type="file" name="comprovante" id="previewComprovante"/>
+					<input class="mp-input" type="file" name="comprovante" id="previewComprovante" />
 					<div class="mp-cart-table" id="tabelaContas">
 						<table cellspacing="0" cellpadding="0">
 							<thead>
-								<tr>
-									<th><?= $data['painel_pagamento_banco']?></th>
-									<th><?= $data['painel_pagamento_conta']?></th>
-									<th><?= $data['painel_pagamento_agencia']?></th>
-									<th><?= $data['painel_pagamento_cnpj']?></th>
-									<th><?= $data['painel_pagamento_titular']?></th>
-								</tr>
+							<tr>
+								<th><?= $data['painel_pagamento_banco'] ?></th>
+								<th><?= $data['painel_pagamento_conta'] ?></th>
+								<th><?= $data['painel_pagamento_agencia'] ?></th>
+								<th><?= $data['painel_pagamento_cnpj'] ?></th>
+								<th><?= $data['painel_pagamento_titular'] ?></th>
+							</tr>
 							</thead>
 							<tbody>
-								<?php foreach($this->data['banks'] as $bank) { ?>
-									<tr>
-										<td><strong><?= $bank['banco'] ?></strong>(<?= $bank['codigoBanco'] ?>)</td>
-										<td><?= $bank['conta'] ?></td>
-										<td><?= $bank['agencia'] ?></td>
-										<td><?= $bank['cnpj'] ?></td>
-										<td><?= $bank['titular'] ?></td>
-									</tr>
-								<?php } ?>
+							<?php foreach ($this->data['banks'] as $bank) { ?>
+								<tr>
+									<td><strong><?= $bank['banco'] ?></strong>(<?= $bank['codigoBanco'] ?>)</td>
+									<td><?= $bank['conta'] ?></td>
+									<td><?= $bank['agencia'] ?></td>
+									<td><?= $bank['cnpj'] ?></td>
+									<td><?= $bank['titular'] ?></td>
+								</tr>
+							<?php } ?>
 							</tbody>
 						</table>
 					</div>
 				</div>
 
 				<div class="mp-form-group" id="pegarComprovante">
-					<iframe  id="imgComprovante" style="height: 35rem"></iframe>
+					<iframe id="imgComprovante" style="height: 35rem"></iframe>
 					<table>
 						<tr>
 							<td>
@@ -167,7 +159,7 @@ $selectablePayments = array_filter(
 					</div>
 				</div>
 			<?php } ?>
-			<?php if('sinal'== $slug) { ?>
+			<?php if ('sinal' == $slug) { ?>
 				<div class="mp-form-group">
 					<label class="mp-label">Valor</label>
 					<input class="mp-input money-input" type="text" name="sinal[valor]" />
@@ -176,20 +168,20 @@ $selectablePayments = array_filter(
 					<label class="mp-label">Forma de Pagamento</label>
 					<select class="mp-select" name="sinal[forma]">
 						<option value="dinheiro" data-show-comprovante="0" selected>Dinheiro</option>
-						<option value="credito-vista" data-show-comprovante="1" >Crédito a vista</option>
+						<option value="credito-vista" data-show-comprovante="1">Crédito a vista</option>
 						<option value="credito-parcelado" data-show-comprovante="1" data-show-parcelas="1">Crédito parcelado</option>
-						<option value="bradesco" data-show-comprovante="1" >Bradesco</option>
-						<option value="itau" data-show-comprovante="1" >Itaú</option>
-						<option value="santander" data-show-comprovante="1" >Santander</option>
-						<option value="bb" data-show-comprovante="1" >Banco do Brasil</option>
+						<option value="bradesco" data-show-comprovante="1">Bradesco</option>
+						<option value="itau" data-show-comprovante="1">Itaú</option>
+						<option value="santander" data-show-comprovante="1">Santander</option>
+						<option value="bb" data-show-comprovante="1">Banco do Brasil</option>
 					</select>
 				</div>
 				<div class="mp-form-group">
 					<label class="mp-label">Parcelas</label>
 					<select class="mp-select" name="sinal[parcelas]">
 						<option value="1" selected>1 vez</option>
-						<option value="2" >2 vezes</option>
-						<option value="3" >3 vezes</option>
+						<option value="2">2 vezes</option>
+						<option value="3">3 vezes</option>
 					</select>
 				</div>
 				<div class="mp-form-group">
@@ -197,22 +189,99 @@ $selectablePayments = array_filter(
 					<input class="mp-input" type="text" name="sinal[comprovante]" />
 				</div>
 			<?php } ?>
-			<?php if('getnet-iframe' == $slug) { ?>
+			<?php if ('getnet-iframe' == $slug) { ?>
 				<div class="mp-form-group">
 					<div class="mp-checkout-payment" data-inputs="<?= $slug ?>">
-					<?php echo (new View('checkout/getnet-iframe', [
-						'user' => $this->data['user'],
-						'slug' => $slug,
-					]))->get()  ?>
-				</div>
+						<!-- start captcha -->
+						<div id="captchaForm">
+							<div class="mp-form-col-5">
+								<div class="mp-form-group">
+									<label id="captchaQuestion" class="mp-label"  for="captcha"></label>
+									<input type="text" id="captcha" name="captcha" class="mp-input">
+								</div>
+								<button type="button" class="mp-btn-primary "  onclick="validateCaptcha()">Validar</button>
+							</div>
+						</div>
+						<div style="margin-top: 50px;">
+							<span id="teste" style="display: none;" class="mp-btn-primary pay-button-getnet">Efetuar pagamento</span>
+						</div>
+						<!-- end captcha -->
+						<br>
+
+						<?php echo (new View('checkout/getnet-iframe', [
+							'user' => $this->data['user'],
+							'slug' => $slug,
+						]))->get()  ?>
+					</div>
 				</div>
 			<?php } ?>
-			<?php if('pagseguro' == $slug) { ?>
+			<?php if ('pagseguro' == $slug) { ?>
 				<div class="mp-form-group">
 					<input type="hidden" name="cpf" value="<?= $user['customers_cpf_cnpj']; ?>" />
 					<label class="mp-label">Você será redirecionado para a tela do PagSeguro</label>
 				</div>
 			<?php } ?>
+			<!-- start PAGAMENTO UTILIZANDO A E.REDE -->
+			<?php if ('e-rede-cartao' == $slug) { ?>
+				<div class="mp-form-group">
+					<div class="mp-checkout-payment" data-inputs="<?= $slug ?>">
+						<!-- start captcha -->
+						<div id="captchaFormRede" >
+							<div class="mp-form-col-5">
+								<div class="mp-form-group">
+									<label id="captchaQuestionRede" class="mp-label"  for="captcha-e-rede"></label>
+									<input type="text" id="captcha-e-rede" name="captcha-e-rede" class="mp-input">
+								</div>
+								<button type="button" class="mp-btn-primary "  onclick="validateCaptchaRede()">Validar</button>
+							</div>
+						</div>
+
+						<!-- end captcha -->
+						<br>
+						<?php echo (new View('checkout/e-rede-cartao', [
+							'user' => $this->data['user'],
+							'slug' => $slug,
+						]))->get()  ?>
+					</div>
+				</div>
+			<?php } ?>
+
+			<?php if ('e-rede-pix' == $slug) { ?>
+				<div class="mp-form-group">
+					<?php echo (new View('checkout/e-rede-pix', [
+						'user' => $this->data['user'],
+						'slug' => $slug,
+					]))->get()  ?>
+				</div>
+			<?php } ?>
+
+			<?php if ('maxipago-pix' == $slug) { ?>
+				<div class="mp-form-group">
+					<?php echo (new View('checkout/maxipago-pix', [
+						'user' => $this->data['user'],
+						'slug' => $slug,
+					]))->get()  ?>
+				</div>
+			<?php } ?>
+
 		</div>
 	<?php } ?>
 </div>
+
+<script>
+	document.querySelectorAll('input[name="payment"]').forEach(function(input) {
+		input.addEventListener('change', function() {
+			// Verifica qual radio está selecionado
+			const selectedValue = document.querySelector('input[name="payment"]:checked').value;
+
+			// Verifica se o valor é igual a "e-rede-cartao"
+			if (selectedValue === 'e-rede-cartao') {
+				document.querySelector('.mp-checkout-content-footer-right').style.display = 'none';
+			}else if(selectedValue === 'e-rede-pix'){
+				document.querySelector('.mp-checkout-content-footer-right').style.display = 'none';
+			}else{
+				document.querySelector('.mp-checkout-content-footer-right').style.display = 'block';
+			}
+		});
+	});
+</script>
