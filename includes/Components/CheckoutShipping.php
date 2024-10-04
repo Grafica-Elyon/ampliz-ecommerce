@@ -18,6 +18,7 @@ class CheckoutShipping extends CheckoutComponent
 	protected $base = 'vc_mp_checkout_shipping';
 
 	public function render(){
+		error_log('metodo render_CheckoutShipping' . PHP_EOL, 3, '/home/dev_ampliz/public_html/wp-content/plugins/misterprint-ecommerce/log-teste-valdi.log');
 		$correio = null;
 		$transportadora = null;
 		$motoboy = null;

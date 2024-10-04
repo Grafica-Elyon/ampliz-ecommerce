@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ampliz-ecommerce.iml" filepath="$PROJECT_DIR$/.idea/ampliz-ecommerce.iml" />
+
+      <module fileurl="file://$PROJECT_DIR$/.idea/dev_ecommerce_ampliz.iml" filepath="$PROJECT_DIR$/.idea/dev_ecommerce_ampliz.iml" />
+
     </modules>
   </component>
 </project>

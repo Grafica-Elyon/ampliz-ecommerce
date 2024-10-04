@@ -478,20 +478,17 @@ use MisterPrint\Support\SessionSupport;
 
 				<div class="mp-checkbox-group receber-ofertas" >
 					<label class="mp-checkbox">
-						<input type="checkbox" name="receber-ofertas" value="receber-ofertas" checked/>
+						<input type="checkbox" name="receber-ofertas" value="receber-ofertas"/>
 						<span class="checkmark"></span>
-						<!-- <div class="mp-checkbox-label"><strong><?= $data['formulario_receber_email']?></strong></div> -->
-						<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; "><strong>Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Mr. Print e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento.</span></strong></div>
+						<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; "><strong><?= $data['formulario_receber_email']?></span></strong></div>
 						
 					</label>
-					
-				</div>
 
+					<div id="error-message" style="color: red; display: none;">O aceite dos termos é obrigatório.</div>
 				</div>
-
 
 				<div class="mp-checkbox-group mp-itens-center" style="margin: 5% 0">
-					<button type="submit" class="mp-btn mp-btn-primary"><?= $data['formulario_botao']?></button>
+					<button type="submit" class="mp-btn mp-btn-primary" id="submitButton"><?= $data['formulario_botao']?></button>
 				</div>	
 			</form>
 		</div>
