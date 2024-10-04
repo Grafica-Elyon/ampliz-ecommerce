@@ -10,6 +10,8 @@ $icons = [
 	'pagar-na-retirada' => 'icon-transfer-money',
 	'sinal' => 'icon-transfer-money',
 	'pagseguro' => 'icon-transfer-money',
+	'e-rede-card' => 'icon-credit-card',
+	'e-rede-pix' => 'icon-transfer-money',
 ];
 if(!$this->data['payments']){//se vier vazio ?>
 	<div class="mp-checkbox-group">
@@ -19,7 +21,7 @@ if(!$this->data['payments']){//se vier vazio ?>
 			</div>
 		</label>
 	</div>
-	<?php 
+	<?php
 return;
 }
 
