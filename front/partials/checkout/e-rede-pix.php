@@ -2,7 +2,7 @@
 use MisterPrint\Helper\Log;
 $sellerId = $dados['seller']; //producao
 $clientId = $dados['client']; //producao
-$clientSecret = $dados['secret']; //producao 
+$clientSecret = $dados['secret']; //producao
 
 //PARTE 2: DADOS DO CLIENTE
 $franquia = config("plugin", "franquia");
@@ -34,7 +34,7 @@ $id = user()->getId();
     #spinner {
         width: 100px;
         height: 100px;
-        background-color: #e30614;
+        background-color: #000000;
         border-radius: 50%;
         position: absolute;
         top: 50%;

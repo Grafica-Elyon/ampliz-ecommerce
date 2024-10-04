@@ -4,7 +4,7 @@ use MisterPrint\Helper\Log;
 
 $sellerId = $dados['seller']; //producao
 $clientId = $dados['client']; //producao
-$clientSecret = $dados['secret']; //producao 
+$clientSecret = $dados['secret']; //producao
 
 
 //PARTE 2: DADOS DO CLIENTE
@@ -36,7 +36,7 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
     #spinner_rede {
         width: 100px;
         height: 100px;
-        background-color: #e30614;
+        background-color: #000000;
         border-radius: 50%;
         position: absolute;
         top: 50%;
@@ -122,7 +122,7 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
             <div class="mp-form-group" id="parcelamentoGroup">
                 <label for="parcelamento" style="display: inline;" class="mp-label">Opção de Parcelamento</label>
                 <select id="parcelamento" name="parcelamento" class="mp-select">
-                    
+
                 </select>
             </div>
         </div>
@@ -131,7 +131,7 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
     <div class="mp-form-footer">
         <button id="buttonPagamentoRede" class="mp-btn-primary mp-link">Realizar Pagamento</button>
     </div>
-    
+
 </div>
 <!-- END formulário de cartão de crédito REDE -->
 <div id="overlay_rede">
@@ -177,9 +177,9 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
         if (this.value === 'debito') {
             parcelamentoGroup.style.display = 'none';
         } else {
-            
+
             var parcelamentoSelect = document.getElementById('parcelamento');
-            
+
             if (parseFloat(jQuery("[data-total-price]").attr('data-total-price')) <= 300.00) {
                 // Adiciona apenas a opção de 1x
                 jQuery('#parcelamento').html('<option value="1">1 Parcela</option>');
@@ -335,11 +335,11 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
                         return response.json().then(errorResponse => {
                             throw new Error(errorResponse.message || 'Erro desconhecido');
                         });
-                        
+
                     }
                     return response.json();
                 })
-                
+
                 .then(data => {
                     console.log(data);
                     if (data.success) {
