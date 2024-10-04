@@ -38,7 +38,8 @@ class CheckoutComponent extends Component
 			'shipping' => $shipping,
 			'detailes' => $details
 		];
-
+		error_log('metodo getSidebar'.$details['valores']['total'] . PHP_EOL, 3, '/home/dev_ampliz/public_html/wp-content/plugins/misterprint-ecommerce/log-teste-valdi.log');
+		
 		return $details;
 	}
 

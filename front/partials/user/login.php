@@ -1,3 +1,24 @@
+<?php 
+// header.php, login.php, facebookconfig.php
+
+// Caminho para o arquivo de log
+$logFile = __DIR__ . '/log_api_facebook.log';
+
+// Mensagem a ser gravada
+$logMessage = "[" . date('Y-m-d H:i:s') . "] Sua mensagem aqui." . PHP_EOL;
+
+// Grava a mensagem no arquivo de log
+file_put_contents($logFile, $logMessage, FILE_APPEND);
+
+?>
+
+<?php
+require_once('faceboockconfig.php'); // Inclui o arquivo de configuração do Facebook
+$redirectTo = "https://dev.ampliz.com.br"; // URL para onde o usuário será redirecionado após o login
+$data = ['email']; // Permissões solicitadas ao Facebook (neste caso, apenas email)
+$fullURL = $handler->getLoginUrl($redirectTo, $data); // Gera a URL de login do Facebook
+?>
+
 <?php
 use MisterPrint\Support\View;
 use MisterPrint\Helper\Log;
