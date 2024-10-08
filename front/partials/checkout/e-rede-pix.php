@@ -131,7 +131,8 @@ $id = user()->getId();
         if (this.checked) {
             overlayRedePix.style.display = 'block';
             divRedePix.style.display = 'inline';
-            fetch(url_rede_pix, {
+			body.amount = parseFloat(jQuery("[data-total-price]").attr('data-total-price'));
+			fetch(url_rede_pix, {
                     method: 'POST',
                     headers: headers_rede_pix,
                     body: JSON.stringify(body)
