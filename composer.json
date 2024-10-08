@@ -18,9 +18,10 @@
 		"nesbot/carbon": "dev-master",
 		"anthonybudd/wp_route": "dev-master",
 		"endroid/qr-code": "^3.0@dev",
-		"google/apiclient": "^2.15",
+		"google/apiclient": "*",
         "guzzlehttp/guzzle": "^7.0",
-        "guzzlehttp/psr7": "^2.0"
+        "guzzlehttp/psr7": "^2.0",
+		"facebook/graph-sdk": "^5.1"
 
 	},
 	"autoload": {
@@ -49,5 +50,8 @@
 			"git config gitflow.path.hooks .githooks",
 			"chmod +x .githooks/*"
 		]
+	},
+	"config": {
+		"process-timeout": 0
 	}
 }

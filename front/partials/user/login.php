@@ -1,15 +1,30 @@
-<?php
-require_once('faceboockconfig.php');
+<?php 
+// header.php, login.php, facebookconfig.php
 
-$redirectTo = "https://ampliz.com.br";
-$data = ['email'];
-$fullURL = $handler->getLoginUrl($redirectTo, $data);
+// Caminho para o arquivo de log
+$logFile = __DIR__ . '/log_api_facebook.log';
+
+// Mensagem a ser gravada
+$logMessage = "[" . date('Y-m-d H:i:s') . "] Sua mensagem aqui." . PHP_EOL;
+
+// Grava a mensagem no arquivo de log
+file_put_contents($logFile, $logMessage, FILE_APPEND);
+
+?>
+
+<?php
+require_once('faceboockconfig.php'); // Inclui o arquivo de configuração do Facebook
+$redirectTo = "https://dev.ampliz.com.br"; // URL para onde o usuário será redirecionado após o login
+$data = ['email']; // Permissões solicitadas ao Facebook (neste caso, apenas email)
+$fullURL = $handler->getLoginUrl($redirectTo, $data); // Gera a URL de login do Facebook
 ?>
 
 <?php
 use MisterPrint\Support\View;
+use MisterPrint\Helper\Log;
 $data = $this->data['params'];
 $is_balcony = $this->data['is_balcony']; ?>
+
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
 
 <div class="mp-login">

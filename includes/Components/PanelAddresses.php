@@ -70,7 +70,7 @@ class PanelAddresses extends PanelComponent
 			Vc::paramText('Painel ações', 'Ações'),
 			Vc::paramText('Botão adicionar endereço', 'Adicionar endereço'),
 			Vc::paramText('Formulario titulo', 'Cadastre seu endereço de entrega no formulário abaixo'),
-			Vc::paramText('Formulario rua', 'Rua'),
+			Vc::paramText('Formulario rua', 'Endereço'),
 			Vc::paramText('Formulario bairro', 'Bairro'),
 			Vc::paramText('Formulario CEP', 'CEP'),
 			Vc::paramText('Formulario numero', 'Numero'),

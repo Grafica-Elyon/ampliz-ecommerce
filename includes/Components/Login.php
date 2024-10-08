@@ -60,6 +60,9 @@ class Login extends Component
 			$data = $_POST['data'];
 			$params = json_decode(base64_decode($_POST['params']), true);
 
+			$data['email'] = $data['email-login'];
+			$data['password'] = $data['password-login'];
+
 			$response = (new User)->login($data['email'], $data['password']);
 
 			$redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');

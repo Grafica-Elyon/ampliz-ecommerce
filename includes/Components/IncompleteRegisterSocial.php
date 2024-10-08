@@ -7,11 +7,11 @@ use MisterPrint\Support\SessionSupport;
 use MisterPrint\Support\View;
 use MisterPrint\BO\Cliente;
 
-class IncompleteRegister extends Component
+class IncompleteRegisterSocial extends Component
 {
-	protected $name = 'Registro incompleto';
+	protected $name = 'Registro incompleto social';
 	protected $description = 'Mister Print incomplete register';
-	protected $base = 'vc_mp_incomplete_register';
+	protected $base = 'vc_mp_incomplete_register_social';
 
 	function render()
 	{
@@ -20,7 +20,7 @@ class IncompleteRegister extends Component
 			$data['redirect'] = $_POST['data']['redirect'];
 		}
 
-		return (new View('user/incomplete-register', ['params' => $this->getParamsAjax()]))->get();
+		return (new View('user/incomplete-register-social', ['params' => $this->getParamsAjax()]))->get();
 	}
 
 	// Element HTML
@@ -34,8 +34,8 @@ class IncompleteRegister extends Component
 	static public function action()
 	{
 		return function () {
-			if (!isset($_POST['data']['mp_incomplete_register']) || !wp_verify_nonce($_POST['data']['mp_incomplete_register'],
-					'mp_incomplete_register_action')) {
+			if (!isset($_POST['data']['mp_incomplete_register_social']) || !wp_verify_nonce($_POST['data']['mp_incomplete_register_social'],
+					'mp_incomplete_register_social_action')) {
 				if(wp_redirect(home_url('/cadastro_concluido/'))) {
 					exit;
 				}
@@ -45,7 +45,7 @@ class IncompleteRegister extends Component
 			$self = new self();
 
 			$data['nome-completo'] = $data['nome-completo'];
-			$data['email'] = $data['email-incomplete-register'];
+			$data['email'] = $data['email-incomplete-register-social'];
 
 			$boCliente = new Cliente();
 
@@ -53,15 +53,15 @@ class IncompleteRegister extends Component
 
 			if ($verificacaoDeEmail) {
 
-				return (new View('user/incomplete-register',[
+				return (new View('user/incomplete-register-social',[
 					'params' => $self->getParamsAjax(),
-					'errors' => ['Email já Cadastrado']
+					'errors' => ['E-mail já Cadastrado']
 					]))->get();
 
 				}
 				if (!empty($data)) {
 					unset($data['params']);
-					(new SessionSupport())::set('inclomplete-register', $data);
+					(new SessionSupport())::set('inclomplete-register-social', $data);
 
 					$redirect = get_page_url('register');
 					return ['redirect' => $redirect];
@@ -74,7 +74,7 @@ class IncompleteRegister extends Component
 		parent::setParams();
 		$this->addParams([
 			// Vc::paramText('Titulo', 'Novo Cliente'),
-			Vc::paramText('Titulo incomplete register', 'Novo Cliente - Cadastre-se'),
+			Vc::paramText('Titulo incomplete register social', 'Novo Cliente - Cadastre-se'),
 			Vc::paramText('Label Nome incomplete register', 'Nome completo'),
 			Vc::paramText('Label celular incomplete register', 'Celular (DDD)'),
 			Vc::paramText('Placeholder Nome incomplete register', 'Nome completo'),
