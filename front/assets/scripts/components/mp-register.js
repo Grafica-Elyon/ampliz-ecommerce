@@ -2,10 +2,10 @@ import Form from "../Form";
 import Components from "../Components";
 
 // Verificar se $_SESSION['userData']['id'] está vazio ou nulo
-var isUserIdEmpty = !Boolean($_SESSION['userData']['id']);
+//var isUserIdEmpty = !Boolean($_SESSION['userData']['id']);
 
 export default function (el) {
-	var ruleRequired = function( inputName, message ) {		
+	var ruleRequired = function( inputName, message ) {
 		return {
 			'name': inputName,
 			'rules': {
@@ -42,7 +42,7 @@ export default function (el) {
 		})(),
 		{
 			'name': 'email',
-			'rules': { 
+			'rules': {
 				stop: false,
 				required: {
 					message: 'E-mail é obrigatório!',
@@ -66,7 +66,7 @@ export default function (el) {
 			}
 		},
 		//ruleRequired( 'password', 'A senha é obrigatória!' ),
-		isUserIdEmpty ? ruleRequired('password', 'A senha é obrigatória!') : null,
+		//isUserIdEmpty ? ruleRequired('password', 'A senha é obrigatória!') : null,
 		{
 			'name': 'confirm-password',
 			'rules': {
@@ -148,7 +148,7 @@ export default function (el) {
 		radios.on('change', e => {
 			let r = $(e.currentTarget);
 			if(r.val() === 'Pessoa Jurídica') {
-				$('.cnpj-fields', el).show(); 
+				$('.cnpj-fields', el).show();
 				rules.push((() => {
 							let rule = ruleRequired( 'cnpj', 'CNPJ é obrigatório' );
 							rule.rules['cnpj'] = {
@@ -176,5 +176,5 @@ export default function (el) {
 
 	registerEvents();
 
-	
+
 }

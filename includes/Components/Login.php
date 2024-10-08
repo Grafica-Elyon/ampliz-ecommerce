@@ -177,13 +177,14 @@ class Login extends Component
 	{
 		parent::setParams();
 		$this->addParams([
-			Vc::paramText('Titulo', 'Cliente já cadastrado'),
-			Vc::paramText('Label email', 'E-mail'),
-			Vc::paramText('Placeholder email', 'Digite seu e-mail'),
-			Vc::paramText('Label senha', 'Senha'),
-			Vc::paramText('Placeholder senha', 'Digite sua senha'),
-			Vc::paramText('Esqueceu a senha', 'Esqueceu a senha?'),
-			Vc::paramText('Botão', 'Entrar'),
+			Vc::paramText('Titulo login', 'Login - Cliente já cadastrado'),
+			Vc::paramText('Label email login', 'E-mail'),
+			Vc::paramText('Placeholder email login', 'Digite seu e-mail'),
+			Vc::paramText('Label senha login', 'Senha'),
+			Vc::paramText('Placeholder senha login', 'Digite sua senha'),
+			Vc::paramText('Esqueceu a senha login', 'Esqueceu a senha?'),
+			Vc::paramText('Button login', 'Entrar'),
+			//Será removido
 			Vc::paramText('Funcionario Label email', 'E-mail do Funcionário'),
 			Vc::paramText('Funcionario Placeholder email', 'Digite seu e-mail'),
 			Vc::paramText('Funcionario Label senha', 'Senha do Funcionário'),
