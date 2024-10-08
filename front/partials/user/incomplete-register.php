@@ -26,7 +26,7 @@ $data = $this->data['params'];
 					<label class="mp-label"><?= $data['label_nome_incomplete_register'] ?></label>
 					<input class="mp-input" type="text" name="nome-completo-incomplete-register" value="" placeholder="<?= $data['placeholder_nome_incomplete_register'] ?>"/>
 				</div> -->
-				
+
 				<div class="mp-form-group">
 					<label class="mp-label"><?= $data['label_email_incomplete_register'] ?></label>
 					<input class="mp-input" type="text" name="email-incomplete-register"
@@ -34,7 +34,7 @@ $data = $this->data['params'];
 						   placeholder="<?= $data['placeholder_email_incomplete_register'] ?>"/>
 				</div>
 
-				
+
 
 				<div class="mp-form-group">
 							<label class="mp-label"><?= $data['label_celular_incomplete_register']?></label>
