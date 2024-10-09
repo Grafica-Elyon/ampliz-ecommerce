@@ -4,7 +4,7 @@ import Form from '../Form'
 export default function (el) {
 	var rules = [
 		{
-			'name': 'email-incomplete-register',
+			'name': 'email',
 			'rules': {
 				stop: false,
 				required: {
@@ -16,37 +16,24 @@ export default function (el) {
 			}
 		},
 		{
-			'name': 'confirm-email-incomplete-register',
+			'name': 'confirm-email',
 			'rules': {
 				stop: true,
 				title: 'E-mail',
 				equal: {
 					value: '',
 					field: 'Confirmaçao de e-mail',
-					select: '[name="email-incomplete-register"]',
+					select: '[name="email"]',
 					message: '{field} invalida!'
 				}
 			}
 		},
 		{
-			'name': 'nome-completo-incomplete-register',
+			'name': 'nome-completo',
 			'rules': {
 				stop: true,
 				required: {
 					message: 'O nome é obrigatorio!',
-				}
-			}
-		},
-		{
-			'name': 'celular-incomplete-register',
-			'rules': {
-				stop: true,
-				required: {
-					message: 'O celular é obrigatório!',
-				},
-				minLength: {
-					value: 15,
-					message: 'O celular é obrigatório!',
 				}
 			}
 		},
@@ -62,7 +49,6 @@ export default function (el) {
 	};
 
 	var registerEvents = () => {
-		$('input[name="celular-incomplete-register"]').mask('(00) 00000-0000');
 		new Form(el, rules, (form) => {
 			Components.loading(el);
 

@@ -45,7 +45,7 @@ class IncompleteRegister extends Component
 			$self = new self();
 
 			$data['nome-completo'] = $data['nome-completo'];
-			$data['email'] = $data['email-incomplete-register'];
+			$data['email'] = $data['email'];
 
 			$boCliente = new Cliente();
 
@@ -56,38 +56,38 @@ class IncompleteRegister extends Component
 				return (new View('user/incomplete-register',[
 					'params' => $self->getParamsAjax(),
 					'errors' => ['Email já Cadastrado']
-					]))->get();
+				]))->get();
 
-				}
-				if (!empty($data)) {
-					unset($data['params']);
-					(new SessionSupport())::set('inclomplete-register', $data);
+			}
+			if (!empty($data)) {
+				unset($data['params']);
+				(new SessionSupport())::set('inclomplete-register', $data);
 
-					$redirect = get_page_url('register');
-					return ['redirect' => $redirect];
-				}
-			};
-		}
+				$redirect = get_page_url('register');
+				return ['redirect' => $redirect];
+			}
+		};
+	}
 
 	public function setParams()
 	{
 		parent::setParams();
 		$this->addParams([
 			// Vc::paramText('Titulo', 'Novo Cliente'),
-			Vc::paramText('Titulo incomplete register', 'Novo Cliente - Cadastre-se'),
-			Vc::paramText('Label Nome incomplete register', 'Nome completo'),
-			Vc::paramText('Label celular incomplete register', 'Celular (DDD)'),
-			Vc::paramText('Placeholder Nome incomplete register', 'Nome completo'),
-			Vc::paramText('Placeholder celular incomplete register', 'Digite o seu celular'),
-			Vc::paramText('Label email incomplete register', 'E-mail'),
-			Vc::paramText('Placeholder email incomplete register', 'Digite seu e-mail'),
-			Vc::paramText('Label confirmação email incomplete register', 'Confirmar E-mail'),
-			Vc::paramText('Placeholder confirmação email incomplete register', 'Digite novamente seu e-mail'),
-			Vc::paramText('Label senha incomplete register', 'Senha'),
-			Vc::paramText('Placeholder senha incomplete register', 'Digite uma senha'),
-			Vc::paramText('Label confirmação senha incomplete register', 'Confirmação de senha'),
-			Vc::paramText('Placeholder confirmação senha incomplete register', 'Confirme sua senha'),
-			Vc::paramText('Button incomplete register', 'Cadastrar'),
+			Vc::paramText('Titulo', ''),
+			//Vc::paramText('Label Nome', 'Nome completo'),
+			Vc::paramText('Label celular', 'Celular (DDD)'),
+			//Vc::paramText('Placeholder Nome', 'Nome completo'),
+			Vc::paramText('Placeholder celular', 'Digite o seu celular'),
+			Vc::paramText('Label email', 'E-mail'),
+			Vc::paramText('Placeholder email', 'Digite seu e-mail'),
+			Vc::paramText('Label confirmação email', 'Confirmar E-mail'),
+			Vc::paramText('Placeholder confirmação email', 'Digite novamente seu e-mail'),
+			Vc::paramText('Label senha', 'Senha'),
+			Vc::paramText('Placeholder senha', 'Digite uma senha'),
+			Vc::paramText('Label confirmação senha', 'Confirmação de senha'),
+			Vc::paramText('Placeholder confirmação senha', 'Confirme sua senha'),
+			Vc::paramText('botão', 'Entrar'),
 		]);
 	}
 }
