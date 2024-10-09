@@ -16,6 +16,7 @@ return [
 	'vc_mp_register' => \MisterPrint\Components\Register::class,
 	'vc_mp_checkout_complete' => \MisterPrint\Components\CheckoutComplete::class,
 	'vc_mp_checkout_billing' => \MisterPrint\Components\CheckoutBilling::class,
+	'vc_mp_checkout_e_rede_card' => \MisterPrint\Components\CheckoutERedeCard::class,
 	'vc_mp_send_art' => \MisterPrint\Components\SendArt::class,
 	'vc_mp_panel_conta_corrente' => \MisterPrint\Components\ContaCorrente::class,
 	'vc_mp_lista_fretes' => \MisterPrint\Components\ListaFretes::class,

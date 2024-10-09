@@ -4,7 +4,7 @@ import Form from '../Form'
 export default function (el) {
 	var rules = [
 		{
-			'name': 'email',
+			'name': 'email-incomplete-register-social',
 			'rules': {
 				stop: false,
 				required: {
@@ -16,20 +16,20 @@ export default function (el) {
 			}
 		},
 		{
-			'name': 'confirm-email',
+			'name': 'confirm-email-incomplete-register-social',
 			'rules': {
 				stop: true,
 				title: 'E-mail',
 				equal: {
 					value: '',
 					field: 'Confirmaçao de e-mail',
-					select: '[name="email"]',
+					select: '[name="email-incomplete-register-social"]',
 					message: '{field} invalida!'
 				}
 			}
 		},
 		{
-			'name': 'nome-completo',
+			'name': 'nome-completo-incomplete-register-social',
 			'rules': {
 				stop: true,
 				required: {
@@ -49,6 +49,7 @@ export default function (el) {
 	};
 
 	var registerEvents = () => {
+		$('input[name="celular-incomplete-register-social"]').mask('(00) 00000-0000');
 		new Form(el, rules, (form) => {
 			Components.loading(el);
 
@@ -57,7 +58,7 @@ export default function (el) {
 				method: "POST",
 				url: wp.ajax_url,
 				data: {
-					action: 'mp_incomplete_register',
+					action: 'mp_incomplete_register_social',
 					'data': inputs,
 					'params': inputs.params,
 				}

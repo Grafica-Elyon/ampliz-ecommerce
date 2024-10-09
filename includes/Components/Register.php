@@ -31,22 +31,6 @@ class Register extends Component
 			SessionSupport::delete('inclomplete-register');
 		}
 
-		if($_SESSION['cadastroSocial'] === 'F'){
-			if(isset($_SESSION['userData_face']['id']) && isset($_SESSION['userData_face']['email'])) {
-				$session['email'] = $_SESSION['userData_face']['email'];
-				$session['nome-completo'] = $_SESSION['userData_face']['first_name'];
-				$session['password'] = '-';
-			}
-		}
-		else if($_SESSION['cadastroSocial'] === 'G'){
-			session_start();
-			if(isset($_SESSION['userData_google']['sub']) && isset($_SESSION['userData_google']['email'])) {
-				$session['email'] = $_SESSION['userData_google']['email'];
-				$session['nome-completo'] = $_SESSION['userData_google']['name'];
-				$session['password'] = '-';
-			}
-		}
-
 		$data = array_merge($data, $session);
 		return (new View('user/register', $data))->get();
 	}
@@ -65,7 +49,7 @@ class Register extends Component
 			$post['cpf'] = $output = preg_replace('/[^0-9]/', '', $post['cpf']);
 			$post['cnpj'] = $output = preg_replace('/[^0-9]/', '', $post['cnpj']);
 			$post['telefone'] = $output = preg_replace('/[^0-9]/', '', $post['telefone']);
-			$post['celular'] =  preg_replace('/[^0-9]/', '', $post['celular']);
+			$post['celular'] = $output = preg_replace('/[^0-9]/', '', $post['celular']);
 			$post['cep'] = $output = preg_replace('/[^0-9]/', '', $post['cep']);
 			$cpfCnpj = $post['cnpj'] ? $post['cnpj'] : $post['cpf'];
 
@@ -286,7 +270,7 @@ class Register extends Component
 			Vc::paramText('Formulario senha placeholder', 'Digite uma senha'),
 			Vc::paramText('Formulario senha confirmação', 'Confirmar Senha'),
 			Vc::paramText('Formulario senha confirmação placeholder', 'Confirme sua senha'),
-			Vc::paramText('Formulario receber email', 'Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento.'),
+			Vc::paramText('Formulario receber email', 'Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Mr. Print e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento.'),
 
 			// Campos de identificação de Lead
 			Vc::paramText('Formulario info', 'Informações Adicionais'),
