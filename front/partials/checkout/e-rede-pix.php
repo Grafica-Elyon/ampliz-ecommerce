@@ -79,7 +79,6 @@ $id = user()->getId();
     const headers_rede_pix = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'User-Agent': baseUrl,
         'Authorization': 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo='
     };
 

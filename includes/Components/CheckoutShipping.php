@@ -18,7 +18,6 @@ class CheckoutShipping extends CheckoutComponent
 	protected $base = 'vc_mp_checkout_shipping';
 
 	public function render(){
-		error_log('metodo render_CheckoutShipping' . PHP_EOL, 3, '/home/dev_ampliz/public_html/wp-content/plugins/misterprint-ecommerce/log-teste-valdi.log');
 		$correio = null;
 		$transportadora = null;
 		$motoboy = null;
@@ -46,9 +45,9 @@ class CheckoutShipping extends CheckoutComponent
         if(isset($selecionado['codigo'])){
 	        $balconies = array_values( array_filter($balconies, function( $item ) use ($selecionado) {
 	            return (isset($item['codigo']) && $item['codigo'] !== $selecionado['codigo']);
-	        }));	
+	        }));
         }
-        
+
 
 		if(!empty($data['shipping_code'])){ //setando se o frete escolhido anteriormente está em alguma remessa
 			$correio = $frete->get_opcoes_fretes($user_id);
