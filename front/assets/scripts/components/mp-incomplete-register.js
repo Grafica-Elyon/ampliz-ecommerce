@@ -1,80 +1,82 @@
 import Components from '../Components';
-import Form from '../Form'
+import Form from '../Form';
 
 export default function (el) {
-	var rules = [
-		{
-			'name': 'email',
-			'rules': {
-				stop: false,
-				required: {
-					message: 'E-mail é obrigatório!',
-				},
-				email: {
-					message: 'E-mail inválido',
-				}
-			}
-		},
-		{
-			'name': 'confirm-email',
-			'rules': {
-				stop: true,
-				title: 'E-mail',
-				equal: {
-					value: '',
-					field: 'Confirmaçao de e-mail',
-					select: '[name="email"]',
-					message: '{field} invalida!'
-				}
-			}
-		},
-		{
-			'name': 'nome-completo',
-			'rules': {
-				stop: true,
-				required: {
-					message: 'O nome é obrigatorio!',
-				}
-			}
-		},
-	];
+    var rules = [
+        {
+            name: 'email',
+            rules: {
+                required: {
+                    message: 'E-mail é obrigatório!',
+                },
+                email: {
+                    message: 'E-mail inválido!',
+                },
+            },
+        },
+        {
+            name: 'confirm-email',
+            rules: {
+                required: {
+                    message: 'Confirmação de e-mail é obrigatória!',
+                },
+                equal: {
+                    field: 'email',
+                    message: 'A confirmação deve ser igual ao e-mail!',
+                },
+            },
+        },
+        {
+            name: 'nome-completo',
+            rules: {
+                required: {
+                    message: 'O nome completo é obrigatório!',
+                },
+            },
+        },
+    ];
 
-	var getInputs = () => {
+    // Captura os inputs do formulário
+    const getInputs = () => {
+        const values = {};
+        $('input, select', el).each((_, element) => {
+            values[$(element).attr('name')] = $(element).val();
+        });
+        return values;
+    };
 
-		var values = {};
-		$(' input, select', el).each((event, element) => {
-			values[$(element).attr('name')] = $(element).val();
-		});
-		return values;
-	};
+    // Função para registrar eventos
+    const registerEvents = () => {
+        new Form(el, rules, (form) => {
+            Components.loading(el);
 
-	var registerEvents = () => {
-		new Form(el, rules, (form) => {
-			Components.loading(el);
+            const inputs = getInputs();
+            $.ajax({
+                method: 'POST',
+                url: wp.ajax_url,
+                data: {
+                    action: 'mp_incomplete_register',
+                    data: inputs,
+                    params: inputs.params,
+                },
+            })
+                .done((response) => {
+                    if (typeof response.redirect !== 'undefined') {
+                        window.location = response.redirect;
+                        return;
+                    }
 
-			var inputs = getInputs();
-			$.ajax({
-				method: "POST",
-				url: wp.ajax_url,
-				data: {
-					action: 'mp_incomplete_register',
-					'data': inputs,
-					'params': inputs.params,
-				}
-			}).done((response) => {
-				if (typeof response.redirect != 'undefined') {
-					window.location = response.redirect;
-					return;
-				}
+                    $(el).html(response);
+                    registerEvents();
 
-				$(el).html(response);
-				registerEvents();
+                    Components.loading(el, 'stop');
+                })
+                .fail((error) => {
+                    console.error('Erro na submissão do formulário:', error);
+                    Components.loading(el, 'stop');
+                });
+        });
+    };
 
-				Components.loading(el, 'stop');
-			});
-		});
-	}
-
-	registerEvents();
-
+    registerEvents();
 }
