@@ -10,96 +10,104 @@ $logMessage = "[" . date('Y-m-d H:i:s') . "] Sua mensagem aqui." . PHP_EOL;
 // Grava a mensagem no arquivo de log
 file_put_contents($logFile, $logMessage, FILE_APPEND);
 
+?>
+
+<?php
 require_once('faceboockconfig.php'); // Inclui o arquivo de configuração do Facebook
 $redirectTo = "https://dev.ampliz.com.br"; // URL para onde o usuário será redirecionado após o login
 $data = ['email']; // Permissões solicitadas ao Facebook (neste caso, apenas email)
 $fullURL = $handler->getLoginUrl($redirectTo, $data); // Gera a URL de login do Facebook
+?>
 
+<?php
 use MisterPrint\Support\View;
 use MisterPrint\Helper\Log;
 $data = $this->data['params'];
-$is_balcony = $this->data['is_balcony'];
-?>
+$is_balcony = $this->data['is_balcony']; ?>
 
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
 
 <div class="mp-login">
-    <div class="mp-painel">
-        <div class="mp-painel-header">
-            <h3 class="mp-painel-title"><?= $data['titulo'] ?></h3>
-        </div>
+	<div class="mp-painel">
+		<div class="mp-painel-header">
+			<h3 class="mp-painel-title"><?= $data['titulo'] ?></h3>
+		</div>
 
-        <?php if ($is_balcony): ?>
-            <div class="mp-painel-body">
-                <form method="POST" class="mp-login-form mp-form">
-                    <input type="hidden" name="action" value="mp_login_funcionario" />
-                    <input type="hidden" name="from-session" value="<?= json_encode(!!$this->data['funcionario-session']) ?>" />
-                    <?php if (isset($this->data['redirect'])) { ?>
-                        <input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
-                    <?php } ?>
+		<?php if ( $is_balcony ): ?>
+			<div class="mp-painel-body">
+				<form method="POST" class="mp-login-form mp-form">
+					<input type="hidden" name="action" value="mp_login_funcionario" />
+					<input type="hidden" name="from-session" value="<?= json_encode(!!$this->data['funcionario-session']) ?>" />
+					<?php if(isset($this->data['redirect'])) { ?>
+						<input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
+					<?php } ?>
 
-                    <?php wp_nonce_field('mp_login_action', 'mp_login'); ?>
+					<?php wp_nonce_field( 'mp_login_action', 'mp_login' ); ?>
 
-                    <?php echo (new View('misc/errors', [
-                        'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
-                    ]))->get() ?>
-                    <div class="mp-form-group">
-                        <label class="mp-label"><?= $data['funcionario_label_email'] ?></label>
-                        <input class="mp-input" type="text" id="func_email" name="func_email"
-                               value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
-                               placeholder="<?= $data['funcionario_placeholder_email'] ?>" />
-                        <small class="error-message" style="display: none; color: red;">E-mail do funcionário é obrigatório!</small>
-                    </div>
+					<?php echo (new View('misc/errors', [
+						'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
+					]))->get() ?>
+					<div class="mp-form-group">
+						<label class="mp-label"><?= $data['funcionario_label_email'] ?></label>
+						<input class="mp-input" type="text" name="func_email"
+							   value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
+							   placeholder="<?= $data['funcionario_placeholder_email'] ?>" />
+					</div>
 
-                    <div class="mp-form-group">
-                        <label class="mp-label"><?= $data['funcionario_label_senha'] ?></label>
-                        <input class="mp-input" type="password" id="func_password" name="func_senha"
-                               placeholder="<?= $data['funcionario_placeholder_senha'] ?>" />
-                        <small class="error-message" style="display: none; color: red;">Senha do funcionário é obrigatória!</small>
-                    </div>
+					<div class="mp-form-group">
+						<label class="mp-label"><?= $data['funcionario_label_senha'] ?></label>
+						<input class="mp-input" type="password" name="func_senha" value="" placeholder="<?= $data['funcionario_placeholder_senha'] ?>" />
+					</div>
 
-                    <div class="mp-form-footer">
-                        <button type="button" id="loginBtn" class="mp-btn-primary mp-link"><?= $data['botao'] ?></button>
-                    </div>
-                </form>
-            </div>
-        <?php else: ?>
-            <div class="mp-painel-body">
-                <form method="POST" class="mp-login-form mp-form">
-                    <input type="hidden" name="action" value="mp_login" />
-                    <?php if (isset($this->data['redirect'])) { ?>
-                        <input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
-                    <?php } ?>
+					<div class="mp-form-group">
+						<label class="mp-label"><?= $data['funcionario_login_cliente'] ?></label>
+						<input class="mp-input" type="text" name="email"
+							   autocomplete="off"
+							   value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
+							   placeholder="<?= $data['placeholder_email'] ?>" />
+					</div>
 
-                    <?php wp_nonce_field('mp_login_action', 'mp_login'); ?>
+					<div class="mp-form-footer">
+						<button type="submit" class="mp-btn-primary mp-link" ><?= $data['botao'] ?></button>
+					</div>
+				</form>
+			</div>
+		<?php else: ?>
 
-                    <?php echo (new View('misc/errors', [
-                        'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
-                    ]))->get(); ?>
+			<div class="mp-painel-body">
+				<form method="POST" class="mp-login-form mp-form">
+					<input type="hidden" name="action" value="mp_login" />
+					<?php if(isset($this->data['redirect'])) { ?>
+						<input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
+					<?php } ?>
 
-                    <div class="mp-form-group">
-                        <label class="mp-label"><?= $data['label_email'] ?></label>
-                        <input class="mp-input" type="text" id="email" name="email"
-                               value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
-                               placeholder="<?= $data['placeholder_email'] ?>" />
-                        <small class="error-message" style="display: none; color: red;">E-mail é obrigatório e deve ser válido!</small>
-                    </div>
+					<?php wp_nonce_field( 'mp_login_action', 'mp_login' ); ?>
 
-                    <div class="mp-form-group">
-                        <label class="mp-label"><?= $data['label_senha'] ?></label>
-                        <input class="mp-input" type="password" id="password" name="password"
-                               placeholder="<?= $data['placeholder_senha'] ?>" />
-                        <small class="error-message" style="display: none; color: red;">Senha é obrigatória!</small>
-                    </div>
+					<?php echo (new View('misc/errors', [
+						'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
+					]))->get() ?>
 
-                    <div class="mp-form-footer">
-                        <a class="mp-link mp-link-left" href="<?= \get_page_url('password_recovery') ?>"><?= $data['esqueceu_a_senha'] ?></a>
-                        <button type="button" id="loginBtn" class="mp-btn-primary mp-link"><?= $data['botao'] ?></button>
-                    </div>
-                </form>
-            </div>
-        <?php endif; ?>
-    </div>
+					<div class="mp-form-group">
+						<label class="mp-label"><?= $data['label_email'] ?></label>
+						<input class="mp-input" type="text" name="email"
+							   value="<?php echo isset($this->data['email']) ? $this->data['email'] : '' ?>"
+							   placeholder="<?= $data['placeholder_email'] ?>" />
+					</div>
+
+					<div class="mp-form-group">
+						<label class="mp-label"><?= $data['label_senha'] ?></label>
+						<input class="mp-input" type="password" name="password" value="" placeholder="<?= $data['placeholder_senha'] ?>" />
+					</div>
+
+					<div class="mp-form-footer">
+						<a class="mp-link mp-link-left" href="<?= \get_page_url('password_recovery') ?>"><?= $data['esqueceu_a_senha'] ?></a>
+						<button type="submit" class="mp-btn-primary mp-link" ><?= $data['botao'] ?></button>
+					</div>
+				</form>
+			</div>
+
+		<?php endif; ?>
+	</div>
 </div>
 
 <!-- Seção de login com redes sociais -->
@@ -114,39 +122,8 @@ $is_balcony = $this->data['is_balcony'];
         </div>
     </div>
 </div>
+
 <?php
 include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
 ?>
 
-<script src="<?php echo get_template_directory_uri(); ?>/assets/scripts/components/mp-login.js"></script>
-
-<style>
-/* Estilo para campos com erro */
-.error {
-    border: 2px solid red;
-}
-
-.mp-painel {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-.mp-painel-header {
-    margin-bottom: 15px;
-}
-
-.mp-btn-primary {
-    background-color: #0073aa;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.mp-btn-primary:hover {
-    background-color: #005885;
-}
-</style>
