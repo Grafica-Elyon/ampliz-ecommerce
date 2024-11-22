@@ -32,13 +32,20 @@ $data = $this->data['params'];
                     <small class="error-message" style="display: none; color: red;">E-mail é obrigatório e deve ser válido!</small>
                 </div>
 
-                <!-- Campo de celular -->
+                <!-- Campo de confirmação de email -->
                 <div class="mp-form-group">
-                    <label class="mp-label"><?= $data['label_celular'] ?></label>
-                    <input class="mp-input" type="text" id="celular" name="celular"
-                           value="<?= isset($this->data['fields']['celular']) ? $this->data['fields']['celular'] : '' ?>"
-                           placeholder="<?= $data['placeholder_celular'] ?>" />
-                    <small class="error-message" style="display: none; color: red;">Celular é obrigatório!</small>
+                    <label class="mp-label"><?= $data['label_confirm_email'] ?></label>
+                    <input class="mp-input" type="text" id="confirm-email" name="confirm-email"
+                           placeholder="<?= $data['placeholder_confirm_email'] ?>" />
+                    <small class="error-message" style="display: none; color: red;">A confirmação de e-mail deve ser igual ao e-mail!</small>
+                </div>
+
+                <!-- Campo de nome completo -->
+                <div class="mp-form-group">
+                    <label class="mp-label"><?= $data['label_nome_completo'] ?></label>
+                    <input class="mp-input" type="text" id="nome-completo" name="nome-completo"
+                           placeholder="<?= $data['placeholder_nome_completo'] ?>" />
+                    <small class="error-message" style="display: none; color: red;">O nome é obrigatório!</small>
                 </div>
 
                 <!-- Botão de submissão -->
@@ -50,69 +57,7 @@ $data = $this->data['params'];
     </div>
 </div>
 
-<script>
-    // Função para validar o formato do email
-    function validateEmail(email) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
-
-    // Validação do formulário
-    document.getElementById('mp-register').addEventListener('submit', function(event) {
-        const emailField = document.getElementById('email');
-        const celularField = document.getElementById('celular');
-        const emailError = emailField.nextElementSibling;
-        const celularError = celularField.nextElementSibling;
-
-        let isValid = true;
-
-        // **Log inicial do formulário**
-        console.log("Validação do formulário iniciada.");
-        console.log("Email:", emailField.value.trim());
-        console.log("Celular:", celularField.value.trim());
-
-        // Remove mensagens de erro anteriores
-        [emailField, celularField].forEach(field => {
-            field.classList.remove('error');
-        });
-        [emailError, celularError].forEach(error => {
-            error.style.display = 'none';
-        });
-
-        // Validação do campo email
-        if (!emailField.value.trim() || !validateEmail(emailField.value.trim())) {
-            emailField.classList.add('error');
-            emailError.style.display = 'block';
-            console.log("Erro no campo Email: Valor inválido ou vazio.");
-            isValid = false;
-        } else {
-            console.log("Campo Email validado com sucesso.");
-        }
-
-        // Validação do campo celular
-        if (!celularField.value.trim()) {
-            celularField.classList.add('error');
-            celularError.style.display = 'block';
-            console.log("Erro no campo Celular: Valor vazio.");
-            isValid = false;
-        } else {
-            console.log("Campo Celular validado com sucesso.");
-        }
-
-        // Impede o envio do formulário se houver erros
-        if (!isValid) {
-            event.preventDefault();
-            console.log("Formulário inválido. Submissão bloqueada.");
-        } else {
-            console.log("Formulário válido. Submissão permitida.");
-        }
-
-        // **Log final do estado dos campos**
-        console.log("Estado final do campo Email:", emailField.value.trim(), emailField.classList.contains('error') ? "Com erro" : "Sem erro");
-        console.log("Estado final do campo Celular:", celularField.value.trim(), celularField.classList.contains('error') ? "Com erro" : "Sem erro");
-    });
-</script>
-
+<script src="<?php echo get_template_directory_uri(); ?>/assets/scripts/components/mp-incomplete-register.js"></script>
 
 <style>
     /* Estilo para campos com erro */
