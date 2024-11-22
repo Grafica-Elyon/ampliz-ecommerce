@@ -1,3 +1,8 @@
+<?php
+use MisterPrint\Support\View;
+$data = $this->data['params'];
+?>
+
 <div class="mp-login">
     <div class="mp-painel">
         <div class="mp-painel-header">
