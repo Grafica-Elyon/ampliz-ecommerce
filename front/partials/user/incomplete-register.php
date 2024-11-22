@@ -1,7 +1,3 @@
-<?php
-use MisterPrint\Support\View;
-$data = $this->data['params'];
-?>
 <div class="mp-login">
     <div class="mp-painel">
         <div class="mp-painel-header">
@@ -28,6 +24,7 @@ $data = $this->data['params'];
                     <input class="mp-input" type="text" id="email" name="email"
                            value="<?= isset($this->data['fields']['email']) ? $this->data['fields']['email'] : '' ?>"
                            placeholder="<?= $data['placeholder_email'] ?>" />
+                    <small class="error-message" style="display: none; color: red;">E-mail é obrigatório e deve ser válido!</small>
                 </div>
 
                 <!-- Campo de celular -->
@@ -36,6 +33,7 @@ $data = $this->data['params'];
                     <input class="mp-input" type="text" id="celular" name="celular"
                            value="<?= isset($this->data['fields']['celular']) ? $this->data['fields']['celular'] : '' ?>"
                            placeholder="<?= $data['placeholder_celular'] ?>" />
+                    <small class="error-message" style="display: none; color: red;">Celular é obrigatório!</small>
                 </div>
 
                 <!-- Botão de submissão -->
@@ -58,36 +56,58 @@ $data = $this->data['params'];
     document.getElementById('mp-register').addEventListener('submit', function(event) {
         const emailField = document.getElementById('email');
         const celularField = document.getElementById('celular');
+        const emailError = emailField.nextElementSibling;
+        const celularError = celularField.nextElementSibling;
 
         let isValid = true;
+
+        // **Log inicial do formulário**
+        console.log("Validação do formulário iniciada.");
+        console.log("Email:", emailField.value.trim());
+        console.log("Celular:", celularField.value.trim());
 
         // Remove mensagens de erro anteriores
         [emailField, celularField].forEach(field => {
             field.classList.remove('error');
         });
+        [emailError, celularError].forEach(error => {
+            error.style.display = 'none';
+        });
 
         // Validação do campo email
         if (!emailField.value.trim() || !validateEmail(emailField.value.trim())) {
             emailField.classList.add('error');
-            alert('Por favor, insira um email válido.');
-            emailField.focus();
+            emailError.style.display = 'block';
+            console.log("Erro no campo Email: Valor inválido ou vazio.");
             isValid = false;
+        } else {
+            console.log("Campo Email validado com sucesso.");
         }
 
         // Validação do campo celular
         if (!celularField.value.trim()) {
             celularField.classList.add('error');
-            alert('O campo de celular não pode estar vazio.');
-            celularField.focus();
+            celularError.style.display = 'block';
+            console.log("Erro no campo Celular: Valor vazio.");
             isValid = false;
+        } else {
+            console.log("Campo Celular validado com sucesso.");
         }
 
         // Impede o envio do formulário se houver erros
         if (!isValid) {
             event.preventDefault();
+            console.log("Formulário inválido. Submissão bloqueada.");
+        } else {
+            console.log("Formulário válido. Submissão permitida.");
         }
+
+        // **Log final do estado dos campos**
+        console.log("Estado final do campo Email:", emailField.value.trim(), emailField.classList.contains('error') ? "Com erro" : "Sem erro");
+        console.log("Estado final do campo Celular:", celularField.value.trim(), celularField.classList.contains('error') ? "Com erro" : "Sem erro");
     });
 </script>
+
 
 <style>
     /* Estilo para campos com erro */

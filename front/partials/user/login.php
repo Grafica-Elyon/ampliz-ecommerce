@@ -40,7 +40,7 @@ $is_balcony = $this->data['is_balcony']; ?>
                         <input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
                     <?php } ?>
 
-                    <?php wp_nonce_field( 'mp_login_action', 'mp_login' ); ?>
+                    <?php wp_nonce_field('mp_login_action', 'mp_login'); ?>
 
                     <?php echo (new View('misc/errors', [
                         'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
@@ -123,67 +123,113 @@ $is_balcony = $this->data['is_balcony']; ?>
 <?php
 include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
 ?>
+
 <script>
-    // Função para validar o formato do email
-    function validateEmail(email) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
+// Função para validar o formato do email
+function validateEmail(email) {
+    console.log("Validando email:", email); // Log para verificar o email recebido
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = regex.test(email);
+    console.log("Email válido?", isValid); // Log para verificar se o email é válido
+    return isValid;
+}
 
-    // Adicionando evento de clique ao botão de login
-    document.querySelectorAll('#loginBtn').forEach(button => {
-        button.addEventListener('click', function (event) {
-            // Identifica o formulário correspondente
-            const form = this.closest('form');
+// Adicionando evento de clique ao botão de login
+document.querySelectorAll('#loginBtn').forEach(button => {
+    console.log("Adicionando evento ao botão de login."); // Log ao adicionar o evento ao botão
+    button.addEventListener('click', function (event) {
+        event.preventDefault();
+        console.log("Botão de login clicado."); // Log quando o botão é clicado
 
-            // Captura os campos do formulário
-            const emailField = form.querySelector('[name="email"]');
-            const passwordField = form.querySelector('[name="password"], [name="func_senha"]');
-            const funcEmailField = form.querySelector('[name="func_email"]');
+        // Identifica o formulário correspondente
+        const form = this.closest('form');
+        console.log("Formulário identificado:", form); // Log para garantir que o formulário foi identificado
 
-            let isValid = true;
+        // Captura os campos do formulário
+        const emailField = form.querySelector('[name="email"]');
+        const passwordField = form.querySelector('[name="password"], [name="func_senha"]');
+        const funcEmailField = form.querySelector('[name="func_email"]');
 
-            // Remove erros anteriores
-            [emailField, passwordField, funcEmailField].forEach(field => {
-                if (field) field.classList.remove('error');
-            });
+        console.log("Campo de email encontrado?", emailField !== null);
+        console.log("Campo de senha encontrado?", passwordField !== null);
+        console.log("Campo de email do funcionário encontrado?", funcEmailField !== null);
 
-            // Valida o email principal
-            if (emailField && (!emailField.value.trim() || !validateEmail(emailField.value.trim()))) {
+        let isValid = true;
+
+        // Remove erros anteriores
+        [emailField, passwordField, funcEmailField].forEach(field => {
+            if (field) {
+                field.classList.remove('error');
+                console.log("Removendo erros do campo:", field.name); // Log ao remover erros
+            }
+        });
+
+        // Valida o email principal
+        if (emailField) {
+            console.log("Validando email principal:", emailField.value);
+            if (!emailField.value.trim()) {
+                console.log("Erro: Campo de email está vazio."); // Log para campo vazio
+                emailField.classList.add('error');
+                alert('Por favor, insira um email válido.');
+                emailField.focus();
+                isValid = false;
+            } else if (!validateEmail(emailField.value.trim())) {
+                console.log("Erro: Email inválido."); // Log para email inválido
                 emailField.classList.add('error');
                 alert('Por favor, insira um email válido.');
                 emailField.focus();
                 isValid = false;
             }
+        }
 
-            // Valida o email do funcionário (se aplicável)
-            if (funcEmailField && (!funcEmailField.value.trim() || !validateEmail(funcEmailField.value.trim()))) {
+        // Valida o email do funcionário (se aplicável)
+        if (funcEmailField) {
+            console.log("Validando email do funcionário:", funcEmailField.value);
+            if (!funcEmailField.value.trim()) {
+                console.log("Erro: Campo de email do funcionário está vazio."); // Log para campo vazio
+                funcEmailField.classList.add('error');
+                alert('Por favor, insira um email válido para o funcionário.');
+                funcEmailField.focus();
+                isValid = false;
+            } else if (!validateEmail(funcEmailField.value.trim())) {
+                console.log("Erro: Email do funcionário inválido."); // Log para email inválido
                 funcEmailField.classList.add('error');
                 alert('Por favor, insira um email válido para o funcionário.');
                 funcEmailField.focus();
                 isValid = false;
             }
+        }
 
-            // Valida o campo de senha
-            if (passwordField && !passwordField.value.trim()) {
+        // Valida o campo de senha
+        if (passwordField) {
+            console.log("Validando senha:", passwordField.value);
+            if (!passwordField.value.trim()) {
+                console.log("Erro: Campo de senha está vazio."); // Log para senha vazia
                 passwordField.classList.add('error');
                 alert('O campo de senha não pode estar vazio.');
                 passwordField.focus();
                 isValid = false;
             }
+        }
 
-            // Se tudo estiver válido, submete o formulário
-            if (isValid) {
-                form.submit();
-            }
-        });
+        // Se tudo estiver válido, submete o formulário
+        if (isValid) {
+            console.log("Validação concluída com sucesso. Formulário será enviado.");
+            form.submit();
+        } else {
+            console.log("Validação falhou. Formulário não será enviado."); // Log para falha na validação
+        }
     });
+});
+
+// Log inicial para verificar se o script foi carregado
+console.log("Script de validação carregado com sucesso.");
+
 </script>
 
 <style>
-    /* Estilo para campos com erro */
-    .error {
-        border: 2px solid red;
-    }
+/* Estilo para campos com erro */
+.error {
+    border: 2px solid red;
+}
 </style>
-
