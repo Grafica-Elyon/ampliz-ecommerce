@@ -1,93 +1,66 @@
 import Components from '../Components';
-import Form from '../Form';
+import Form from '../Form'
 
 export default function (el) {
-    const rules = [
-        {
-            name: 'email',
-            rules: {
-                stop: true,
-                required: {
-                    message: 'E-mail é obrigatório!',
-                },
-                email: {
-                    message: 'E-mail inválido!',
-                }
-            }
-        },
-        {
-            name: 'password',
-            rules: {
-                stop: true,
-                required: {
-                    message: 'A senha é obrigatória!',
-                }
-            }
-        }
-    ];
+	var rules = [
+		{
+			'name': 'email-login',
+			'rules': {
+				stop: true,
+				required: {
+					message: 'E-mail é obrigatório!',
+				}
+			}
+		},
+		{
+			'name': 'password-login',
+			'rules': {
+				stop: true,
+				required: {
+					message: 'A senha é obrigatoria!',
+				}
+			}
+		},
+	];
 
-    // Verifica se as regras estão configuradas corretamente
-    const validateRules = (rules) => {
-        if (!Array.isArray(rules) || rules.length === 0) {
-            console.error('Nenhuma regra definida para validação.');
-            return false;
-        }
-        for (let rule of rules) {
-            if (!rule.name || !rule.rules) {
-                console.error('Regra mal configurada:', rule);
-                return false;
-            }
-        }
-        return true;
-    };
+	// Opções de Impressão
+	var getInputs = () => {
 
-    // Captura os valores dos inputs
-    const getInputs = () => {
-        const values = {};
-        $('input', el).each((index, element) => {
-            values[$(element).attr('name')] = $(element).val();
-        });
-        return values;
-    };
+		var values = {};
+		$(' input', el).each((event, element) => {
+			values[$(element).attr('name')] = $(element).val();
+		});
 
-    // Registra eventos no formulário
-    const registerEvents = () => {
-        if (!validateRules(rules)) {
-            console.error('Falha na validação das regras.');
-            return;
-        }
+		return values;
+	};
 
-        new Form(el, rules, (form) => {
-            Components.loading(el);
-            const inputs = getInputs();
+	var registerEvents = () => {
+		new Form(el, rules, (form) => {
+			Components.loading(el);
 
-            $.ajax({
-                method: 'POST',
-                url: wp.ajax_url,
-                data: {
-                    action: inputs.action || 'mp_login',
-                    data: inputs,
-                    params: $('input[name="params"]', el).val()
-                }
-            })
-                .done((response) => {
-                    if (response.status === 'error') {
-                        console.error('Erros do servidor:', response.errors);
-                        for (let field in response.errors) {
-                            const input = $(`[name="${field}"]`, el);
-                            input.addClass('error');
-                            input.after(`<span class="error-message">${response.errors[field]}</span>`);
-                        }
-                    } else if (response.status === 'success') {
-                        window.location = response.redirect;
-                    }
-                })
-                .always(() => Components.loading(el, 'stop'));
-        });
-    };
+			let inputs = getInputs();
 
-    // Aguarda o carregamento do DOM para registrar os eventos
-    document.addEventListener('DOMContentLoaded', () => {
-        registerEvents();
-    });
+			$.ajax({
+				method: "POST",
+				url: wp.ajax_url,
+				data: {
+					action: inputs.action || 'mp_login',
+					'data': getInputs(),
+					'params': $(' [name="params"]', el).val()
+				}
+			}).done((response) => {
+				if (typeof response.redirect != 'undefined') {
+					window.location = response.redirect;
+					return;
+				}
+
+				$(el).html(response);
+				registerEvents();
+
+				Components.loading(el, 'stop');
+			});
+		});
+	}
+
+	registerEvents();
 }
