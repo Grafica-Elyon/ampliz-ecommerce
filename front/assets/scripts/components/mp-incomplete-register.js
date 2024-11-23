@@ -6,34 +6,12 @@ export default function (el) {
 		{
 			'name': 'email-incomplete-register',
 			'rules': {
-				stop: false,
+				stop: true,
 				required: {
 					message: 'E-mail é obrigatório!',
 				},
 				email: {
 					message: 'E-mail inválido',
-				}
-			}
-		},
-		{
-			'name': 'confirm-email-incomplete-register',
-			'rules': {
-				stop: true,
-				title: 'E-mail',
-				equal: {
-					value: '',
-					field: 'Confirmaçao de e-mail',
-					select: '[name="email-incomplete-register"]',
-					message: '{field} invalida!'
-				}
-			}
-		},
-		{
-			'name': 'nome-completo-incomplete-register',
-			'rules': {
-				stop: true,
-				required: {
-					message: 'O nome é obrigatorio!',
 				}
 			}
 		},
@@ -46,16 +24,15 @@ export default function (el) {
 				},
 				minLength: {
 					value: 15,
-					message: 'O celular é obrigatório!',
+					message: 'O celular deve ter pelo menos 15 caracteres!',
 				}
 			}
 		},
 	];
 
 	var getInputs = () => {
-
 		var values = {};
-		$(' input, select', el).each((event, element) => {
+		$(' input, select', el).each((index, element) => {
 			values[$(element).attr('name')] = $(element).val();
 		});
 		return values;
@@ -90,5 +67,4 @@ export default function (el) {
 	}
 
 	registerEvents();
-
 }
