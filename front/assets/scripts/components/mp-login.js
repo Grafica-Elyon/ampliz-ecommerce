@@ -1,75 +1,66 @@
 import Components from '../Components';
-import Form from '../Form';
+import Form from '../Form'
 
 export default function (el) {
-    var rules = [
-        {
-            'name': 'email',
-            'rules': {
-                stop: true,
-                required: {
-                    message: 'E-mail é obrigatório!',
-                },
-                email: {
-                    message: 'E-mail inválido!',
-                }
-            }
-        },
-        {
-            'name': 'password', 
-            'rules': {
-                stop: true,
-                required: {
-                    message: 'A senha é obrigatória!',
-                }
-            }
-        }
-    ];
+	var rules = [
+		{
+			'name': 'email-login',
+			'rules': {
+				stop: true,
+				required: {
+					message: 'E-mail é obrigatório!',
+				}
+			}
+		},
+		{
+			'name': 'password-login',
+			'rules': {
+				stop: true,
+				required: {
+					message: 'A senha é obrigatoria!',
+				}
+			}
+		},
+	];
 
-    // Captura os valores dos inputs
-    var getInputs = () => {
-        var values = {};
-        $('input', el).each((index, element) => {
-            values[$(element).attr('name')] = $(element).val();
-        });
+	// Opções de Impressão
+	var getInputs = () => {
 
-        console.log("Valores capturados:", values); // Log para verificar os valores capturados
-        return values;
-    };
+		var values = {};
+		$(' input', el).each((event, element) => {
+			values[$(element).attr('name')] = $(element).val();
+		});
 
-    // Registra eventos no formulário
-    var registerEvents = () => {
-        console.log("Registrando eventos no formulário:", el); // Verificar se o elemento correto está sendo registrado
+		return values;
+	};
 
-        new Form(el, rules, (form) => {
-            Components.loading(el);
+	var registerEvents = () => {
+		new Form(el, rules, (form) => {
+			Components.loading(el);
 
-            let inputs = getInputs();
+			let inputs = getInputs();
 
-            $.ajax({
-                method: "POST",
-                url: wp.ajax_url,
-                data: {
-                    action: inputs.action || 'mp_login',
-                    data: inputs,
-                    params: $('input[name="params"]', el).val()
-                }
-            }).done((response) => {
-                if (typeof response.redirect !== 'undefined') {
-                    window.location = response.redirect;
-                    return;
-                }
+			$.ajax({
+				method: "POST",
+				url: wp.ajax_url,
+				data: {
+					action: inputs.action || 'mp_login',
+					'data': getInputs(),
+					'params': $(' [name="params"]', el).val()
+				}
+			}).done((response) => {
+				if (typeof response.redirect != 'undefined') {
+					window.location = response.redirect;
+					return;
+				}
 
-                $(el).html(response);
-                registerEvents(); // Re-registra os eventos após substituir o conteúdo
+				$(el).html(response);
+				registerEvents();
 
-                Components.loading(el, 'stop');
-            });
-        });
-    };
+				Components.loading(el, 'stop');
+			});
+		});
+	}
 
-    // Aguarda o carregamento do DOM para registrar os eventos
-    document.addEventListener('DOMContentLoaded', function () {
-        registerEvents();
-    });
+	registerEvents();
 }
