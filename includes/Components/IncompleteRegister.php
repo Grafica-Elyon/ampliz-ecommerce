@@ -31,43 +31,56 @@ class IncompleteRegister extends Component
 		return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $this->component() . $hidden . '<div class="loader"></div></div>';
 	}
 
-	static public function action()
-	{
-		return function () {
-			if (!isset($_POST['data']['mp_incomplete_register']) || !wp_verify_nonce($_POST['data']['mp_incomplete_register'],
-					'mp_incomplete_register_action')) {
-				if(wp_redirect(home_url('/cadastro_concluido/'))) {
-					exit;
-				}
-			}
+	 // Método de ação para validação e redirecionamento
+	 public static function action()
+	 {
+		 return function () {
+			 // Validação de nonce para segurança
+			 if (
+				 !isset($_POST['data']['mp_incomplete_register']) ||
+				 !wp_verify_nonce($_POST['data']['mp_incomplete_register'], 'mp_incomplete_register_action')
+			 ) {
+				 wp_redirect(home_url('/cadastro_concluido/'));
+				 exit;
+			 }
+ 
+			 // Captura os dados enviados
+			 $data = $_POST['data'];
+ 
+			 // Validação do e-mail
+			 if (empty($data['email-incomplete-register']) || !filter_var($data['email-incomplete-register'], FILTER_VALIDATE_EMAIL)) {
+				 return (new View('user/incomplete-register', [
+					 'params' => (new self())->getParamsAjax(),
+					 'errors' => ['E-mail inválido ou ausente!'],
+				 ]))->get();
+			 }
+ 
+			 // Valida se o e-mail já existe
+			 $boCliente = new Cliente();
+			 if ($boCliente->verifica_email_existente($data['email-incomplete-register'])) {
+				 return (new View('user/incomplete-register', [
+					 'params' => (new self())->getParamsAjax(),
+					 'errors' => ['E-mail já cadastrado!'],
+				 ]))->get();
+			 }
+ 
+			 // Validação do celular
+			 if (empty($data['celular-incomplete-register']) || strlen($data['celular-incomplete-register']) < 15) {
+				 return (new View('user/incomplete-register', [
+					 'params' => (new self())->getParamsAjax(),
+					 'errors' => ['Celular inválido ou incompleto!'],
+				 ]))->get();
+			 }
+ 
+			 // Fluxo de sucesso
+			 unset($data['params']); // Remove campos desnecessários
+			 (new SessionSupport())->set('incomplete-register', $data);
+ 
+			 wp_redirect(home_url('/cadastro_concluido/'));
+			 exit;
+		 };
+	 }
 
-			$data = $_POST['data'];
-			$self = new self();
-
-			$data['nome-completo'] = $data['nome-completo'];
-			$data['email'] = $data['email-incomplete-register'];
-
-			$boCliente = new Cliente();
-
-			$verificacaoDeEmail = $boCliente->verifica_email_existente($data['email']);
-
-			if ($verificacaoDeEmail) {
-
-				return (new View('user/incomplete-register',[
-					'params' => $self->getParamsAjax(),
-					'errors' => ['Email já Cadastrado']
-				]))->get();
-
-			}
-			if (!empty($data)) {
-				unset($data['params']);
-				(new SessionSupport())::set('inclomplete-register', $data);
-
-				$redirect = get_page_url('register');
-				return ['redirect' => $redirect];
-			}
-		};
-	}
 
 	public function setParams()
 	{
