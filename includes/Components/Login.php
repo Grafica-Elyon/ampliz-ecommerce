@@ -56,9 +56,12 @@ class Login extends Component
 				print 'Sorry, your nonce did not verify.';
 				exit;
 			}
-
+			
 			$data = $_POST['data'];
 			$params = json_decode(base64_decode($_POST['params']), true);
+
+			$data['email'] = $data['email-login'];
+			$data['password'] = $data['password-login'];
 
 			$response = (new User)->login($data['email'], $data['password']);
 
@@ -177,18 +180,33 @@ class Login extends Component
 	{
 		parent::setParams();
 		$this->addParams([
-			Vc::paramText('Titulo', 'Cliente já cadastrado'),
-			Vc::paramText('Label email', 'E-mail'),
-			Vc::paramText('Placeholder email', 'Digite seu e-mail'),
-			Vc::paramText('Label senha', 'Senha'),
-			Vc::paramText('Placeholder senha', 'Digite sua senha'),
-			Vc::paramText('Esqueceu a senha', 'Esqueceu a senha?'),
-			Vc::paramText('Botão', 'Entrar'),
-			Vc::paramText('Funcionario Label email', 'E-mail do Funcionário'),
-			Vc::paramText('Funcionario Placeholder email', 'Digite seu e-mail'),
-			Vc::paramText('Funcionario Label senha', 'Senha do Funcionário'),
-			Vc::paramText('Funcionario Placeholder senha', 'Digite sua senha'),
-			Vc::paramText('Funcionario Login Cliente', 'E-mail ou id do cliente'),
+			// Campos gerais
+			Vc::paramText('Titulo login', 'Login - Cliente já cadastrado'),
+			Vc::paramText('Label email login', 'E-mail'),
+			Vc::paramText('Placeholder email login', 'Digite seu e-mail'),
+			Vc::paramText('Label senha login', 'Senha'),
+			Vc::paramText('Placeholder senha login', 'Digite sua senha'),
+			Vc::paramText('Esqueceu a senha login', 'Esqueceu a senha?'),
+			Vc::paramText('Button login', 'Entrar'),
+	
+			// Campos para login de funcionários
+			Vc::paramText('Funcionário Título', 'Login do Funcionário'), // Título específico para o login do funcionário
+			Vc::paramText('Funcionario Label email', 'E-mail do Funcionário'), // Rótulo para o campo de email do funcionário
+			Vc::paramText('Funcionario Placeholder email', 'Digite o e-mail do funcionário'), // Placeholder do email do funcionário
+			Vc::paramText('Funcionario Label senha', 'Senha do Funcionário'), // Rótulo para o campo de senha do funcionário
+			Vc::paramText('Funcionario Placeholder senha', 'Digite a senha do funcionário'), // Placeholder da senha do funcionário
+			Vc::paramText('Funcionario Login Cliente', 'E-mail ou ID do Cliente'), // Campo adicional para identificação do cliente
+			Vc::paramText('Funcionario Botão', 'Entrar como Funcionário'), // Texto do botão de login do funcionário
+	
+			// Mensagens de erro e outros
+			Vc::paramText('Erro genérico', 'E-mail ou senha inválidos!'), // Mensagem genérica de erro
+			Vc::paramText('Erro acesso negado', 'Por favor, entre em contato com o comercial'), // Mensagem quando o acesso é negado
+			Vc::paramText('Mensagem recuperação', 'Caso tenha esquecido sua senha, clique no link acima.'), // Mensagem para recuperação de senha
+	
+			// Configurações adicionais
+			Vc::paramText('Redirecionamento padrão', '/'), // Redirecionamento padrão após o login
+			Vc::paramText('Página de recadastro', 'my_data'), // Página de recadastro, se aplicável
 		]);
 	}
+	
 }
