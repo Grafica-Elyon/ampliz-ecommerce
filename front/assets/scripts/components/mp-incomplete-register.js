@@ -10,7 +10,7 @@ export default function (el) {
 	// Regras para a primeira tela do registro (email e telefone)
 	const registerStep1Rules = [
 		{
-			'name': 'email',
+			'name': 'email-incomplete-register',
 			'rules': {
 				stop: false,
 				required: {
@@ -22,7 +22,7 @@ export default function (el) {
 			}
 		},
 		{
-			'name': 'telefone',
+			'name': 'celular-incomplete-register',
 			'rules': {
 				stop: true,
 				required: {
@@ -48,7 +48,7 @@ export default function (el) {
 
 	const loginRules = [
 		{
-			'name': 'email',
+			'name': 'email-incomplete-register',
 			'rules': {
 				stop: false,
 				required: {
