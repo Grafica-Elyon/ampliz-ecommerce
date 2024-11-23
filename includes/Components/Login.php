@@ -44,67 +44,54 @@ class Login extends Component
 		return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $this->component() . $hidden . '</div><div class="loader"></div>';
 	}
 
-	static public function action()
-	{
-		// TODO Protect this from brute force.
-		return function () {
-			if (
-				(!isset($_POST['data']['mp_login']) || !wp_verify_nonce($_POST['data']['mp_login'], 'mp_login_action'))
-				&&
-				!(isset($_POST['mp_system_login']) && $_POST['mp_system_login'] === "" )
-			) {
-				print 'Sorry, your nonce did not verify.';
-				exit;
-			}
-			
-			$data = $_POST['data'];
-			$params = json_decode(base64_decode($_POST['params']), true);
+	public static function action()
+{
+    return function () {
+        // Validação do nonce para segurança
+        if (
+            !isset($_POST['data']['mp_incomplete_register']) ||
+            !wp_verify_nonce($_POST['data']['mp_incomplete_register'], 'mp_incomplete_register_action')
+        ) {
+            // Redireciona caso o nonce seja inválido
+            wp_redirect(home_url('/cadastro_concluido/'));
+            exit;
+        }
 
-			$data['email'] = $data['email-login'];
-			$data['password'] = $data['password-login'];
+        // Captura os dados do formulário
+        $data = $_POST['data'];
 
-			$response = (new User)->login($data['email'], $data['password']);
+        // Instância para manipular dados do cliente
+        $boCliente = new Cliente();
 
-			$redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');
+        // Valida se o e-mail já existe
+        if ($boCliente->verifica_email_existente($data['email-incomplete-register'])) {
+            // Retorna a View com o erro de e-mail já cadastrado
+            return (new View('user/incomplete-register', [
+                'params' => (new self())->getParamsAjax(),
+                'errors' => ['E-mail já cadastrado!'],
+            ]))->get();
+        }
 
+        // Validação do celular no backend
+        if (empty($data['celular-incomplete-register']) || strlen($data['celular-incomplete-register']) < 15) {
+            // Retorna a View com o erro de celular inválido
+            return (new View('user/incomplete-register', [
+                'params' => (new self())->getParamsAjax(),
+                'errors' => ['Celular inválido ou incompleto!'],
+            ]))->get();
+        }
 
-			if ( @$response['id'] ) {
-				if (user()->login_user($response['id'], $data['email'])) {
-					if ( user()->isRecadastro() ) {
-						// Pega a pagina de recadstro
-						$newRedirect = get_page_url('my_data');
+        // Caso todos os dados sejam válidos:
+        // Salva os dados na sessão (ou no banco, se necessário)
+        (new SessionSupport())->set('incomplete-register', $data);
 
-						// Caso não tenha pagina de recadastro, apenas continua
-						if ( !$newRedirect ) {
-							return ['redirect' => $redirect];
-						}
+        // Redireciona para a página de sucesso
+        wp_redirect(home_url('/cadastro_concluido/'));
+        exit;
+    };
+}
 
-						if ( $redirect ) {
-							$newRedirect.= '?'.http_build_query(['redirect' => $redirect]);
-						}
-
-						return ['redirect' => $newRedirect];
-					}
-					return ['redirect' => $redirect];
-				}
-			}
-
-			if ( @$response['message'] == 'Acesso negado' ) {
-				$pagina = get_page_url('recovery_blocked_login');
-				if ( $pagina ) {
-					return ['redirect' => $pagina];
-				}
-				$response['message'] = 'Por favor, entrar em contato com o comercial';
-			}
-
-			return (new View('user/login', [
-				'redirect' => $redirect,
-				'params' => $params,
-				'errors' => [@$response['message'] ?: 'E-mail ou senha invalido!']
-			]))->get();
-		};
-	}
-
+	
 	static public function actionFuncionario()
 	{
 		// TODO Protect this from brute force.
