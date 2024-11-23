@@ -127,4 +127,51 @@ $is_balcony = $this->data['is_balcony']; ?>
 include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
 ?>
 
-<script src="<?php echo get_template_directory_uri(); ?>/assets/scripts/components/mp-login.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var rules = [
+            {
+                'name': 'email',
+                'rules': {
+                    stop: true,
+                    required: {
+                        message: 'E-mail é obrigatório!',
+                    },
+                    email: {
+                        message: 'E-mail inválido!',
+                    }
+                }
+            },
+            {
+                'name': 'password', 
+                'rules': {
+                    stop: true,
+                    required: {
+                        message: 'A senha é obrigatória!',
+                    }
+                }
+            }
+        ];
+
+        var getInputs = () => {
+            var values = {};
+            document.querySelectorAll('input').forEach(input => {
+                values[input.name] = input.value;
+            });
+
+            console.log("Valores capturados:", values);
+            return values;
+        };
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                console.log("Validação iniciada para o formulário:", form);
+
+                const inputs = getInputs();
+
+                console.log("Valores validados:", inputs);
+            });
+        });
+    });
+</script>
