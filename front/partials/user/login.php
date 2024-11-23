@@ -127,3 +127,4 @@ $is_balcony = $this->data['is_balcony']; ?>
 include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
 ?>
 
+<script src="<?php echo get_template_directory_uri(); ?>/assets/scripts/components/mp-login.js"></script>
