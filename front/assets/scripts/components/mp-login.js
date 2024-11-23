@@ -4,53 +4,49 @@ import Form from '../Form'
 export default function (el) {
 	var rules = [
 		{
-			'name': 'email-incomplete-register',
+			'name': 'email-login',
 			'rules': {
 				stop: true,
 				required: {
 					message: 'E-mail é obrigatório!',
-				},
-				email: {
-					message: 'E-mail inválido',
 				}
 			}
 		},
 		{
-			'name': 'celular-incomplete-register',
+			'name': 'password-login',
 			'rules': {
 				stop: true,
 				required: {
-					message: 'O celular é obrigatório!',
-				},
-				minLength: {
-					value: 15,
-					message: 'O celular deve ter pelo menos 15 caracteres!',
+					message: 'A senha é obrigatoria!',
 				}
 			}
 		},
 	];
 
+	// Opções de Impressão
 	var getInputs = () => {
+
 		var values = {};
-		$(' input, select', el).each((index, element) => {
+		$(' input', el).each((event, element) => {
 			values[$(element).attr('name')] = $(element).val();
 		});
+
 		return values;
 	};
 
 	var registerEvents = () => {
-		$('input[name="celular-incomplete-register"]').mask('(00) 00000-0000');
 		new Form(el, rules, (form) => {
 			Components.loading(el);
 
-			var inputs = getInputs();
+			let inputs = getInputs();
+
 			$.ajax({
 				method: "POST",
 				url: wp.ajax_url,
 				data: {
-					action: 'mp_incomplete_register',
-					'data': inputs,
-					'params': inputs.params,
+					action: inputs.action || 'mp_login',
+					'data': getInputs(),
+					'params': $(' [name="params"]', el).val()
 				}
 			}).done((response) => {
 				if (typeof response.redirect != 'undefined') {

@@ -15,42 +15,43 @@ $is_balcony = $this->data['is_balcony']; ?>
 <div class="mp-login">
 	<div class="mp-painel">
 		<div class="mp-painel-header">
-			<h3 class="mp-painel-title"><?= $data['titulo_incomplete_register'] ?></h3>
+			<h3 class="mp-painel-title"><?= $data['titulo_login'] ?></h3>
 		</div>
 
 		<div class="mp-painel-body">
-			<form method="POST" class="mp-login-form mp-form" id="mp-register">
-				<input type="hidden" name="action" value="mp_incomplete_register"/>
-				<input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
+			<form method="POST" class="mp-login-form mp-form">
+				<input type="hidden" name="action" value="mp_login" />
+				<?php if(isset($this->data['redirect'])) { ?>
+					<input type="hidden" name="redirect" value="<?php echo $this->data['redirect'] ?>" />
+				<?php } ?>
 
-				<?php wp_nonce_field('mp_incomplete_register_action', 'mp_incomplete_register'); ?>
+				<?php wp_nonce_field( 'mp_login_action', 'mp_login' ); ?>
 
 				<?php echo (new View('misc/errors', [
 					'errors' => (isset($this->data['errors'])) ? $this->data['errors'] : []
 				]))->get() ?>
 
 				<div class="mp-form-group">
-					<label class="mp-label"><?= $data['label_email_incomplete_register'] ?></label>
-					<input class="mp-input" type="text" name="email-incomplete-register"
-						   value=""
-						   placeholder="<?= $data['placeholder_email_incomplete_register'] ?>"/>
+					<label class="mp-label"><?= $data['label_email_login'] ?></label>
+					<input class="mp-input" type="text" name="email-login"
+						   value="<?php echo isset($this->data['email_login']) ? $this->data['email_login'] : '' ?>"
+						   placeholder="<?= $data['placeholder_email_login'] ?>" />
 				</div>
 
 				<div class="mp-form-group">
-					<label class="mp-label"><?= $data['label_celular_incomplete_register'] ?></label>
-					<input class="mp-input" type="text" name="celular-incomplete-register"
-						   value=""
-						   placeholder="<?= $data['placeholder_celular_incomplete_register'] ?>"/>
+					<label class="mp-label"><?= $data['label_senha_login'] ?></label>
+					<input class="mp-input" type="password" name="password-login" value="" placeholder="<?= $data['placeholder_senha_login'] ?>" />
 				</div>
 
 				<div class="mp-form-footer">
-					<button type="submit" class="mp-btn-primary mp-link"><?= $data['button_incomplete_register'] ?></button>
+					<a class="mp-link mp-link-left" href="<?= \get_page_url('password_recovery') ?>"><?= $data['esqueceu_a_senha_login'] ?></a>
+					<button type="submit" class="mp-btn-primary mp-link" ><?= $data['button_login'] ?></button>
 				</div>
 			</form>
 		</div>
+
 	</div>
 </div>
-
 
 <!-- Seção de login com redes sociais -->
 <div class="container">
