@@ -45,38 +45,47 @@ export default function (el) {
     var registerEvents = () => {
         console.log("[DEBUG] Registrando eventos no formulário...");
         $('input[name="celular-incomplete-register"]').mask('(00) 00000-0000');
-        new Form(el, rules, (form) => {
-            console.log("[DEBUG] Validação do formulário concluída com sucesso.");
-            Components.loading(el);
 
-            var inputs = getInputs();
-            console.log("[DEBUG] Dados enviados ao servidor:", inputs);
+        if (!$(el).data('initialized')) {
+            console.log("[DEBUG] Registrando validações no formulário...");
+            $(el).data('initialized', true);
 
-            $.ajax({
-                method: "POST",
-                url: wp.ajax_url,
-                data: {
-                    action: 'mp_incomplete_register',
-                    'data': inputs,
-                    'params': inputs.params,
-                }
-            }).done((response) => {
-                console.log("[DEBUG] Resposta recebida do servidor:", response);
+            new Form(el, rules, (form) => {
+                console.log("[DEBUG] Validação do formulário concluída com sucesso.");
+                Components.loading(el);
 
-                if (typeof response.redirect !== 'undefined') {
-                    console.log("[DEBUG] Redirecionando para:", response.redirect);
-                    window.location = response.redirect;
-                    return;
-                }
+                var inputs = getInputs();
+                console.log("[DEBUG] Dados enviados ao servidor:", inputs);
 
-                $(el).html(response);
-                registerEvents();
-                Components.loading(el, 'stop');
-            }).fail((jqXHR, textStatus, errorThrown) => {
-                console.error("[DEBUG] Erro na requisição AJAX:", textStatus, errorThrown);
-                Components.loading(el, 'stop');
+                $.ajax({
+                    method: "POST",
+                    url: wp.ajax_url,
+                    data: {
+                        action: 'mp_incomplete_register',
+                        'data': inputs,
+                        'params': inputs.params,
+                    }
+                }).done((response) => {
+                    console.log("[DEBUG] Resposta recebida do servidor:", response);
+
+                    if (typeof response.redirect !== 'undefined') {
+                        console.log("[DEBUG] Redirecionando para:", response.redirect);
+                        window.location = response.redirect;
+                        return;
+                    }
+
+                    $(el).html(response);
+                    registerEvents();
+
+                    Components.loading(el, 'stop');
+                }).fail((jqXHR, textStatus, errorThrown) => {
+                    console.error("[DEBUG] Erro na requisição AJAX:", textStatus, errorThrown);
+                    Components.loading(el, 'stop');
+                });
             });
-        });
+        } else {
+            console.log("[DEBUG] Eventos já registrados, evitando duplicação.");
+        }
     };
 
     console.log("[DEBUG] Inicializando eventos...");
