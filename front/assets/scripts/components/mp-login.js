@@ -4,7 +4,7 @@ import Form from '../Form'
 export default function (el) {
 	var rules = [
 		{
-			'name': 'email-login',
+			'name': 'email',
 			'rules': {
 				stop: true,
 				required: {
@@ -13,7 +13,7 @@ export default function (el) {
 			}
 		},
 		{
-			'name': 'password-login',
+			'name': 'password',
 			'rules': {
 				stop: true,
 				required: {
