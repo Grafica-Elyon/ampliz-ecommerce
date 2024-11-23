@@ -2,15 +2,9 @@ import Components from '../Components';
 import Form from '../Form'
 
 export default function (el) {
-	// Identificando qual formulário está sendo manipulado
-	const isRegisterStep1 = $(el).hasClass('register-step1');
-	const isRegisterStep2 = $(el).hasClass('register-step2');
-	const isLoginForm = $(el).hasClass('login-form');
-
-	// Regras para a primeira tela do registro (email e telefone)
-	const registerStep1Rules = [
+	var rules = [
 		{
-			'name': 'email-incomplete-register',
+			'name': 'email',
 			'rules': {
 				stop: false,
 				required: {
@@ -22,104 +16,53 @@ export default function (el) {
 			}
 		},
 		{
-			'name': 'celular-incomplete-register',
+			'name': 'confirm-email',
 			'rules': {
 				stop: true,
-				required: {
-					message: 'Telefone é obrigatório!',
+				title: 'E-mail',
+				equal: {
+					value: '',
+					field: 'Confirmaçao de e-mail',
+					select: '[name="email"]',
+					message: '{field} invalida!'
 				}
 			}
-		}
-	];
-
-	// Regras para o segundo passo do registro
-	const registerStep2Rules = [
+		},
 		{
 			'name': 'nome-completo',
 			'rules': {
 				stop: true,
 				required: {
-					message: 'O nome é obrigatório!',
+					message: 'O nome é obrigatorio!',
 				}
 			}
 		},
-		// Adicione outras regras para os campos do segundo passo aqui
 	];
 
-	const loginRules = [
-		{
-			'name': 'email-incomplete-register',
-			'rules': {
-				stop: false,
-				required: {
-					message: 'E-mail é obrigatório!',
-				},
-				email: {
-					message: 'E-mail inválido',
-				}
-			}
-		},
-		{
-			'name': 'senha',
-			'rules': {
-				stop: true,
-				required: {
-					message: 'A senha é obrigatória!',
-				}
-			}
-		}
-	];
+	var getInputs = () => {
 
-	const getInputs = () => {
-		const values = {};
-		$('input, select', el).each((event, element) => {
+		var values = {};
+		$(' input, select', el).each((event, element) => {
 			values[$(element).attr('name')] = $(element).val();
 		});
-
-		if (isRegisterStep1) {
-			values.form_type = 'register_step1';
-		} else if (isRegisterStep2) {
-			values.form_type = 'register_step2';
-		} else if (isLoginForm) {
-			values.form_type = 'login';
-		}
-
 		return values;
 	};
 
-	const registerEvents = () => {
-		let rules;
-		if (isRegisterStep1) {
-			rules = registerStep1Rules;
-		} else if (isRegisterStep2) {
-			rules = registerStep2Rules;
-		} else if (isLoginForm) {
-			rules = loginRules;
-		}
-
+	var registerEvents = () => {
 		new Form(el, rules, (form) => {
 			Components.loading(el);
 
-			const inputs = getInputs();
-			let action = isLoginForm ? 'mp_login' : 'mp_incomplete_register';
-
+			var inputs = getInputs();
 			$.ajax({
 				method: "POST",
 				url: wp.ajax_url,
 				data: {
-					action: action,
+					action: 'mp_incomplete_register',
 					'data': inputs,
 					'params': inputs.params,
 				}
 			}).done((response) => {
-				if (typeof response.error !== 'undefined') {
-					const errorContainer = $(el).find('.error-message');
-					errorContainer.html(response.error).show();
-					Components.loading(el, 'stop');
-					return;
-				}
-
-				if (typeof response.redirect !== 'undefined') {
+				if (typeof response.redirect != 'undefined') {
 					window.location = response.redirect;
 					return;
 				}
@@ -128,13 +71,10 @@ export default function (el) {
 				registerEvents();
 
 				Components.loading(el, 'stop');
-			}).fail((jqXHR, textStatus, errorThrown) => {
-				const errorContainer = $(el).find('.error-message');
-				errorContainer.html('Ocorreu um erro. Por favor, tente novamente.').show();
-				Components.loading(el, 'stop');
 			});
 		});
 	}
 
 	registerEvents();
+
 }
