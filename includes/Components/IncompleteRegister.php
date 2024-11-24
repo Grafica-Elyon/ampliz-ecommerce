@@ -34,74 +34,56 @@ class IncompleteRegister extends Component
         return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $this->component() . $hidden . '<div class="loader"></div></div>';
     }
 
-    public static function action()
-    {
-        return function () {
-            $self = new self();
-            $self->logMessage('Iniciando ação do formulário...');
-
-            // Validação do nonce
-            if (
-                !isset($_POST['data']['mp_incomplete_register']) ||
-                !wp_verify_nonce($_POST['data']['mp_incomplete_register'], 'mp_incomplete_register_action')
-            ) {
-                $self->logMessage('Nonce inválido. Redirecionando para /cadastro_concluido/');
-                wp_redirect(home_url('/cadastro_concluido/'));
-                exit;
-            }
-
-            $self->logMessage('Nonce validado com sucesso.');
-
-            // Captura os dados enviados
-            $data = $_POST['data'];
-            $self->logMessage('Dados recebidos do formulário: ' . json_encode($data));
-
-            // Validação do e-mail
-            if (empty($data['email-incomplete-register']) || !filter_var($data['email-incomplete-register'], FILTER_VALIDATE_EMAIL)) {
-                $self->logMessage('Erro: E-mail inválido ou ausente.');
-                return (new View('user/incomplete-register', [
-                    'params' => $self->getParamsAjax(),
-                    'errors' => ['E-mail inválido ou ausente!'],
-                ]))->get();
-            }
-
-            $self->logMessage('E-mail validado: ' . $data['email-incomplete-register']);
-
-            // Verificação de e-mail duplicado
-            $boCliente = new Cliente();
-            $verificacaoDeEmail = $boCliente->verifica_email_existente($data['email-incomplete-register']);
-            if ($verificacaoDeEmail) {
-                $self->logMessage('Erro: E-mail já cadastrado.');
-                return (new View('user/incomplete-register', [
-                    'params' => $self->getParamsAjax(),
-                    'errors' => ['E-mail já cadastrado!'],
-                ]))->get();
-            }
-
-            $self->logMessage('E-mail disponível para cadastro.');
-
-            // Validação do celular
-            if (empty($data['celular-incomplete-register']) || strlen($data['celular-incomplete-register']) < 15) {
-                $self->logMessage('Erro: Celular inválido ou incompleto.');
-                return (new View('user/incomplete-register', [
-                    'params' => $self->getParamsAjax(),
-                    'errors' => ['Celular inválido ou incompleto!'],
-                ]))->get();
-            }
-
-            $self->logMessage('Celular validado: ' . $data['celular-incomplete-register']);
-
-            // Fluxo de sucesso
-            unset($data['params']);
-            (new SessionSupport())->set('incomplete-register', $data);
-            $self->logMessage('Dados salvos na sessão: ' . json_encode($data));
-
-            $redirect = home_url('/cadastro_concluido/');
-            $self->logMessage('Redirecionando para: ' . $redirect);
-            wp_redirect($redirect);
-            exit;
-        };
-    }
+	static public function action()
+	{
+		return function () {
+			error_log("[DEBUG] Iniciando validação no backend...");
+	
+			// Verifica o nonce
+			if (!isset($_POST['data']['mp_incomplete_register']) || !wp_verify_nonce($_POST['data']['mp_incomplete_register'], 'mp_incomplete_register_action')) {
+				error_log("[DEBUG] Falha no nonce. Redirecionando para 'cadastro_concluido'...");
+				wp_redirect(home_url('/cadastro_concluido/'));
+				exit;
+			}
+	
+			error_log("[DEBUG] Nonce validado. Capturando dados...");
+	
+			$data = $_POST['data'];
+			$self = new self();
+	
+			error_log("[DEBUG] Dados recebidos: " . json_encode($data));
+	
+			$data['nome-completo'] = $data['nome-completo'];
+			$data['email'] = $data['email-incomplete-register'];
+	
+			$boCliente = new Cliente();
+	
+			// Verifica se o email já existe
+			$verificacaoDeEmail = $boCliente->verifica_email_existente($data['email']);
+			error_log("[DEBUG] Verificação de email: " . ($verificacaoDeEmail ? 'Existe' : 'Não existe'));
+	
+			if ($verificacaoDeEmail) {
+				error_log("[DEBUG] Email já cadastrado. Retornando erro...");
+				return (new View('user/incomplete-register', [
+					'params' => $self->getParamsAjax(),
+					'errors' => ['Email já Cadastrado']
+				]))->get();
+			}
+	
+			// Continua o fluxo se os dados estiverem corretos
+			if (!empty($data)) {
+				unset($data['params']);
+				(new SessionSupport())::set('incomplete-register', $data);
+				error_log("[DEBUG] Dados salvos na sessão. Redirecionando para a página de registro...");
+	
+				$redirect = get_page_url('register');
+				return ['redirect' => $redirect];
+			}
+	
+			error_log("[DEBUG] Fluxo concluído sem erros.");
+		};
+	}
+	
 
     public function setParams()
     {
