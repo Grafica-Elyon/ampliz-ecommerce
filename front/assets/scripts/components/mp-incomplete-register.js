@@ -4,11 +4,6 @@ import Form from '../Form';
 export default function (el) {
     console.log("[DEBUG] Iniciando script de registro incompleto...");
 
-    // Adicionando validação personalizada para minLength
-    const validateMinLength = (value, length) => {
-        return value.length >= length;
-    };
-
     var rules = [
         {
             'name': 'email-incomplete-register',
@@ -28,10 +23,6 @@ export default function (el) {
                 stop: true,
                 required: {
                     message: 'O celular é obrigatório!',
-                },
-                custom: {
-                    validate: (value) => validateMinLength(value, 15),
-                    message: 'O celular deve conter pelo menos 15 caracteres!',
                 }
             }
         },
@@ -45,6 +36,14 @@ export default function (el) {
             console.log(`[DEBUG] Campo: ${$(element).attr('name')}, Valor: ${$(element).val()}`);
         });
         return values;
+    };
+
+    var validateCelular = (value) => {
+        if (value.length < 15) {
+            console.error("[DEBUG] Validação falhou: O celular deve conter pelo menos 15 caracteres!");
+            return false;
+        }
+        return true;
     };
 
     var registerEvents = () => {
@@ -61,6 +60,12 @@ export default function (el) {
 
                 var inputs = getInputs();
                 console.log("[DEBUG] Dados enviados ao servidor:", inputs);
+
+                // Validação manual do celular
+                if (!validateCelular(inputs['celular-incomplete-register'])) {
+                    console.error("[DEBUG] Validação do celular falhou.");
+                    return;
+                }
 
                 $.ajax({
                     method: "POST",
