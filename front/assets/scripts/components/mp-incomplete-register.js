@@ -4,6 +4,11 @@ import Form from '../Form';
 export default function (el) {
     console.log("[DEBUG] Iniciando script de registro incompleto...");
 
+    // Adicionando validação personalizada para minLength
+    const validateMinLength = (value, length) => {
+        return value.length >= length;
+    };
+
     var rules = [
         {
             'name': 'email-incomplete-register',
@@ -24,8 +29,8 @@ export default function (el) {
                 required: {
                     message: 'O celular é obrigatório!',
                 },
-                minLength: {
-                    value: 15,
+                custom: {
+                    validate: (value) => validateMinLength(value, 15),
                     message: 'O celular deve conter pelo menos 15 caracteres!',
                 }
             }
