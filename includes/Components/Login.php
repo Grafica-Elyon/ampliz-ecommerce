@@ -9,186 +9,212 @@ use MisterPrint\Support\SessionSupport;
 
 class Login extends Component
 {
-	protected $name = 'Login';
-	protected $description = 'Mister Print Login';
-	protected $base = 'vc_mp_login';
+    protected $name = 'Login';
+    protected $description = 'Mister Print Login';
+    protected $base = 'vc_mp_login';
 
-	function render()
-	{
-		$data = [];
-		if (isset($_POST['data']['redirect'])) {
-			$data['redirect'] = $_POST['data']['redirect'];
-		}
-		$data['params'] = $this->getParamsAjax();
+    function render()
+    {
+        $data = [];
+        if (isset($_POST['data']['redirect'])) {
+            $data['redirect'] = $_POST['data']['redirect'];
+        }
+        $data['params'] = $this->getParamsAjax();
 
-		$data['funcionario-session'] = true;
-		$data['is_balcony'] = (new User)->get_is_balcony(); //SessionSupport::get( 'login-funcionario', false );
+        $data['funcionario-session'] = true;
+        $data['is_balcony'] = (new User)->get_is_balcony();
 
-		return (new View('user/login', $data))->get();
-	}
+        error_log("[DEBUG] Renderizando a view de login com os dados: " . json_encode($data));
+        return (new View('user/login', $data))->get();
+    }
 
-	// Element HTML
-	public function html($atts)
-	{
-		$redirect = (isset($_GET['redirectTo'])) ? $_GET['redirectTo'] : '/';
-		$hidden = "<input type='hidden' name='params' value='" . base64_encode(json_encode($atts)) . "'>";
-		if ( isset($_POST['mp_system_login']) ) {
-			$login = self::action()();
-			if ( is_string( $login ) ) {
-				return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $login . $this->component() . $hidden . '</div><div class="loader"></div>';
-			}
-			else {
-				wp_redirect( $login['redirect'] );
-			}
-		}
-		return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $this->component() . $hidden . '</div><div class="loader"></div>';
-	}
+    // Element HTML
+    public function html($atts)
+    {
+        $redirect = (isset($_GET['redirectTo'])) ? $_GET['redirectTo'] : '/';
+        $hidden = "<input type='hidden' name='params' value='" . base64_encode(json_encode($atts)) . "'>";
+        
+        if (isset($_POST['mp_system_login'])) {
+            error_log("[DEBUG] Tentativa de login recebida.");
 
-	static public function action()
-	{
-		// TODO Protect this from brute force.
-		return function () {
-			if (
-				(!isset($_POST['data']['mp_login']) || !wp_verify_nonce($_POST['data']['mp_login'], 'mp_login_action'))
-				&&
-				!(isset($_POST['mp_system_login']) && $_POST['mp_system_login'] === "" )
-			) {
-				print 'Sorry, your nonce did not verify.';
-				exit;
-			}
+            $login = self::action()();
+            if (is_string($login)) {
+                error_log("[DEBUG] Retornando a view de login com mensagem: " . $login);
+                return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $login . $this->component() . $hidden . '</div><div class="loader"></div>';
+            } else {
+                error_log("[DEBUG] Redirecionando após login bem-sucedido.");
+                wp_redirect($login['redirect']);
+            }
+        }
+        
+        error_log("[DEBUG] Renderizando o formulário de login.");
+        return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $this->component() . $hidden . '</div><div class="loader"></div>';
+    }
 
-			$data = $_POST['data'];
-			$params = json_decode(base64_decode($_POST['params']), true);
+    static public function action()
+    {
+        // TODO Protect this from brute force.
+        return function () {
+            error_log("[DEBUG] Iniciando a ação de login.");
 
-			$response = (new User)->login($data['email'], $data['password']);
+            if (
+                (!isset($_POST['data']['mp_login']) || !wp_verify_nonce($_POST['data']['mp_login'], 'mp_login_action'))
+                &&
+                !(isset($_POST['mp_system_login']) && $_POST['mp_system_login'] === "")
+            ) {
+                error_log("[ERROR] Verificação de nonce falhou.");
+                print 'Sorry, your nonce did not verify.';
+                exit;
+            }
 
-			$redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');
+            $data = $_POST['data'];
+            $params = json_decode(base64_decode($_POST['params']), true);
+            
+            $data['email'] = $data['email-login'];
+            $data['password'] = $data['password-login'];
 
+            error_log("[DEBUG] Tentando fazer login com e-mail: " . $data['email']);
+            $response = (new User)->login($data['email'], $data['password']);
 
-			if ( @$response['id'] ) {
-				if (user()->login_user($response['id'], $data['email'])) {
-					if ( user()->isRecadastro() ) {
-						// Pega a pagina de recadstro
-						$newRedirect = get_page_url('my_data');
+            error_log("[DEBUG] Resposta do login: " . json_encode($response));
 
-						// Caso não tenha pagina de recadastro, apenas continua
-						if ( !$newRedirect ) {
-							return ['redirect' => $redirect];
-						}
+            $redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');
 
-						if ( $redirect ) {
-							$newRedirect.= '?'.http_build_query(['redirect' => $redirect]);
-						}
+            if (@$response['id']) {
+                error_log("[DEBUG] Login bem-sucedido para o usuário ID: " . $response['id']);
+                if (user()->login_user($response['id'], $data['email'])) {
+                    if (user()->isRecadastro()) {
+                        // Pega a pagina de recadastro
+                        $newRedirect = get_page_url('my_data');
 
-						return ['redirect' => $newRedirect];
-					}
-					return ['redirect' => $redirect];
-				}
-			}
+                        // Caso não tenha pagina de recadastro, apenas continua
+                        if (!$newRedirect) {
+                            return ['redirect' => $redirect];
+                        }
 
-			if ( @$response['message'] == 'Acesso negado' ) {
-				$pagina = get_page_url('recovery_blocked_login');
-				if ( $pagina ) {
-					return ['redirect' => $pagina];
-				}
-				$response['message'] = 'Por favor, entrar em contato com o comercial';
-			}
+                        if ($redirect) {
+                            $newRedirect .= '?' . http_build_query(['redirect' => $redirect]);
+                        }
 
-			return (new View('user/login', [
-				'redirect' => $redirect,
-				'params' => $params,
-				'errors' => [@$response['message'] ?: 'E-mail ou senha invalido!']
-			]))->get();
-		};
-	}
+                        return ['redirect' => $newRedirect];
+                    }
+                    return ['redirect' => $redirect];
+                }
+            }
 
-	static public function actionFuncionario()
-	{
-		// TODO Protect this from brute force.
-		return function () {
-			if (
-				(!isset($_POST['data']['mp_login']) || !wp_verify_nonce($_POST['data']['mp_login'], 'mp_login_action'))
-				&&
-				!(isset($_POST['mp_system_login']) && $_POST['mp_system_login'] === "" )
-			) {
-				print 'Sorry, your nonce did not verify.';
-				exit;
-			}
+            if (@$response['message'] == 'Acesso negado') {
+                error_log("[ERROR] Acesso negado para o usuário: " . $data['email']);
+                $pagina = get_page_url('recovery_blocked_login');
+                if ($pagina) {
+                    return ['redirect' => $pagina];
+                }
+                $response['message'] = 'Por favor, entrar em contato com o comercial';
+            }
 
-			$data = $_POST['data'];
-			$params = json_decode(base64_decode($_POST['params']), true);
+            error_log("[ERROR] Login falhou: " . @$response['message'] ?: 'E-mail ou senha inválido!');
+            return (new View('user/login', [
+                'redirect' => $redirect,
+                'params' => $params,
+                'errors' => [@$response['message'] ?: 'E-mail ou senha inválido!']
+            ]))->get();
+        };
+    }
 
-			$loginNaSessao = SessionSupport::get( 'login-funcionario', false );
-			if ( $data['from-session'] == 'true' && $loginNaSessao ) {
-				$data['func_email'] = $loginNaSessao['email'];
-				$data['func_senha'] = $loginNaSessao['senha'];
-			}
+    static public function actionFuncionario()
+    {
+        // TODO Protect this from brute force.
+        return function () {
+            error_log("[DEBUG] Iniciando a ação de login para funcionário.");
 
-			$response = (new User)->funcionaryLogin($data['func_email'], $data['func_senha'], $data['email']);
+            if (
+                (!isset($_POST['data']['mp_login']) || !wp_verify_nonce($_POST['data']['mp_login'], 'mp_login_action'))
+                &&
+                !(isset($_POST['mp_system_login']) && $_POST['mp_system_login'] === "")
+            ) {
+                error_log("[ERROR] Verificação de nonce falhou para funcionário.");
+                print 'Sorry, your nonce did not verify.';
+                exit;
+            }
 
-			$redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');
+            $data = $_POST['data'];
+            $params = json_decode(base64_decode($_POST['params']), true);
 
+            $loginNaSessao = SessionSupport::get('login-funcionario', false);
+            if ($data['from-session'] == 'true' && $loginNaSessao) {
+                $data['func_email'] = $loginNaSessao['email'];
+                $data['func_senha'] = $loginNaSessao['senha'];
+            }
 
-			if ( @$response['id'] ) {
+            error_log("[DEBUG] Tentando fazer login como funcionário com e-mail: " . $data['func_email']);
+            $response = (new User)->funcionaryLogin($data['func_email'], $data['func_senha'], $data['email']);
 
-				if ( !$loginNaSessao ) {
-					SessionSupport::set('login-funcionario', ['email' => $data['func_email'], 'senha' => $data['func_senha']]);
-				}
+            error_log("[DEBUG] Resposta do login de funcionário: " . json_encode($response));
 
-				if (user()->login_user($response['id'], $response['email'])) {
-					if ( user()->isRecadastro() ) {
-						// Pega a pagina de recadstro
-						$newRedirect = get_page_url('my_data');
+            $redirect = isset($data['redirect']) ? $data['redirect'] : get_page_url('cart');
 
-						// Caso não tenha pagina de recadastro, apenas continua
-						if ( !$newRedirect ) {
-							return ['redirect' => $redirect];
-						}
+            if (@$response['id']) {
+                error_log("[DEBUG] Login de funcionário bem-sucedido para o usuário ID: " . $response['id']);
+                if (!$loginNaSessao) {
+                    SessionSupport::set('login-funcionario', ['email' => $data['func_email'], 'senha' => $data['func_senha']]);
+                }
 
-						if ( $redirect ) {
-							$newRedirect.= '?'.http_build_query(['redirect' => $redirect]);
-						}
+                if (user()->login_user($response['id'], $response['email'])) {
+                    if (user()->isRecadastro()) {
+                        // Pega a pagina de recadastro
+                        $newRedirect = get_page_url('my_data');
 
-						return ['redirect' => $newRedirect];
-					}
-					return ['redirect' => $redirect];
-				}
-			}
+                        // Caso não tenha pagina de recadastro, apenas continua
+                        if (!$newRedirect) {
+                            return ['redirect' => $redirect];
+                        }
 
-			if ( @$response['message'] == 'Acesso negado' ) {
-				$pagina = get_page_url('recovery_blocked_login');
-				if ( $pagina ) {
-					return ['redirect' => $pagina];
-				}
-				$response['message'] = 'Por favor, entrar em contato com o comercial';
-			}
+                        if ($redirect) {
+                            $newRedirect .= '?' . http_build_query(['redirect' => $redirect]);
+                        }
 
-			return (new View('user/login', [
-				'redirect' => $redirect,
-				'params' => $params,
-				'is_balcony' => (new User)->get_is_balcony(),
-				'funcionario-session' => $loginNaSessao,
-				'errors' => [@$response['message'] ?: 'E-mail ou senha invalido!']
-			]))->get();
-		};
-	}
+                        return ['redirect' => $newRedirect];
+                    }
+                    return ['redirect' => $redirect];
+                }
+            }
 
-	public function setParams()
-	{
-		parent::setParams();
-		$this->addParams([
-			Vc::paramText('Titulo', 'Cliente já cadastrado'),
-			Vc::paramText('Label email', 'E-mail'),
-			Vc::paramText('Placeholder email', 'Digite seu e-mail'),
-			Vc::paramText('Label senha', 'Senha'),
-			Vc::paramText('Placeholder senha', 'Digite sua senha'),
-			Vc::paramText('Esqueceu a senha', 'Esqueceu a senha?'),
-			Vc::paramText('Botão', 'Entrar'),
-			Vc::paramText('Funcionario Label email', 'E-mail do Funcionário'),
-			Vc::paramText('Funcionario Placeholder email', 'Digite seu e-mail'),
-			Vc::paramText('Funcionario Label senha', 'Senha do Funcionário'),
-			Vc::paramText('Funcionario Placeholder senha', 'Digite sua senha'),
-			Vc::paramText('Funcionario Login Cliente', 'E-mail ou id do cliente'),
-		]);
-	}
+            if (@$response['message'] == 'Acesso negado') {
+                error_log("[ERROR] Acesso negado para funcionário: " . $data['func_email']);
+                $pagina = get_page_url('recovery_blocked_login');
+                if ($pagina) {
+                    return ['redirect' => $pagina];
+                }
+                $response['message'] = 'Por favor, entrar em contato com o comercial';
+            }
+
+            error_log("[ERROR] Login de funcionário falhou: " . @$response['message'] ?: 'E-mail ou senha inválido!');
+            return (new View('user/login', [
+                'redirect' => $redirect,
+                'params' => $params,
+                'is_balcony' => (new User)->get_is_balcony(),
+                'funcionario-session' => $loginNaSessao,
+                'errors' => [@$response['message'] ?: 'E-mail ou senha inválido!']
+            ]))->get();
+        };
+    }
+
+    public function setParams()
+    {
+        parent::setParams();
+        $this->addParams([
+            Vc::paramText('Titulo login', 'Login - Cliente já cadastrado'),
+            Vc::paramText('Label email login', 'E-mail'),
+            Vc::paramText('Placeholder email login', 'Digite seu e-mail'),
+            Vc::paramText('Label senha login', 'Senha'),
+            Vc::paramText('Placeholder senha login', 'Digite sua senha'),
+            Vc::paramText('Esqueceu a senha login', 'Esqueceu a senha?'),
+            Vc::paramText('Button login', 'Entrar'),
+            // Será removido
+            Vc::paramText('Funcionario Label email', 'E-mail do Funcionário'),
+            Vc::paramText('Funcionario Placeholder email', 'Digite seu e-mail'),
+            Vc::paramText('Funcionario Label senha', 'Senha do Funcionário'),
+            Vc::paramText('Funcionario Placeholder senha', 'Digite sua senha'),
+            Vc::paramText('Funcionario Login Cliente', 'E-mail ou id do cliente'),
+        ]);
+    }
 }
