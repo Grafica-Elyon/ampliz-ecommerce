@@ -1,103 +1,80 @@
 import Components from '../Components';
-import Form from '../Form';
+import Form from '../Form'
 
 export default function (el) {
-    console.log("[DEBUG] Iniciando script de registro incompleto...");
+	var rules = [
+		{
+			'name': 'email',
+			'rules': {
+				stop: false,
+				required: {
+					message: 'E-mail é obrigatório!',
+				},
+				email: {
+					message: 'E-mail inválido',
+				}
+			}
+		},
+		{
+			'name': 'confirm-email',
+			'rules': {
+				stop: true,
+				title: 'E-mail',
+				equal: {
+					value: '',
+					field: 'Confirmaçao de e-mail',
+					select: '[name="email"]',
+					message: '{field} invalida!'
+				}
+			}
+		},
+		{
+			'name': 'nome-completo',
+			'rules': {
+				stop: true,
+				required: {
+					message: 'O nome é obrigatorio!',
+				}
+			}
+		},
+	];
 
-    var rules = [
-        {
-            'name': 'email-incomplete-register',
-            'rules': {
-                stop: false,
-                required: {
-                    message: 'E-mail é obrigatório!',
-                },
-                email: {
-                    message: 'E-mail inválido!',
-                }
-            }
-        },
-        {
-            'name': 'celular-incomplete-register',
-            'rules': {
-                stop: true,
-                required: {
-                    message: 'O celular é obrigatório!',
-                }
-            }
-        },
-    ];
+	var getInputs = () => {
 
-    var getInputs = () => {
-        console.log("[DEBUG] Capturando valores dos campos...");
-        var values = {};
-        $('input, select', el).each((index, element) => {
-            values[$(element).attr('name')] = $(element).val();
-            console.log(`[DEBUG] Campo: ${$(element).attr('name')}, Valor: ${$(element).val()}`);
-        });
-        return values;
-    };
+		var values = {};
+		$(' input, select', el).each((event, element) => {
+			values[$(element).attr('name')] = $(element).val();
+		});
+		return values;
+	};
 
-    var validateCelular = (value) => {
-        if (value.length < 15) {
-            console.error("[DEBUG] Validação falhou: O celular deve conter pelo menos 15 caracteres!");
-            return false;
-        }
-        return true;
-    };
+	var registerEvents = () => {
+		new Form(el, rules, (form) => {
+			Components.loading(el);
 
-    var registerEvents = () => {
-        console.log("[DEBUG] Registrando eventos no formulário...");
-        $('input[name="celular-incomplete-register"]').mask('(00) 00000-0000');
+			var inputs = getInputs();
+			$.ajax({
+				method: "POST",
+				url: wp.ajax_url,
+				data: {
+					action: 'mp_incomplete_register',
+					'data': inputs,
+					'params': inputs.params,
+				}
+			}).done((response) => {
+				if (typeof response.redirect != 'undefined') {
+					window.location = response.redirect;
+					return;
+				}
 
-        if (!$(el).data('initialized')) {
-            console.log("[DEBUG] Registrando validações no formulário...");
-            $(el).data('initialized', true);
+				$(el).html(response);
+				registerEvents();
 
-            new Form(el, rules, (form) => {
-                console.log("[DEBUG] Validação do formulário concluída com sucesso.");
-                Components.loading(el);
+				Components.loading(el, 'stop');
+			});
+		});
+	}
 
-                var inputs = getInputs();
-                console.log("[DEBUG] Dados enviados ao servidor:", inputs);
+	registerEvents();
 
-                // Validação manual do celular
-                if (!validateCelular(inputs['celular-incomplete-register'])) {
-                    console.error("[DEBUG] Validação do celular falhou.");
-                    return;
-                }
-
-                $.ajax({
-                    method: "POST",
-                    url: wp.ajax_url,
-                    data: {
-                        action: 'mp_incomplete_register',
-                        'data': inputs,
-                        'params': inputs.params,
-                    }
-                }).done((response) => {
-                    console.log("[DEBUG] Resposta recebida do servidor:", response);
-
-                    if (typeof response.redirect !== 'undefined') {
-                        console.log("[DEBUG] Redirecionando para:", response.redirect);
-                        window.location = response.redirect;
-                        return;
-                    }
-
-                    $(el).html(response);
-                    registerEvents();
-
-                    Components.loading(el, 'stop');
-                }).fail((jqXHR, textStatus, errorThrown) => {
-                    console.error("[DEBUG] Erro na requisição AJAX:", textStatus, errorThrown);
-                    Components.loading(el, 'stop');
-                });
-            });
-        } else {
-            console.log("[DEBUG] Eventos já registrados, evitando duplicação.");
-        }
-    };
-
-    console.log("[DEBUG] Inicializando eventos...");
-    registerEvents();
 }

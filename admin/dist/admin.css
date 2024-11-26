@@ -1,3 +1,114 @@
-:root{--gg:30px;--gtc:1fr 1fr}.mp-row{margin-left:-15px;margin-right:-15px}.mp-row .mp-col-10,.mp-row .mp-col-2,.mp-row .mp-col-3,.mp-row .mp-col-4,.mp-row .mp-col-5,.mp-row .mp-col-6,.mp-row .mp-col-7{box-sizing:border-box;float:left;min-height:1px;padding-left:15px;padding-right:15px;position:relative;width:100%}.mp-row .mp-col-6{width:60%}.mp-row .mp-col-5{width:50%}.mp-row .mp-col-4{width:40%}.mp-row .mp-col-3{width:30%}.mp-row .mp-col-2{width:20%}.mp-row .mp-col-7{width:70%}@media (max-width:576px){.mp-row .mp-col-sm-10{width:100%}}.mp-row:after{clear:both;content:"";display:block}.mt-1{margin-top:15px!important}.ml-1{margin-left:15px!important}.text-center{text-align:center}.container{background:#fff;border:1px solid #e5e5e5;box-shadow:0 1px 1px rgba(0,0,0,.04);padding:15px 10px}.container .container-title{display:inline-block;margin-top:5px}.form .input-block{margin:0 0 15px}.form .input-block>label{display:block}.form .input-block .input-control{display:block;width:100%}.form .input-block [type=checkbox]{margin-top:3px}.form .mp-repeater{position:relative}.form .mp-repeater [data-repeater-list] [data-repeater-item]{border:1px solid #ddd;margin:0 0 15px 15px;padding:15px 15px 0;position:relative}.form .mp-repeater [data-repeater-delete]{background:#000;border:0;border-radius:25px;color:#fff;cursor:pointer;display:block;font-family:arial;font-weight:700;height:25px;left:-12px;line-height:20px;position:absolute;top:-12px;width:25px}
+:root {
+  --gg: 30px;
+  --gtc: 1fr 1fr;
+}
 
-/*# sourceMappingURL=admin.css.map*/
+.mp-row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.mp-row .mp-col-2,
+.mp-row .mp-col-3,
+.mp-row .mp-col-4,
+.mp-row .mp-col-5,
+.mp-row .mp-col-6,
+.mp-row .mp-col-7,
+.mp-row .mp-col-10 {
+  box-sizing: border-box;
+  width: 100%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.mp-row .mp-col-6 {
+  width: 60%;
+}
+.mp-row .mp-col-5 {
+  width: 50%;
+}
+.mp-row .mp-col-4 {
+  width: 40%;
+}
+.mp-row .mp-col-3 {
+  width: 30%;
+}
+.mp-row .mp-col-2 {
+  width: 20%;
+}
+.mp-row .mp-col-7 {
+  width: 70%;
+}
+@media (max-width: 576px) {
+  .mp-row .mp-col-sm-10 {
+    width: 100%;
+  }
+}
+.mp-row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.mt-1 {
+  margin-top: 15px !important;
+}
+
+.ml-1 {
+  margin-left: 15px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  padding: 15px 10px;
+}
+.container .container-title {
+  margin-top: 5px;
+  display: inline-block;
+}
+
+.form .input-block {
+  margin: 0 0 15px 0;
+}
+.form .input-block > label {
+  display: block;
+}
+.form .input-block .input-control {
+  display: block;
+  width: 100%;
+}
+.form .input-block [type=checkbox] {
+  margin-top: 3px;
+}
+.form .mp-repeater {
+  position: relative;
+}
+.form .mp-repeater [data-repeater-list] [data-repeater-item] {
+  position: relative;
+  margin: 0 0 15px 15px;
+  padding: 15px 15px 0;
+  border: 1px solid #ddd;
+}
+.form .mp-repeater [data-repeater-delete] {
+  font-family: arial;
+  display: block;
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  border: 0;
+  line-height: 20px;
+  border-radius: 25px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  left: -12px;
+  top: -12px;
+}
