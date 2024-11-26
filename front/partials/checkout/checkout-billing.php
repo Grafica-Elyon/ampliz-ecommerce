@@ -242,7 +242,7 @@
 	</form>
 </div>
 <script type="text/javascript">
-	let url = 'https://api.dev.ampliz.com.br/ajax/atualiza-preferencia-cliente/<?= user()->getId() ?>/';
+	let url = 'https://api.misterprint.com.br/ajax/atualiza-preferencia-cliente/<?= user()->getId() ?>/';
 	jQuery('[name="pessoa"]').on("click", (e) =>{
 		let pfpj = e.target.value == "Pessoa Física"? "cpf" : "cnpj";
 		fetch(url+pfpj, {
