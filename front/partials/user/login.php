@@ -1,9 +1,10 @@
 <?php
-require_once('faceboockconfig.php');
-
-$redirectTo = "https://ampliz.com.br";
-$data = ['email'];
-$fullURL = $handler->getLoginUrl($redirectTo, $data);
+//comentado momentaneamente enquanto é resolvido o login social do facebook que está quebrando a tela.
+//require_once('faceboockconfig.php');
+//
+//$redirectTo = "https://ampliz.com.br";
+//$data = ['email'];
+//$fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
 
 <?php
@@ -54,19 +55,21 @@ $is_balcony = $this->data['is_balcony']; ?>
 </div>
 
 <!-- Seção de login com redes sociais -->
+ <!-- COMENTADO MOMENTANEAMENTE ENQUANTO É RESOLVIDO PROBLEMA QUE ESTÁ QUEBRANDO A TELA.
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center mt-3">
             <br>
             <span>Use sua rede social para se conectar*</span>
             <div class="GenericFooter">
-                <input type="button" onclick="window.location = '<?php echo $fullURL ?>'" value="Facebook" class="btn btn-primary">
+                <input type="button" onclick="window.location = '<?php // echo $fullURL ?>'" value="Facebook" class="btn btn-primary">
             </div>
         </div>
     </div>
 </div>
-
+				-->
 <?php
-include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
+//COMENTADO MOMENTANEAMENTE ENQUANTO É CORRIGIDO LOGIN SOCIAL.
+//include_once(plugin_dir_path(__FILE__) . 'googlebutton.php');
 ?>
 
