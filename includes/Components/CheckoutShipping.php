@@ -19,9 +19,6 @@ class CheckoutShipping extends CheckoutComponent
 
 	public function render(){
 		$correio = null;
-		$transportadora = null;
-		$motoboy = null;
-		$astrolog = null;
 		$frete = new Frete();
 		$cliente = new Cliente();
 		$user_id = user()->getId();
@@ -30,79 +27,31 @@ class CheckoutShipping extends CheckoutComponent
 		$client = $cliente->get_dados_do_cliente($user_id);
 		$endereco = $cliente->get_endereco_entrega_selecionado($user_id);
 		$pedido = (new Pedido)->revisao_do_pedido(user()->getId());
-		$remessaDiretaAtiva = $frete->remessaDiretaAtiva();
-		$balconies = $frete->get_opcoes_balcoes($user_id, $cep, $pedido['valores']['prazoProdutos']);
-		$selecionado = [$balconies['selecionado']];
-		$balconies = $balconies['todos'];
 		$data = [
 			'shipping_code' => $client['dadosCliente']['customers_regiao'] ?? '',
-			'remessa_direta_ativa' => $remessaDiretaAtiva,
 			'shipping_type' => 'withdraw',
 			'balcony_cep' => $cep
 		];
 
-        // Remoção de balcões na listagem se estiver na listagem de mais pertos
-        if(isset($selecionado['codigo'])){
-	        $balconies = array_values( array_filter($balconies, function( $item ) use ($selecionado) {
-	            return (isset($item['codigo']) && $item['codigo'] !== $selecionado['codigo']);
-	        }));
-        }
-
-
 		if(!empty($data['shipping_code'])){ //setando se o frete escolhido anteriormente está em alguma remessa
 			$correio = $frete->get_opcoes_fretes($user_id);
-			$transportadora = $frete->get_opcoes_transportadoras($user_id);
-			$motoboy = $frete->get_opcoes_motoboy($user_id);
-			$astrolog = $frete->get_opcoes_astrolog($user_id);
 			if($data['shipping_code'] == 'PAC' || $data['shipping_code'] == 'SXC') {
 				$data['shipping_type'] = 'shipping';
 				$data['shipping'] = 'correio';
-			}elseif($data['shipping_code'] == 'MOT') {
-				$data['shipping_type'] = 'shipping';
-				$data['shipping'] = 'motoboy';
-			}elseif($data['shipping_code'] == 'TRA') {
-				$data['shipping_type'] = 'shipping';
-				$data['shipping'] = 'transportadora';
-			}elseif($data['shipping_code'] == 'ALOG') {
-				$data['shipping_type'] = 'shipping';
-				$data['shipping'] = 'astrolog';
-			}elseif($data['shipping_code'] == 'DSX') {
-				$data['shipping_type'] = 'direct'; // marca como remessa direta
-				$sessionDirectShipping = (new SessionSupport())::get('checkout-shipping');
-				if ( $sessionDirectShipping ) {
-					$data['past'] = [
-						'direct_name' => $sessionDirectShipping['address']['nome'],
-						'direct_cep' => $sessionDirectShipping['address']['cep'],
-						'direct_endereco' => $sessionDirectShipping['address']['endereco'],
-						'direct_numero' => $sessionDirectShipping['address']['numero'],
-						'direct_complemento' => $sessionDirectShipping['address']['complemento'],
-						'direct_bairro' => $sessionDirectShipping['address']['bairro'],
-						'direct_cidade' => $sessionDirectShipping['address']['cidade'],
-						'direct_uf' => $sessionDirectShipping['address']['estado'],
-						'direct_value' => $sessionDirectShipping['address']['valor'],
-						'direct_document' => $sessionDirectShipping['address']['documento'],
-						'direct_document_type' => $sessionDirectShipping['address']['documento_tipo'],
-					];
-				}
 			}
 		}
-		$me = $frete->get_opcoes_menv($user_id);
+		//$me = $frete->get_opcoes_menv($user_id);
 		$data = array_merge($data, array(
 			'errors' => $_POST['errors'],
 			'data' => $data,
 			'cliente' => $client,
 			'endereco_id' => isset($endereco['id']) ? $endereco['id'] : null,
-			'balconies' => $balconies,
-			'balconies_nearby' => $selecionado,
+			
 			'correio' => $correio,
-			'transportadora' => $transportadora,
-			'melhor_envio' => $me,
-			'motoboy' => $motoboy,
-			'remessa' => [],
-			'astrolog' => $astrolog,
+			
 			'address' => $address,
 			'user_cep' => $cep,
-			'balcony_cep' => $balcony_cep,
+			
 			'sidebar' => self::getSidebar(),
 			'params' => $this->getParamsAjax()
 		));
