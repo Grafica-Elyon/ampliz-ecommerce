@@ -25,7 +25,6 @@ $gabaritos = $data['gabaritos'];
 		var id = jQuery('.quantidade:checked').val();
 		var x = jQuery('.finishing-options .mp-checkbox input:checked');
 		resposta = x[0] ? x[0].value : "nenhum";
-        console.log(<?= config('plugin', 'api') ?>);
 		window.open("<?= config('plugin', 'api') ?>gabarito/"+id+"/"+hv+"/"+resposta, '_blank');
 	}
 </script>
