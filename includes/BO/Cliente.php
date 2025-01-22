@@ -190,7 +190,7 @@ class Cliente
 
 		$oldData = $this->get_dados_do_cliente(user()->getId());
 		$oldData['codigoCliente'] = user()->getId();
-		$oldData['dadosCliente']['idFranquia'] = FranquiaUtil::getIdFranquia();
+		$oldData['dadosCliente']['franquia_id'] = FranquiaUtil::getIdFranquia();
 		$oldData['dadosCliente']['customers_firstname'] = $data['name'];
 		$oldData['dadosCliente']['customers_lastname'] = $data['apelido'];
 		$oldData['dadosCliente']['customers_cpf_cnpj'] = $data['emitir_nota_como'];
