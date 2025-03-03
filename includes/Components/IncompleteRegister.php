@@ -91,7 +91,7 @@ class IncompleteRegister extends Component
         parent::setParams();
         $this->addParams([
             Vc::paramText('Titulo incomplete register', 'Novo Cliente - Cadastre-se'),
-            Vc::paramText('Label celular incomplete register', 'Celular (DDD)'),
+            Vc::paramText('Label celular incomplete register', 'Celular (WhatsApp)'),
             Vc::paramText('Placeholder celular incomplete register', 'Digite o seu celular'),
             Vc::paramText('Label email incomplete register', 'E-mail'),
             Vc::paramText('Placeholder email incomplete register', 'Digite seu e-mail'),

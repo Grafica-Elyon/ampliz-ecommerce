@@ -230,7 +230,7 @@ class Register extends Component
 			Vc::paramText('Formulario CPF placeholder', 'Digite seu CPF'),
 			Vc::paramText('Formulario telefone', 'Telefone (DDD)'),
 			Vc::paramText('Formulario telefone placeholder', 'Digite seu telefone'),
-			Vc::paramText('Formulario celular', 'Celular (DDD)'),
+			Vc::paramText('Formulario celular', 'Celular (WhatsApp)'),
 			Vc::paramText('Formulario celular placeholder', 'Digite seu Celular'),
 			Vc::paramText('Formulario data nascimento', 'Data de nascimento'),
 			Vc::paramText('Formulario genero', 'Gênero'),
