@@ -53,7 +53,7 @@ class IncompleteRegister extends Component
 	
 			error_log("[DEBUG] Dados recebidos: " . json_encode($data));
 	
-			$data['nome-completo'] = $data['nome-completo'];
+			$data['celular'] = $data['celular-incomplete-register'];
 			$data['email'] = $data['email-incomplete-register'];
 	
 			$boCliente = new Cliente();

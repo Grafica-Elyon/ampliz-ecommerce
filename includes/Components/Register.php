@@ -26,9 +26,9 @@ class Register extends Component
 		$data['params']['formulario_atuacao_valores'] = \MisterPrint\Response\CustomerAtuations::get();
 
 		$session = [];
-		if(SessionSupport::exists('inclomplete-register')) {
-			$session = SessionSupport::get('inclomplete-register');
-			SessionSupport::delete('inclomplete-register');
+		if(SessionSupport::exists('incomplete-register')) {
+			$session = SessionSupport::get('incomplete-register');
+			SessionSupport::delete('incomplete-register');
 		}
 
 		$data = array_merge($data, $session);
@@ -42,8 +42,8 @@ class Register extends Component
 			$post = $_POST['data'];
 
 			$session = [];
-			if(SessionSupport::exists('inclomplete-register')) {
-				$session = SessionSupport::get('inclomplete-register');
+			if(SessionSupport::exists('incomplete-register')) {
+				$session = SessionSupport::get('incomplete-register');
 			}
 
 			$post['cpf'] = $output = preg_replace('/[^0-9]/', '', $post['cpf']);
