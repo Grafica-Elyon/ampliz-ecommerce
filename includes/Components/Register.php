@@ -23,6 +23,9 @@ class Register extends Component
 		$data['params']['formulario_como_conheceu'] = \MisterPrint\Response\CustomerReferers::get();
 		$data['params']['formulario_atuacao_valores'] = \MisterPrint\Response\CustomerActivities::get();
 		$data['params']['formulario_ocupacoes_valores'] = \MisterPrint\Response\CustomerOccupations::get();
+		$data['params']['formulario_cargos_valores'] = \MisterPrint\Response\CustomerPositions::get();
+		$data['params']['formulario_depatamentos_valores'] = \MisterPrint\Response\CustomerDepartments::get();
+		$data['params']['formulario_ramos_atividades_valores'] = \MisterPrint\Response\CustomerBusinessSectors::get();
 
 		$session = [];
 		if(SessionSupport::exists('incomplete-register')) {
@@ -87,6 +90,8 @@ class Register extends Component
 					
 					'customers_activity' => $post['area_atuacao'],
 					'customers_occupation' => $post['ocupacao'],
+					'company_position_id' => $post['cargo'],
+					'company_department_id' => $post['departamento'],
 				],
 				"dadosEndereco" => [
 					"entry_firstname" => $post['nome-completo'],
@@ -120,8 +125,9 @@ class Register extends Component
 					"influencia" => ''
 				],
 				"dadosEmpresa" => [
-					"cargo" => $post['profissao'],
-					"atividade" => '',
+					//"cargo" => $post['profissao'],
+					"business_sector_id" => $post['ramo-atividade'],
+					"telephone" => $post['telephone-empresa'],
 					"e_commerce" => '',
 					"isencao" => 0,
 					'ativ_principal_text' => $post['ativ_principal_text'],
@@ -158,7 +164,7 @@ class Register extends Component
 			$params = json_decode(base64_decode($_POST['params']), true);
 			return (new View('user/register', [
 				'fields' => [
-					'Profissao' => $post['profissao'],
+					//'Profissao' => $post['profissao'],
 					'cpf' => $post['cpf'],
 					'telefone' => $post['telefone'],
 					'celular' => $post['celular'],
@@ -166,6 +172,10 @@ class Register extends Component
 					'cnpj' => $post['cnpj'],
 					'razao-social' => $post['razao-social'],
 					'inscricao-estadual' => $post['inscricao-estadual'],
+					'ramo-atividade' => $post['ramo-atividade'],
+					'telephone-empresa' => $post['telephone-empresa'],
+					'cargo' => $post['cargo'],
+					'departamento' => $post['departamento'],
 					'cep' => $post['cep'],
 					'logradouro' => $post['logradouro'],
 					'complemento' => $post['complemento'],
@@ -240,8 +250,12 @@ class Register extends Component
 			Vc::paramText('Formulario razão social placeholder', 'Razão social'),
 			Vc::paramText('Formulario inscrição estadual', 'Inscrição Estadual'),
 			Vc::paramText('Formulario inscrição estadual placeholder', 'Inscrição Estadual'),
+			Vc::paramText('Formulario telefone empresa', 'Telefone (DDD)'),
+			Vc::paramText('Formulario telefone empresa placeholder', 'Digite telefone fixo'),
 			Vc::paramText('Formulario areas atuacao', 'Área de atuação'),
 			Vc::paramText('Formulario ramo atividade', 'Ramo de atividades'),
+			Vc::paramText('Formulario cargo', 'Cargo'),
+			Vc::paramText('Formulario departamento', 'Departamento'),
 			Vc::paramText('Formulario dados endereço', 'Dados do endereço'),
 			Vc::paramText('Formulario logradouro', 'Logradouro'),
 			Vc::paramText('Formulario logradouro placeholder', 'Digite o logradoudo. Ex: Av, Rua, Travessa, etc.'),
