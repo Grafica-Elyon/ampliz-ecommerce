@@ -452,7 +452,7 @@ $data = $this->data['params'];
 							<input type="checkbox" name="receber-ofertas" value="receber-ofertas" checked/>
 							<span class="checkmark"></span>
 							<!-- <div class="mp-checkbox-label"><strong><?= $data['formulario_receber_email']?></strong></div> -->
-							<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; "><strong>Mudar o testo para: Ao me cadastrar, eu confirmo que li e concordo com os Termos de Uso, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento. </span></strong><a href="https://ampliz.com.br/termos-de-uso/" title="Link para a página de detalhes do termo de uso">Termo de Uso</a></div>
+							<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; ">Mudar o testo para: Ao me cadastrar, eu confirmo que li e concordo com os <a href="https://ampliz.com.br/termos-de-uso/" title="Link para a página de detalhes do termo de uso"><b>Termos de Uso</b></a>, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento. </span></div>
 
 						</label>
 
