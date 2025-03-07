@@ -89,24 +89,24 @@ $data = $this->data['params'];
 							<div class="mp-form-group">
 								<label class="mp-label"><?= $data['formulario_celular']?></label>
 								<input class="mp-input" type="text" name="celular"
-									   value="<?= isset($this->data['fields']['celular']) ? $this->data['fields']['celular'] : '' ?>"
+									   value="<?= isset($this->data['fields']['celular']) ? $this->data['fields']['celular'] : $this->data['celular']  ?>"
 									   placeholder="<?= $data['formulario_celular_placeholder']?>"/>
 							</div>
 						</div>
 					</div>
 
-					<!-- Apelido, Nome, Gênero -->
+					<!-- Apelido, Nome Social, Gênero -->
 					<div class="mp-form-row" >
-						<div class="mp-form-col-2">
+						<div class="mp-form-col-3">
 							<div class="mp-form-group">
-								<label class="mp-label"><?= $data['formulario_apelido']?></label>
-								<input class="mp-input" type="text" name="customers_lastname"
-									   value="<?= isset($this->data['customers_lastname']) ? $this->data['customers_lastname'] : '' ?>"
-									   placeholder="<?= $data['formulario_apelido_placeholder']?>"/>
+								<label class="mp-label"><?= $data['formulario_nome_social']?></label>
+								<input class="mp-input" type="text" name="customers_social_name"
+									   value="<?= isset($this->data['customers_social_name']) ? $this->data['customers_social_name'] : '' ?>"
+									   placeholder="<?= $data['formulario_nome_social_placeholder']?>"/>
 							</div>
 						</div>
 
-						<div class="mp-form-col-4">
+						<div class="mp-form-col-3">
 							<div class="mp-form-group">
 								<label class="mp-label"><?= $data['formulario_nome']?></label>
 								<input class="mp-input"
@@ -136,35 +136,72 @@ $data = $this->data['params'];
 									<span class="checkmark"></span>
 									<div class="mp-checkbox-label"><strong><?= $data['formulario_outros']?></strong></div>
 								</label>
+								<label class="mp-checkbox">
+									<input type="radio" name="genero" value="1" <?= @$this->data['fields']['genero'] == '1' ? 'checked':'' ?>/>
+									<span class="checkmark"></span>
+									<div class="mp-checkbox-label"><strong><?= $data['formulario_prefiro_nao_dizer']?></strong></div>
+								</label>
 							</div>
 						</div>
 					</div>
 
-
+					<div class="mp-form-row cpf-fields" >
 					<!-- Profissão, Área de Interesse -->
-					<div class="mp-checkbox-group">
-						<div class="mp-form-row">
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_uso']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label"><?= $data['formulario_profissao']?></label>
-									<select name="profissao" class="mp-select" id="profissao">
-										<option value="" disabled >Selecione</option>
-										<?php foreach($data['formulario_profissao_valores'] as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['profissao']) && $this->data['fields']['profissao'] == $field['id']) ? 'selected="selected"' : ''; ?>
-											<option value="<?= $field['id'] ?>" <?= $selected ?>><?= $field['profession_description'] ?></option>
-										<?php } ?>
-									</select>
+						<div class="mp-checkbox-group ">
+							<div class="mp-form-row">
+								<div class="mp-form-col-5">
+									<div class="mp-form-group">
+										<label class="mp-label"><?= $data['formulario_ocupacao']?></label>
+										<select name="ocupacao" class="mp-select" id="ocupacao">
+											<option value="" disabled >Selecione</option>
+											<?php foreach($data['formulario_ocupacoes_valores'] as $field) { ?>
+												<?php $selected = (isset($this->data['fields']['ocupacao']) && $this->data['fields']['ocupacao'] == $field['occupations_id']) ? 'selected="selected"' : ''; ?>
+												<option value="<?= $field['occupations_id'] ?>" <?= $selected ?>><?= $field['occupations_description'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="mp-form-col-5">
+									<div class="mp-form-group">
+										<label class="mp-label"><?= $data['formulario_area_atuacao']?></label>
+										<select name="area_atuacao" class="mp-select" id="area_atuacao">
+											<option value="" disabled>Selecione</option>
+											<?php foreach($data['formulario_atuacao_valores'] as $field) { ?>
+												<?php $selected = (isset($this->data['fields']['area_atuacao']) && $this->data['fields']['area_atuacao'] == $field['activities_id']) ? 'selected="selected"' : ''; ?>
+												<option value="<?= $field['activities_id'] ?>" <?= $selected ?>><?= $field['activities_description'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
 								</div>
 							</div>
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_faturamento']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label"><?= $data['formulario_areainteresse']?></label>
-									<select name="areainteresse" class="mp-select" id="areainteresse">
-										<option value="" disabled selected>Selecione</option>
-										<?php foreach($data['formulario_areainteresse_valores'] as $field) { ?>
-											<option value="<?= $field['area_id'] ?>"><?= $field['area_descricao'] ?></option>
-										<?php } ?>
-									</select>
+						</div>
+					</div>
+					<div class="mp-form-row cnpj-fields" style="display: none;">
+					<div class="mp-checkbox-group ">
+							<div class="mp-form-row">
+								<div class="mp-form-col-5">
+									<div class="mp-form-group">
+										<label class="mp-label"><?= $data['formulario_cargo']?></label>
+										<select name="cargo" class="mp-select" id="cargo">
+											<option value="" disabled >Selecione</option>
+											<?php foreach($data['formulario_cargos_valores'] as $field) { ?>
+												<?php $selected = (isset($this->data['fields']['cargo']) && $this->data['fields']['cargo'] == $field['company_positions_id']) ? 'selected="selected"' : ''; ?>
+												<option value="<?= $field['company_positions_id'] ?>" <?= $selected ?>><?= $field['company_positions_description'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="mp-form-col-5">
+									<div class="mp-form-group">
+										<label class="mp-label"><?= $data['formulario_departamento']?></label>
+										<select name="departamento" class="mp-select" id="departamento">
+											<option value="" disabled>Selecione</option>
+											<?php foreach($data['formulario_depatamentos_valores'] as $field) { ?>
+												<?php $selected = (isset($this->data['fields']['departamento']) && $this->data['fields']['departamento'] == $field['company_departments_id']) ? 'selected="selected"' : ''; ?>
+												<option value="<?= $field['company_departments_id'] ?>" <?= $selected ?>><?= $field['company_departments_description'] ?></option>
+											<?php } ?>
+										</select>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -214,16 +251,25 @@ $data = $this->data['params'];
 									   placeholder="<?= $data['formulario_inscricao_estadual_placeholder']?>" maxlength="18"/>
 							</div>
 						</div>
-						<div class="mp-form-col-7">
+						<div class="mp-form-col-3">
 							<div class="mp-form-group">
-								<label class="mp-label"><?= $data['formulario_areas_atuacao']?></label>
-								<select name="area-atuacao" class="mp-select" id="area-atuacao">
-									<option value="" disabled >Selecione</option>
-									<?php foreach($data['formulario_atuacao_valores']as $area){ ?>
-										<?php $selected = (isset($this->data['fields']['area-atuacao']) && $this->data['fields']['area-atuacao'] == $area['atividade_id']) ? 'selected="selected"' : ''; ?>
-										<option value="<?= $area['atividade_id'] ?>" <?= $selected ?>><?= $area['atividade_descricao'] ?></option>
+								<label class="mp-label"><?= $data['formulario_ramo_atividade']?></label>
+								<select name="ramo-atividade" class="mp-select" id="ramo-atividade">
+									<option value="" disabled>Selecione</option>
+									<?php foreach($data['formulario_ramos_atividades_valores']as $area){ ?>
+										<?php $selected = (isset($this->data['fields']['ramo-atividade']) && $this->data['fields']['ramo-atividade'] == $area['business_sectors_id']) ? 'selected="selected"' : ''; ?>
+										<option value="<?= $area['business_sectors_id'] ?>" <?= $selected ?>><?= $area['business_sectors_description'] ?></option>
 									<?php } ?>
 								</select>
+							</div>
+						</div>
+
+						<div class="mp-form-col-4">
+							<div class="mp-form-group">
+								<label class="mp-label"><?= $data['formulario_telefone_empresa']?></label>
+								<input class="mp-input" type="text" name="telephone-empresa"
+									   value="<?= isset($this->data['fields']['telephone-empresa']) ? $this->data['fields']['telephone-empresa'] : '' ?>"
+									   placeholder="<?= $data['formulario_telefone_empresa_placeholder']?>"/>
 							</div>
 						</div>
 
@@ -341,67 +387,6 @@ $data = $this->data['params'];
 
 					<div class="mp-checkbox-group">
 						<div class="mp-form-row">
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_uso']) ?>" >
-								<div class="mp-form-group">
-									<label class="mp-label" ><?= $data['formulario_info_uso']?></label>
-									<select name="info-uso" class="mp-select" id="info-uso">
-										<option value="" disabled selected><?= $data['formulario_info_uso']?></option>
-										<?php foreach(explode(';', $data['formulario_info_uso_valores']) as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['info-uso']) && $this->data['fields']['info-uso'] == $field) ? 'selected="selected"' : ''; ?>
-											<option <?= $selected ?> value="<?= $field ?>"><?= $field ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_faturamento']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label" ><?= $data['formulario_info_faturamento']?></label>
-									<select name="info-faturamento" class="mp-select" id="info-faturamento">
-										<option value="" disabled selected><?= $data['formulario_info_faturamento']?></option>
-										<?php foreach(explode(';', $data['formulario_info_faturamento_valores']) as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['info-faturamento']) && $this->data['fields']['info-faturamento'] == $field) ? 'selected="selected"' : ''; ?>
-											<option <?= $selected ?> value="<?= $field ?>"><?= $field ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_loja_fisica']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label" ><?= $data['formulario_info_loja_fisica']?></label>
-									<select name="info-loja-fisica" class="mp-select" id="info-loja-fisica">
-										<option value="" disabled selected><?= $data['formulario_info_loja_fisica']?></option>
-										<?php foreach(explode(';', $data['formulario_info_loja_fisica_valores']) as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['info-loja-fisica']) && $this->data['fields']['info-loja-fisica'] == $field) ? 'selected="selected"' : ''; ?>
-											<option <?= $selected ?> value="<?= $field ?>"><?= $field ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_funcionarios']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label" ><?= $data['formulario_info_funcionarios']?></label>
-									<select name="info-funcionarios" class="mp-select" id="info-funcionarios">
-										<option value="" disabled selected><?= $data['formulario_info_funcionarios']?></option>
-										<?php foreach(explode(';', $data['formulario_info_funcionarios_valores']) as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['info-funcionarios']) && $this->data['fields']['info-funcionarios'] == $field) ? 'selected="selected"' : ''; ?>
-											<option <?= $selected ?> value="<?= $field ?>"><?= $field ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
-
-							<div class="mp-form-col-<?= intval($data['formulario_info_tamanho_software']) ?>">
-								<div class="mp-form-group">
-									<label class="mp-label" ><?= $data['formulario_info_software']?></label>
-									<select name="info-software" class="mp-select" id="info-software">
-										<option value="" disabled selected><?= $data['formulario_info_software']?></option>
-										<?php foreach(explode(';', $data['formulario_info_software_valores']) as $field) { ?>
-											<?php $selected = (isset($this->data['fields']['info-software']) && $this->data['fields']['info-software'] == $field) ? 'selected="selected"' : ''; ?>
-											<option <?= $selected ?> value="<?= $field ?>"><?= $field ?></option>
-										<?php } ?>
-									</select>
-								</div>
-							</div>
 							<?php if ( is_array( $data['formulario_como_conheceu'] ) ): ?>
 								<div class="mp-form-col-5">
 									<div class="mp-form-group">
