@@ -21,14 +21,13 @@ class Register extends Component
 		$data['params'] = $this->getParamsAjax();
 
 		$data['params']['formulario_como_conheceu'] = \MisterPrint\Response\CustomerReferers::get();
-		$data['params']['formulario_profissao_valores'] = \MisterPrint\Response\CustomerProfessions::get();
-		$data['params']['formulario_areainteresse_valores'] = \MisterPrint\Response\CustomerInterest::get();
-		$data['params']['formulario_atuacao_valores'] = \MisterPrint\Response\CustomerAtuations::get();
+		$data['params']['formulario_atuacao_valores'] = \MisterPrint\Response\CustomerActivities::get();
+		$data['params']['formulario_ocupacoes_valores'] = \MisterPrint\Response\CustomerOccupations::get();
 
 		$session = [];
-		if(SessionSupport::exists('inclomplete-register')) {
-			$session = SessionSupport::get('inclomplete-register');
-			SessionSupport::delete('inclomplete-register');
+		if(SessionSupport::exists('incomplete-register')) {
+			$session = SessionSupport::get('incomplete-register');
+			SessionSupport::delete('incomplete-register');
 		}
 
 		$data = array_merge($data, $session);
@@ -42,8 +41,8 @@ class Register extends Component
 			$post = $_POST['data'];
 
 			$session = [];
-			if(SessionSupport::exists('inclomplete-register')) {
-				$session = SessionSupport::get('inclomplete-register');
+			if(SessionSupport::exists('incomplete-register')) {
+				$session = SessionSupport::get('incomplete-register');
 			}
 
 			$post['cpf'] = $output = preg_replace('/[^0-9]/', '', $post['cpf']);
@@ -60,7 +59,7 @@ class Register extends Component
 					"customers_agree" => 1,
 					"customers_agree_notfinal" => 1,
 					"customers_firstname" => $post['nome-completo'],
-					"customers_lastname" => $post['customers_lastname'],
+					"customers_social_name" => $post['customers_social_name'],
 					"customers_email_address" => isset($session['email']) ? $session['email'] : $post['email'],
 					"customers_celular" => $post['celular'],
 					"customers_password" => isset($session['password']) ? base64_decode($session['password']) : $post['password'],
@@ -90,6 +89,8 @@ class Register extends Component
 					'customers_has_physical_store' => $post['info-loja-fisica'] == "Sim",
 					'customers_final' => $post['info-uso'] == "Uso Pessoal",
 					'customers_interesse' => $post['areainteresse'],
+					'customers_activities' => $post['area_atuacao'],
+					'customers_occupations' => $post['ocupacao'],
 				],
 				"dadosEndereco" => [
 					"entry_firstname" => $post['nome-completo'],
@@ -185,8 +186,9 @@ class Register extends Component
 					'info-uso' => $post['info-uso'],
 					'info-funcionarios' => $post['info-funcionarios'],
 					'info-referer' => $post['info-referer'],
-					'genero' => $post['sexo'],
-					'area-atuacao' => $post['area-atuacao'],
+					'genero' => $post['genero'],
+					'area_atuacao' => $post['area_atuacao'],
+					'ocupacao' => $post['ocupacao'],
 					'ativ_principal_text' => $post['ativ_principal_text'],
 					'ativ_principal_code' => $post['ativ_principal_code'],
 					'ativ_sec1_text' => $post['ativ_sec1_text'],
@@ -199,7 +201,7 @@ class Register extends Component
 				'session' => '0',
 				'params' => $params,
 				'email' => $session['email'],
-				'customers_lastname' => $post['customers_lastname'],
+				'customers_social_name' => $post['customers_social_name'],
 				'nome-completo' => $post['nome-completo'],
 				'errors' => [ $clienteModel->get_message() ?: 'Verifique seus dados e tente novamente.' ]
 			]))->get();
@@ -218,25 +220,26 @@ class Register extends Component
 			Vc::paramText('Formulario pessoa juridica', 'Pessoa Jurídica'),
 			Vc::paramText('Formulario dados pessoais', 'Dados pessoais'),
 			Vc::paramText('Formulario dados juridicos', 'Dados Empresariais'),
-			Vc::paramText('Formulario apelido', 'Apelido'),
-			Vc::paramText('Formulario apelido placeholder', 'Digite seu nickname'),
+			Vc::paramText('Formulario nome social', 'Nome social'),
+			Vc::paramText('Formulario nome social placeholder', 'como você quer ser chamado'),
 			Vc::paramText('Formulario nome', 'Nome completo'),
 			Vc::paramText('Formulario nome placeholder', 'Digite seu nome completo'),
-			Vc::paramText('Formulario profissao', 'Profissão'),
-			Vc::paramText('Formulario profissao placeholder', ''),
-			Vc::paramText('Formulario areainteresse', 'Área de interesse'),
-			Vc::paramText('Formulario areainteresse placeholder', ''),
+			Vc::paramText('Formulario ocupacao', 'Ocupação'),
+			Vc::paramText('Formulario ocupacao placeholder', ''),
+			Vc::paramText('Formulario area atuacao', 'Área de Atuação'),
+			Vc::paramText('Formulario area atuacao placeholder', ''),
 			Vc::paramText('Formulario CPF', 'CPF'),
 			Vc::paramText('Formulario CPF placeholder', 'Digite seu CPF'),
 			Vc::paramText('Formulario telefone', 'Telefone (DDD)'),
 			Vc::paramText('Formulario telefone placeholder', 'Digite seu telefone'),
-			Vc::paramText('Formulario celular', 'Celular (DDD)'),
+			Vc::paramText('Formulario celular', 'Celular (WhatsApp)'),
 			Vc::paramText('Formulario celular placeholder', 'Digite seu Celular'),
 			Vc::paramText('Formulario data nascimento', 'Data de nascimento'),
 			Vc::paramText('Formulario genero', 'Gênero'),
 			Vc::paramText('Formulario masculino', 'Masculino'),
 			Vc::paramText('Formulario feminino', 'Feminino'),
 			Vc::paramText('Formulario outros', 'Outros'),
+			Vc::paramText('Formulario prefiro nao dizer', 'Prefiro não dizer'),
 			Vc::paramText('Formulario CNPJ', 'CNPJ'),
 			Vc::paramText('Formulario CNPJ placeholder', 'CNPJ'),
 			Vc::paramText('Formulario razão social', 'Razão social'),
@@ -274,17 +277,6 @@ class Register extends Component
 
 			// Campos de identificação de Lead
 			Vc::paramText('Formulario info', 'Informações Adicionais'),
-			Vc::paramText('Formulario info uso', 'Para qual finalidade você irá usar os impressos?'),
-			Vc::paramText('Formulario info uso valores', 'Uso Pessoal;Revenda'),
-			Vc::paramText('Formulario info faturamento', 'Qual seu faturamento mensal com gráficas online?'),
-			Vc::paramText('Formulario info faturamento valores', 'até R$ 500,00;De R$ 501,00 a R$ 1.499,00;De R$ 1.500,00 a R$ 2.999,00;De R$ 3.000,00 a R$ 4.999,00;De R$ 5.000,00 a R$ 9.999,00;Acima de R$ 10.000,00'),
-			Vc::paramText('Formulario info loja fisica', 'Possui loja física?'),
-			Vc::paramText('Formulario info loja fisica valores', 'Sim;Não'),
-			Vc::paramText('Formulario info funcionarios', 'Quantos funcionários possui?'),
-			Vc::paramText('Formulario info funcionarios valores', 'Trabalho sozinho;Tenho 1 funcionário;Tenho 2 funcionários;Tenho 3 (ou mais) funcionários.'),
-			Vc::paramText('Formulario info software', 'Qual programa você utiliza para preparar seus arquivos?'),
-			Vc::paramText('Formulario info software valores', 'Creative Cloud (Adobe);CorelDraw;Afinnity;Outros'),
-			//Vc::paramText('Formulario info software placeholder', 'Creative Cloud (Adobe);CorelDraw;Afinnity;Outros'),
 			Vc::paramText('Formulario info referrer', 'Onde nos conheceu?'),
 			Vc::paramText('Formulario info referrer placeholder', 'Selecione uma opção'),
 			// Tamanhos dos campos de identificação
