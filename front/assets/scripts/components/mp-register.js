@@ -15,7 +15,7 @@ export default function (el) {
 	};
 	var rules = [
 		ruleRequired( 'nome-completo', 'O nome é obrigatório!' ),
-		ruleRequired( 'customers_lastname', 'O nickname é obrigatório!' ),
+		ruleRequired( 'customers_social_name', 'O Nome social é obrigatório!' ),
 		ruleRequired( 'celular', 'O celular é obrigatório!' ),
 		ruleRequired( 'genero', 'O genero é obrigatório!' ),
 		ruleRequired( 'logradouro', 'O endereço é obrigatório!' ),
@@ -26,6 +26,10 @@ export default function (el) {
 		ruleRequired( 'info-referer', '"Onde nos conheceu?" é obrigatório!' ),
 		ruleRequired( 'estado', 'O estado é obrigatório!' ),
 		ruleRequired( 'nascimento', 'A data de nascimento é obrigatória!' ),
+		ruleRequired( 'ocupacao', 'A Ocupação é obrigatória!' ),
+		ruleRequired( 'area_atuacao', 'A Área de atuação é obrigatória!' ),
+		ruleRequired( 'ramo-atividade', 'O Ramo de atividade é obrigatório!' ),
+		
 		(() => {
 			let rule = ruleRequired( 'cpf', 'O CPF é obrigatório' )
 			rule.rules['cpf'] = {
@@ -110,6 +114,7 @@ export default function (el) {
 		$('input[name="cpf"]').mask('000.000.000-00');
 		$('input[name="cnpj"]').mask('00.000.000/0000-00');
 		$('input[name="telefone"]').mask('(00) 00000-0000');
+		$('input[name="telephone-empresa"]').mask('(00) 00000-0000');
 		$('input[name="celular"]').mask('(00) 00000-0000');
 		$('input[name="nascimento"]').mask('99/99/9999');
 		new Form(el, rules, (form) => {
@@ -145,6 +150,7 @@ export default function (el) {
 			let r = $(e.currentTarget);
 			if(r.val() === 'Pessoa Jurídica') {
 				$('.cnpj-fields', el).show();
+				$('.cpf-fields', el).hide();
 				rules.push((() => {
 					let rule = ruleRequired( 'cnpj', 'CNPJ é obrigatório' );
 					rule.rules['cnpj'] = {
@@ -157,15 +163,30 @@ export default function (el) {
 					return rule;
 				})());
 
+				rules = rules.filter( e => {
+					return [
+						'ocupacao',
+						'area_atuacao',
+					].indexOf(e.name) === -1;
+				});
+
 				rules.push(ruleRequired( 'razao-social', 'A razão social é obrigatória!' ));
+				rules.push(ruleRequired( 'cargo', 'Cargo é obrigatório!' ));
+				rules.push(ruleRequired( 'departamento', 'Departamento é obrigatório!' ));
+				rules.push(ruleRequired( 'ramo-atividade', 'O Ramo de atividade é obrigatório!' ));
 			} else {
 				$('.cnpj-fields', el).hide();
+				$('.cpf-fields', el).show();
 				rules = rules.filter( e => {
 					return [
 						'cnpj',
 						'razao-social',
+						'cargo',
+						'departamento'
 					].indexOf(e.name) === -1;
 				});
+				rules.push(ruleRequired( 'ocupacao', 'A Ocupação é obrigatória!' ));
+				rules.push(ruleRequired( 'area_atuacao', 'A Área de atuação é obrigatória!' ));
 			}
 		})
 	}
