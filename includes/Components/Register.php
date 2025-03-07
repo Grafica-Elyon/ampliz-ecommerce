@@ -84,13 +84,9 @@ class Register extends Component
 					"is_incompleto" => 1,
 					"customers_subdominio" => Url::getSubdomain(),
 					"customers_descricao" => '',
-					'customers_software' => $post['info-software'],
-					'customers_consumo' => $post['info-faturamento'],
-					'customers_has_physical_store' => $post['info-loja-fisica'] == "Sim",
-					'customers_final' => $post['info-uso'] == "Uso Pessoal",
-					'customers_interesse' => $post['areainteresse'],
-					'customers_activities' => $post['area_atuacao'],
-					'customers_occupations' => $post['ocupacao'],
+					
+					'customers_activity' => $post['area_atuacao'],
+					'customers_occupation' => $post['ocupacao'],
 				],
 				"dadosEndereco" => [
 					"entry_firstname" => $post['nome-completo'],
@@ -124,10 +120,8 @@ class Register extends Component
 					"influencia" => ''
 				],
 				"dadosEmpresa" => [
-					"profissao" => $post['profissao'],
 					"cargo" => $post['profissao'],
 					"atividade" => '',
-					"qtd_funcionarios" => $post['info-funcionarios'],
 					"e_commerce" => '',
 					"isencao" => 0,
 					'ativ_principal_text' => $post['ativ_principal_text'],

@@ -96,6 +96,12 @@ $data = $this->data['params'];?>
 										<span class="checkmark"></span>
 										<div class="mp-checkbox-label"><strong><?= $data['formulario_sexo_outros']?></strong></div>
 									</label>
+									</label>
+										<label class="mp-checkbox">
+										<input type="radio" name="sexo" value="1" <?= @$this->data['fields']['sexo'] == '1' ? 'checked':'' ?>/>
+										<span class="checkmark"></span>
+										<div class="mp-checkbox-label"><strong><?= $data['formulario_prefiro_nao_dizer']?></strong></div>
+									</label>
 								</div>
 							</div>
 							<div class="mp-form-col-5">
