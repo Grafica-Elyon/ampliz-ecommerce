@@ -167,7 +167,8 @@ $data = $this->data['params'];
 									<select name="area_atuacao" class="mp-select" id="area_atuacao">
 										<option value="" disabled selected>Selecione</option>
 										<?php foreach($data['formulario_atuacao_valores'] as $field) { ?>
-											<option value="<?= $field['activities_id'] ?>"><?= $field['activities_description'] ?></option>
+											<?php $selected = (isset($this->data['fields']['area_atuacao']) && $this->data['fields']['area_atuacao'] == $field['activities_id']) ? 'selected="selected"' : ''; ?>
+											<option value="<?= $field['activities_id'] ?>" <?= $selected ?>><?= $field['activities_description'] ?></option>
 										<?php } ?>
 									</select>
 								</div>

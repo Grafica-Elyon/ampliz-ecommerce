@@ -73,6 +73,7 @@ class PanelData extends PanelComponent
 			Vc::paramText('Formulario sexo masculino', 'Masulino'),
 			Vc::paramText('Formulario sexo feminino', 'Feminino'),
 			Vc::paramText('Formulario sexo outros', 'Outros'),
+			Vc::paramText('Formulario prefiro nao dizer', 'Prefiro não dizer'),
 			Vc::paramText('Formulario info software valores', 'Creative Cloud (Adobe);CorelDraw;Afinnity;Outros'),
 
 		]);
