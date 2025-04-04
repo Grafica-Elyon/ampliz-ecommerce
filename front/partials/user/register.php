@@ -137,7 +137,7 @@ $data = $this->data['params'];
 									<div class="mp-checkbox-label"><strong><?= $data['formulario_outros']?></strong></div>
 								</label>
 								<label class="mp-checkbox">
-									<input type="radio" name="genero" value="1" <?= @$this->data['fields']['genero'] == '1' ? 'checked':'' ?>/>
+									<input type="radio" name="genero" value="N" <?= @$this->data['fields']['genero'] == 'N' ? 'checked':'' ?>/>
 									<span class="checkmark"></span>
 									<div class="mp-checkbox-label"><strong><?= $data['formulario_prefiro_nao_dizer']?></strong></div>
 								</label>
