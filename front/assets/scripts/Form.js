@@ -172,6 +172,9 @@ export default class Form {
 						resposta.result != undefined && 
 						(resposta.result.situacao_cadastral == "REGULAR" || resposta.result.situacao_cadastral == "PENDENTE DE REGULARIZAÇÃO")
 					){
+						let nomeCompleto = resposta.result.nome_da_pf;
+						let partesDoNome = nomeCompleto.split(' ');
+						$('[name="customers_social_name"]').val(partesDoNome[0]);
 						$('[name="nome-completo"]').val(resposta.result.nome_da_pf);
 						$('[name="cpf"]').css('background', '#fff');
 						$('[name="cpf"]').css('border-color', '');

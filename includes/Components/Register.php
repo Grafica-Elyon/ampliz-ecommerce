@@ -224,7 +224,7 @@ class Register extends Component
 			Vc::paramText('Formulario pessoa juridica', 'Pessoa Jurídica'),
 			Vc::paramText('Formulario dados pessoais', 'Dados pessoais'),
 			Vc::paramText('Formulario dados juridicos', 'Dados Empresariais'),
-			Vc::paramText('Formulario nome social', 'Nome social'),
+			Vc::paramText('Formulario nome social', 'Nome Social / Apelido'),
 			Vc::paramText('Formulario nome social placeholder', 'como você quer ser chamado'),
 			Vc::paramText('Formulario nome', 'Nome completo'),
 			Vc::paramText('Formulario nome placeholder', 'Digite seu nome completo'),
