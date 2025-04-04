@@ -15,7 +15,7 @@ export default function (el) {
 	};
 	var rules = [
 		ruleRequired( 'nome-completo', 'O nome é obrigatório!' ),
-		ruleRequired( 'customers_social_name', 'O Nome social é obrigatório!' ),
+		ruleRequired( 'customers_social_name', 'O Nome Social / Apelido é obrigatório!' ),
 		ruleRequired( 'celular', 'O celular é obrigatório!' ),
 		ruleRequired( 'genero', 'O genero é obrigatório!' ),
 		ruleRequired( 'logradouro', 'O endereço é obrigatório!' ),
