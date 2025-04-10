@@ -199,7 +199,7 @@ class Cliente
 		$oldData['dadosCliente']['customers_telephone'] = $data['telephone'];
 		$oldData['dadosCliente']['customers_celular'] = $data['celular'];
 		$oldData['dadosCliente']['customers_dob'] = $data['nascimento'];
-		$oldData['dadosCliente']['customers_gender'] = strtolower($data['sexo']);
+		$oldData['dadosCliente']['customers_gender'] = strtoupper($data['sexo']);
 		$oldData['dadosEndereco']['entry_postcode'] = $data['cep'];
 		$oldData['dadosEndereco']['entry_state'] = $data['state'];
 		$oldData['dadosEndereco']['entry_city'] = $data['city'];
@@ -218,6 +218,8 @@ class Cliente
 		$oldData['dadosCliente']['customers_activity'] = $data['area_atuacao'];
 		$oldData['dadosCliente']['company_position_id'] = $data['cargo'];
 		$oldData['dadosCliente']['company_department_id'] = $data['departamento'];
+
+		$oldData['dadosCliente']['customers_conheceu'] = $data['info_referer'];
 
 		$oldData['dadosEmpresa'] = $oldData['dadosEmpresa'][0];
 		$oldData['dadosEmpresa']["qtd_funcionarios"] = $data['info-funcionarios'];
