@@ -214,6 +214,10 @@ class Cliente
 		$oldData['dadosCliente']['customers_consumo'] = $data['info-faturamento'];
 		$oldData['dadosCliente']['customers_has_physical_store'] = $data['info-loja-fisica'];
 		$oldData['dadosCliente']['customers_final'] = $data['info-uso'];
+		$oldData['dadosCliente']['customers_occupation'] = $data['ocupacao'];
+		$oldData['dadosCliente']['customers_activity'] = $data['area_atuacao'];
+		$oldData['dadosCliente']['company_position_id'] = $data['cargo'];
+		$oldData['dadosCliente']['company_department_id'] = $data['departamento'];
 
 		$oldData['dadosEmpresa'] = $oldData['dadosEmpresa'][0];
 		$oldData['dadosEmpresa']["qtd_funcionarios"] = $data['info-funcionarios'];

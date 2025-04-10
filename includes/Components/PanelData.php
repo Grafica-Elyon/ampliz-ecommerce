@@ -14,8 +14,15 @@ class PanelData extends PanelComponent
 
 	public function render()
 	{
+		$data['params'] = $this->getParamsAjax();
+		$data['params']['formulario_como_conheceu'] = \MisterPrint\Response\CustomerReferers::get();
+		$data['params']['formulario_atuacao_valores'] = \MisterPrint\Response\CustomerActivities::get();
+		$data['params']['formulario_ocupacoes_valores'] = \MisterPrint\Response\CustomerOccupations::get();
+		$data['params']['formulario_cargos_valores'] = \MisterPrint\Response\CustomerPositions::get();
+		$data['params']['formulario_depatamentos_valores'] = \MisterPrint\Response\CustomerDepartments::get();
+		$data['params']['formulario_ramos_atividades_valores'] = \MisterPrint\Response\CustomerBusinessSectors::get();
 		return (new View('user/panel-data', [
-			'params' => $this->getParamsAjax(),
+			'params' => $data['params'],
 		]))->get();
 	}
 
@@ -45,7 +52,7 @@ class PanelData extends PanelComponent
 		parent::setParams();
 		$this->addParams([
 			Vc::paramText('Titulo painel', 'Meus dados'),
-			Vc::paramText('Formulario apelido', 'Apelido'),
+			Vc::paramText('Formulario nome social', 'Nome Social / Apelido'),
 			Vc::paramText('Formulario nome', 'Nome'),
 			Vc::paramText('Formulario CPF', 'CPF'),
 			Vc::paramText('Formulario telefone', 'Telefone'),
@@ -75,6 +82,14 @@ class PanelData extends PanelComponent
 			Vc::paramText('Formulario sexo outros', 'Outros'),
 			Vc::paramText('Formulario prefiro nao dizer', 'Prefiro não dizer'),
 			Vc::paramText('Formulario info software valores', 'Creative Cloud (Adobe);CorelDraw;Afinnity;Outros'),
+			Vc::paramText('Formulario info referrer', 'Onde nos conheceu?'),
+			Vc::paramText('Formulario info referrer placeholder', 'Selecione uma opção'),
+			Vc::paramText('Formulario ocupacao', 'Ocupação'),
+			Vc::paramText('Formulario ocupacao placeholder', ''),
+			Vc::paramText('Formulario area atuacao', 'Área de Atuação'),
+			Vc::paramText('Formulario area atuacao placeholder', ''),
+			Vc::paramText('Formulario cargo', 'Cargo'),
+			Vc::paramText('Formulario departamento', 'Departamento'),
 
 		]);
 	}

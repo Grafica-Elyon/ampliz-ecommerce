@@ -29,6 +29,8 @@ export default function (el) {
 		ruleRequired( 'ocupacao', 'A Ocupação é obrigatória!' ),
 		ruleRequired( 'area_atuacao', 'A Área de atuação é obrigatória!' ),
 		ruleRequired( 'ramo-atividade', 'O Ramo de atividade é obrigatório!' ),
+		ruleRequired( 'cargo', 'O cargo obrigatório!' ),
+		ruleRequired( 'departamento', 'O Departamento é obrigatório!' ),
 		
 		(() => {
 			let rule = ruleRequired( 'cpf', 'O CPF é obrigatório' )
