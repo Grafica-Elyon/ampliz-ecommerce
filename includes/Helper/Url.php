@@ -9,7 +9,7 @@ class Url
 	static function getSubdomain()
 	{
 		$subdomains_names = [
-			'ampliz' => 'MisterPrint',
+			'ampliz' => 'CentralAmpliz',
 			// 'dg' => 'DigitalGraph',
 		];
 		$serverName = explode('.', $_SERVER['SERVER_NAME']);
