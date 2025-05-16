@@ -177,6 +177,7 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 						<fieldset class="mp-fieldset">
 							<h3 class="mp-painel-title">Retirar no balcão:</h3>
 							<p><?= $data['subtitulo_balcao'] ?></p>
+							<?php /*
 							<div id="procurar-balcao-tipo" class="mp-listing" data-item="3">
 								<div class="mp-item">
 									<label class="mp-checkbox">
@@ -245,6 +246,7 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 									<button type="button" id="get_balconies" class="mp-btn-primary">Pesquisar</button>
 								</div>
 							</div>
+							*/ ?>
 							<br><br>
 							<?php 
 								$todos = count($this->data['balconies']); 
@@ -328,6 +330,7 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 															!isset($balcony['tamanho_maximo'])
 															? 'checked' 
 															: '';  
+															$checked = ($balcony['codigo'] == 'ALX') ? 'checked' : '';
 															?>
 															<input <?= $checked ?> type="radio" name="shipping_code" data-value="<?= $balcony['valor'] ?>" value="<?= $balcony['codigo'] ?>" data-titulo="<?= $balcony['titulo'] ?>" data-prazo="<?= date('d/m/Y', strtotime($balcony['dataPrevisao'])) ?>"/>
 															<span class="checkmark <?= isset($balcony['tamanho_maximo']) ? 'disabled_checkmark':''; ?>"></span>
