@@ -8,6 +8,7 @@ $inputs = shortcode_atts([
 	'shipping' => null,
 	'shipping_code' => null,
 	'address' => $this->data['endereco_id'],
+	'balcony_cep' => null,
 	'direct_cep' => null,
 	'direct_endereco' => null,
 	'direct_numero' => null,
@@ -18,8 +19,12 @@ $inputs = shortcode_atts([
 	'direct_value' => null,
 	'direct_document' => null,
 	'direct_document_type' => null,
+	'balcony_state' => null,
+	'balcony_city' => null,
+	'balcony_cod' => null
 ], $this->data['data']); 
-
+$this->data['balconies'] = $this->data['balconies'] == null ? [] : $this->data['balconies'];
+$this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] : $this->data['balconies_nearby'];
 ?>
 
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
@@ -53,6 +58,14 @@ $inputs = shortcode_atts([
 								<input <?= $checked ?> type="radio" name="shipping_type" value="shipping">
 								<span class="checkmark"></span>
 								<div class="mp-checkbox-label mp-font-lg"><strong>Receber no meu endereço</strong></div>
+							</label>
+						</div>
+						<div class="mp-item">
+							<label class="mp-checkbox">
+								<?php $checked = ('withdraw' == $inputs['shipping_type']) ? 'checked' : '' ?>
+								<input <?= $checked ?> type="radio" name="shipping_type" value="withdraw">
+								<span class="checkmark"></span>
+								<div class="mp-checkbox-label mp-font-lg"><strong>Retirar Pessoalmente</strong></div>
 							</label>
 						</div>
 					</div>
@@ -158,6 +171,216 @@ $inputs = shortcode_atts([
 								<?php } ?>
 							</div>	
 							
+						</fieldset>
+					</div>
+					<div data-type="withdraw" style="<?= ('withdraw' != $inputs['shipping_type']) ? 'display:none;' : '' ?>">
+						<fieldset class="mp-fieldset">
+							<h3 class="mp-painel-title">Retirar no balcão:</h3>
+							<p><?= $data['subtitulo_balcao'] ?></p>
+							<div id="procurar-balcao-tipo" class="mp-listing" data-item="3">
+								<div class="mp-item">
+									<label class="mp-checkbox">
+										<?php $checked_cep = $this->data['data']['tipo-procura-balcao'] == 'cep' ? 'checked':'' ?>
+										<input <?= $checked_cep ?> type="radio" name="tipo-procura-balcao" value="cep">
+										<span class="checkmark"></span>
+										<div class="mp-checkbox-label mp-font-lg"><strong>Por CEP</strong></div>
+									</label>
+								</div>
+								<div class="mp-item">
+									<label class="mp-checkbox">
+										<?php $checked_cidade = $this->data['data']['tipo-procura-balcao'] == 'cidade' ? 'checked':'' ?>
+										<input <?= $checked_cidade ?> type="radio" name="tipo-procura-balcao" value="cidade">
+										<span class="checkmark"></span>
+										<div class="mp-checkbox-label mp-font-lg"><strong>Pela Cidade</strong></div>
+									</label>
+								</div>
+								<div class="mp-item">
+									<label class="mp-checkbox">
+										<?php $checked_cod = $this->data['data']['tipo-procura-balcao'] == 'cod' ? 'checked':'' ?>
+										<input <?= $checked_cod ?> type="radio" name="tipo-procura-balcao" value="cod">
+										<span class="checkmark"></span>
+										<div class="mp-checkbox-label mp-font-lg"><strong>Pelo código</strong></div>
+									</label>
+								</div>
+							</div>
+							<div class="mp-form-row">
+								<div class="mp-form-col-3 forma-de-procura" data-tipo="cep"  <?php if($checked_cep == false) echo 'style="display: none"' ?>>
+									<div class="mp-form-group">
+										<label class="mp-label">CEP</label>
+										<input class="mp-input" type="text" name="balcony_cep"
+											value="<?= empty($inputs['balcony_cep']) ? $this->data['user_cep' ]: $inputs['balcony_cep']; ?>"
+											placeholder="00000-000" />
+									</div>
+								</div>
+								<div class="mp-form-col-3 forma-de-procura" data-tipo="cidade" <?php if($checked_cidade == false) echo 'style="display: none"' ?>>
+									<div class="mp-form-group">
+										<label class="mp-label">Estado</label>
+										<select class="mp-select" name="balcony_state">
+											<option value="">Selecione</option>
+											<?php foreach(config('states') as $key => $state) { ?>
+												<option <?php echo ($key == $inputs['balcony_state']) ? 'selected="selected"' : '' ?> value="<?php echo $key ?>"><?php echo $state ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+								<div class="mp-form-col-3 forma-de-procura" data-tipo="cidade" <?php if($checked_cidade == false) echo 'style="display: none"' ?>>
+									<div class="mp-form-group">
+										<label class="mp-label">Cidade</label>
+										<input class="mp-input" type="text" name="balcony_city"
+											value="<?= isset($inputs['balcony_city']) ? $inputs['balcony_city'] : ''; ?>"
+											placeholder="Cidade"  />
+									</div>
+								</div>
+								<div class="mp-form-col-3 forma-de-procura" data-tipo="cod" <?php if($checked_cod == false) echo 'style="display: none"' ?>>
+									<div class="mp-form-group">
+										<label class="mp-label">Codigo do Balcão</label>
+										<input class="mp-input" type="text" name="balcony_cod"
+										value="<?= isset($inputs['balcony_cod']) ? $inputs['balcony_cod'] : '' ?>"
+										placeholder="COD" />
+									</div>
+								</div>
+							</div>
+							<div class="forma-de-procura" data-tipo="all" <?php if( isset($this->data['data']['tipo-procura-balcao']) == false ) echo 'style="display: none"' ?>>
+								<div class="mp-form-group">
+									<button type="button" id="get_balconies" class="mp-btn-primary">Pesquisar</button>
+								</div>
+							</div>
+							<br><br>
+							<?php 
+								$todos = count($this->data['balconies']); 
+								$todos += $this->data['balconies_nearby'] == null ? 0 : count($this->data['balconies_nearby']); 
+								if($todos == 0){
+									?><strong class="mp-primary-color">Carrinho possui produtos sem envio para balcões</strong><?php
+								} 
+							?>
+							<div>
+							<?php foreach ($this->data['balconies_nearby'] as $key => $balcony) { ?>
+								<input type="hidden" value='<?= base64_encode(json_encode($balcony)); ?>' name="shipping_data_<?= $balcony['codigo'] ?>" />
+							<?php } ?>
+							<?php foreach ($this->data['balconies'] as $key => $balcony) { ?>
+								<input type="hidden" value='<?= base64_encode(json_encode($balcony)); ?>' name="shipping_data_<?= $balcony['codigo'] ?>" />
+							<?php } ?>
+							<div class="mp-form-group" style="<?= (empty($this->data['balconies_nearby']) && empty($this->data['balconies'])) ? 'display:none;' : ''; ?>">
+								<label class="mp-label">Balcões</label>
+								<div class="mp-cart-table">
+									<table cellpadding="1" cellspacing="1">
+										<thead>
+											<tr>
+												<th></th>
+												<th>ID</th>
+												<th>Endereço</th>
+												<th>Prazo</th>
+												<th width="20%" style="text-align: center;">Valor</th>
+											</tr>
+										</thead>
+										<tbody id="tbl-balcony">
+											<?php $i = 1; $page_index=1; $itens = count($this->data['balconies'])+count($this->data['balconies_nearby']); $TAM_PAG = 10;
+											if($itens > $TAM_PAG){ 
+												$pages = ($itens / $TAM_PAG);
+												$pages += $itens%$TAM_PAG > 0 ? 1 : 0; 
+											} ?>
+											<?php foreach($this->data['balconies_nearby'] as $balcony) { ?>
+												<tr data-page-index="<?= $page_index; ?>" class="<?= $page_index==1? 'active':''; ?>" style="<?= isset($balcony['tamanho_maximo']) ? 'color:#ccc;':''; ?>">
+													<td style="vertical-align: middle;<?= isset($balcony['tamanho_maximo']) ? 'pointer-events:none;':''; ?>">
+														<label class="mp-checkbox-only">
+															<?php $checked = ($balcony['codigo'] == $inputs['shipping_code']) &&
+															!isset($balcony['tamanho_maximo'])
+															? 'checked' 
+															: '';  
+															?>
+															<input <?= $checked ?> type="radio" name="shipping_code" data-value="<?= $balcony['valor'] ?>" value="<?= $balcony['codigo'] ?>" data-titulo="<?= $balcony['titulo'] ?>" data-prazo="<?= date('d/m/Y', strtotime($balcony['dataPrevisao'])) ?>"/>
+															<span class="checkmark <?= isset($balcony['tamanho_maximo']) ? 'disabled_checkmark':''; ?>"></span>
+														</label>
+													</td>
+													<td style="vertical-align: middle;"><?= $balcony['codigo']; ?></td>
+													<td style="vertical-align: middle;">
+														<strong><?= $balcony['titulo']; ?></strong><br />
+														<sub><?= $balcony['detalhe']; ?></sub>
+													</td>
+													<?php  if(substr($balcony['codigo'], 0, 2) == "BR"){
+														$menosTres = $balcony['prazo'] - 3; ?>
+														<td style="vertical-align: middle;"><?= $balcony['prazo'] ? "{$menosTres} a {$balcony['prazo']} dias úteis" : 'Sem acréscimo'; ?></td>
+														<?php
+													}else{?>
+														<td style="vertical-align: middle;"><?= $balcony['prazo'] ? "{$balcony['prazo']} dias úteis" : 'Sem acréscimo'; ?></td>
+													<?php } ?>
+													<td style="vertical-align: middle;text-align: center;position:relative;">
+														<?= intval($balcony['valor']) > 0 ? \money($balcony['valor']) : "Grátis"; ?>
+													</td>
+													<td style="vertical-align: middle;text-align: center;position:relative;">
+														<?= isset($balcony['tamanho_maximo']) 
+															? '<span class="mp-icon-tooltip" data-tooltip="'.$data['texto_tooltip'].'" >
+																	i
+																</span>
+															':'<span class="mp-icon-tooltip" data-tooltip="O prazo de entrega inicia a partir da finalização de produção do último item" >
+																	i
+																</span>'; 
+														?>
+													</td>
+												</tr>
+											<?php } ?>
+
+											<?php foreach($this->data['balconies'] as $key => $balcony) { ?>
+												<tr data-page-index="<?= $page_index; ?>" class="<?= $page_index==1? 'active':''; ?>" style="<?= isset($balcony['tamanho_maximo']) ? 'color:#ccc;':''; ?>">
+													<td style="vertical-align: middle;<?= isset($balcony['tamanho_maximo']) ? 'pointer-events:none;':''; ?>">
+														<label class="mp-checkbox-only">
+															<?php $checked = ($balcony['codigo'] == $inputs['shipping_code']) &&
+															!isset($balcony['tamanho_maximo'])
+															? 'checked' 
+															: '';  
+															?>
+															<input <?= $checked ?> type="radio" name="shipping_code" data-value="<?= $balcony['valor'] ?>" value="<?= $balcony['codigo'] ?>" data-titulo="<?= $balcony['titulo'] ?>" data-prazo="<?= date('d/m/Y', strtotime($balcony['dataPrevisao'])) ?>"/>
+															<span class="checkmark <?= isset($balcony['tamanho_maximo']) ? 'disabled_checkmark':''; ?>"></span>
+														</label>
+													</td>
+													<td style="vertical-align: middle;"><?= $balcony['codigo']; ?></td>
+													<td style="vertical-align: middle;">
+														<strong><?= $balcony['titulo']; ?></strong><br />
+														<sub><?= $balcony['detalhe']; ?></sub>
+													</td>
+													<?php  if(substr($balcony['codigo'], 0, 2) == "BR"){
+														$menosTres = $balcony['prazo'] - 3; ?>
+														<td style="vertical-align: middle;"><?= $balcony['prazo'] ? "{$menosTres} a {$balcony['prazo']} dias úteis" : 'Sem acréscimo'; ?></td>
+														<?php
+													}else{?>
+														<td style="vertical-align: middle;"><?= $balcony['prazo'] ? "{$balcony['prazo']} dias úteis" : 'Sem acréscimo'; ?></td>
+													<?php } ?>
+													<td style="vertical-align: middle;text-align: center;position:relative;">
+														<?= intval($balcony['valor']) > 0 ? \money($balcony['valor']) : "Grátis"; ?>
+													</td>
+													<td style="vertical-align: middle;text-align: center;position:relative;">
+														<?= isset($balcony['tamanho_maximo']) 
+															? '<span class="mp-icon-tooltip" data-tooltip="'.$data['texto_tooltip'].'" >
+																	i
+																</span>
+															':'<span class="mp-icon-tooltip" data-tooltip="O prazo de entrega inicia a partir da finalização de produção do último item" >
+																	i
+																</span>'; 
+														?>
+													</td>
+												</tr>
+												<?php $i++; ?>
+												<?php if($i > 1 && $i%$TAM_PAG == 1) $page_index++; ?>
+											<?php } ?>
+										</tbody>
+									</table>
+										<?php $itens = count($this->data['balconies']);
+										if($itens > $TAM_PAG){ 
+											$pages = ($itens / $TAM_PAG);
+											$pages += $itens%$TAM_PAG > 0 ? 1 : 0;
+										?><div class="mp-painel-body"><?php
+												for ($count=1; $count <= $pages ; $count++) {?>	
+												<div class="btn-page <?= $count==1?'active':'' ?>" data-page="<?= $count ?>"><?= $count ?></div>
+												<?php } 
+										?></div><?php
+										} ?>
+									
+									<script type="text/javascript">
+										window.balconies = <?php echo json_encode($this->data['balconies']);?>;
+										console.log(window.balconies);
+									</script>
+								</div>
+							</div>
 						</fieldset>
 					</div>
 				</div>
