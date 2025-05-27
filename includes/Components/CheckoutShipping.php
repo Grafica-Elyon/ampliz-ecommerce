@@ -27,12 +27,20 @@ class CheckoutShipping extends CheckoutComponent
 		$client = $cliente->get_dados_do_cliente($user_id);
 		$endereco = $cliente->get_endereco_entrega_selecionado($user_id);
 		$pedido = (new Pedido)->revisao_do_pedido(user()->getId());
+		$balconies = $frete->get_opcoes_balcoes($user_id, $cep, $pedido['valores']['prazoProdutos']);
+		$selecionado = [$balconies['selecionado']];
+		$balconies = $balconies['todos'];
 		$data = [
 			'shipping_code' => $client['dadosCliente']['customers_regiao'] ?? '',
 			'shipping_type' => 'withdraw',
 			'balcony_cep' => $cep
 		];
-
+		// Remoção de balcões na listagem se estiver na listagem de mais pertos
+        if(isset($selecionado['codigo'])){
+	        $balconies = array_values( array_filter($balconies, function( $item ) use ($selecionado) {
+	            return (isset($item['codigo']) && $item['codigo'] !== $selecionado['codigo']);
+	        }));	
+        }
 		if(!empty($data['shipping_code'])){ //setando se o frete escolhido anteriormente está em alguma remessa
 			$correio = $frete->get_opcoes_fretes($user_id);
 			if($data['shipping_code'] == 'PAC' || $data['shipping_code'] == 'SXC') {
@@ -46,7 +54,7 @@ class CheckoutShipping extends CheckoutComponent
 			'data' => $data,
 			'cliente' => $client,
 			'endereco_id' => isset($endereco['id']) ? $endereco['id'] : null,
-			
+			'balconies' => $balconies,
 			'correio' => $correio,
 			
 			'address' => $address,
