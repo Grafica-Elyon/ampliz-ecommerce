@@ -20,7 +20,7 @@ class CheckoutERedeCard extends Component
 			$data['redirect'] = $_POST['data']['redirect'];
 		}
 		$data['params'] = $this->getParamsAjax();
-		error_log("Render COmponente PHP" . PHP_EOL, 3, '/home/mrprint/sandbox.mrprint.com.br/wp-content/plugins/misterprint-ecommerce/erede.log');
+		//error_log("Render COmponente PHP" . PHP_EOL, 3, '/home/mrprint/sandbox.mrprint.com.br/wp-content/plugins/misterprint-ecommerce/erede.log');
 		//$data['params'] = 'Valdi';
 
 		return (new View('checkout/checkout-e-rede-card', $data))->get();
@@ -35,7 +35,7 @@ class CheckoutERedeCard extends Component
 
 	static public function action() {
 		$data = json_encode($_POST['data']);
-		error_log($data . PHP_EOL, 3, '/home/mrprint/sandbox.mrprint.com.br/wp-content/plugins/misterprint-ecommerce/erede.log');
+		//error_log($data . PHP_EOL, 3, '/home/mrprint/sandbox.mrprint.com.br/wp-content/plugins/misterprint-ecommerce/erede.log');
 		return function () {
 			if (
 				(!isset($_POST['data']['mp_checkout_e_rede_card']) || !wp_verify_nonce($_POST['data']['mp_checkout_e_rede_card'], 'mp_checkout_e_rede_card_action'))
