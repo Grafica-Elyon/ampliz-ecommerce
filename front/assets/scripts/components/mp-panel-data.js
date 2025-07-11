@@ -274,29 +274,21 @@ export default function (el) {
 		fields.info_uso.val(response.dadosCliente.customers_final);
 		fields.info_referer.val(response.dadosCliente.customers_conheceu);
 
-		fields.ativ_principal_text.val(response.dadosEmpresa[0].ativ_principal_text),
-			fields.ativ_principal_code.val(response.dadosEmpresa[0].ativ_principal_code),
-			fields.ativ_sec1_text.val(response.dadosEmpresa[0].ativ_sec1_text),
-			fields.ativ_sec1_code.val(response.dadosEmpresa[0].ativ_sec1_code),
-			fields.ativ_sec2_text.val(response.dadosEmpresa[0].ativ_sec2_text),
-			fields.ativ_sec2_code.val(response.dadosEmpresa[0].ativ_sec2_code),
-			fields.emitir_nota_como.each(function () {
-				if (this.getAttribute('use') == "cnpj") {
-					this.value = response.dadosCliente.customers_cnpj;
-				} else {
-					this.value = response.dadosCliente.customers_cpf;
-				}
-				if (this.value == response.dadosCliente.customers_cpf_cnpj) {
-					$(this).prop('checked', true);
-				}
-			});
+		fields.emitir_nota_como.each(function () {
+			if (this.getAttribute('use') == "cnpj") {
+				this.value = response.dadosCliente.customers_cnpj;
+			} else {
+				this.value = response.dadosCliente.customers_cpf;
+			}
+			if (this.value == response.dadosCliente.customers_cpf_cnpj) {
+				$(this).prop('checked', true);
+			}
+		});
 		fields.sexo.each(function () {
 			if (this.value.toUpperCase() == response.dadosCliente.customers_gender.toUpperCase()) {
 				$(this).prop('checked', true);
 			}
 		});
-
-
 
 		// Caso os selects não estejam com valores válidos, ele os limpa
 		Object.keys(fields).forEach(function (key) {
@@ -353,7 +345,7 @@ export default function (el) {
 				$("html, body").animate({ scrollTop: 0 }, "slow");
 			});
 		});
-	
+
 		Form.cep(el);
 		Form.loadCpf(el);
 		Form.loadCnpj(el);

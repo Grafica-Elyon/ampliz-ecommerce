@@ -206,7 +206,7 @@ $data = $this->data['params']; ?>
 							<div class="mp-form-col-5">
 								<div class="mp-form-group">
 									<label class="mp-label" for="razao_social"><?= $data['formulario_nome_razao_social'] ?></label>
-									<input type="text" name="razao-social" id="razao-social" class="mp-input" />
+									<input type="text" name="razao-social" id="razao-social" class="mp-input" style="pointer-events:none;" readonly />
 									<input type="hidden" name="ativ_principal_text" value="<?= isset($this->data['fields']['ativ_principal_text'])
 																								? $this->data['fields']['ativ_principal_text'] : '' ?>" />
 									<input type="hidden" name="ativ_principal_code" value="<?= isset($this->data['fields']['ativ_principal_code'])

@@ -20,7 +20,7 @@ use MisterPrint\Components\ColorConversion;
 use MisterPrint\Components\Category;
 use MisterPrint\Components\CategoriesFeatured;
 use MisterPrint\Components\CheckoutBilling;
-use MisterPrint\Components\CheckoutERedeCard;
+//use MisterPrint\Components\CheckoutERedeCard;
 use MisterPrint\Components\CheckoutConfirmation;
 use MisterPrint\Components\CheckoutShipping;
 use MisterPrint\Components\IncompleteRegister;
@@ -177,7 +177,7 @@ class Admin
 		AjaxRequest::register('mp_remessas', CheckoutShipping::remessas(), []);
 		AjaxRequest::register('mp_coupon', CheckoutBilling::coupon(), []);
 		AjaxRequest::register('mp_continue_pagseguro', CheckoutBilling::continuePagseguro(), []);
-		AjaxRequest::register('mp_checkout_e_rede_card', CheckoutERedeCard::action(), []);
+		//AjaxRequest::register('mp_checkout_e_rede_card', CheckoutERedeCard::action(), []);
 		AjaxRequest::register('mp_orders', PanelOrders::orders(), []);
 		AjaxRequest::register('mp_buscar_nota_por_id', PanelOrders::getNotaById(), []);
 		AjaxRequest::register('mp_categories', Categories::categories(), []);
