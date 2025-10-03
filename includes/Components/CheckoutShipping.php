@@ -48,7 +48,7 @@ class CheckoutShipping extends CheckoutComponent
 				$data['shipping'] = 'correio';
 			}
 		}
-		//$me = $frete->get_opcoes_menv($user_id);
+		$me = $frete->get_opcoes_menv($user_id);
 		$data = array_merge($data, array(
 			'errors' => $_POST['errors'],
 			'data' => $data,
@@ -56,7 +56,7 @@ class CheckoutShipping extends CheckoutComponent
 			'endereco_id' => isset($endereco['id']) ? $endereco['id'] : null,
 			'balconies' => $balconies,
 			'correio' => $correio,
-			
+			'melhor_envio' => $me,
 			'address' => $address,
 			'user_cep' => $cep,
 			

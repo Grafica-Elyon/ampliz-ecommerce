@@ -119,6 +119,14 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 												<span class="mp-checkbox-label">Correios</span>
 											</label>
 										<?php } ?>	
+										<?php if(isset($this->data['melhor_envio']) && $this->data['melhor_envio'] !== false) { ?>
+											<label class="mp-checkbox">
+												<?php $checked = ('melhor_envio' == $inputs['shipping']) ? 'checked' : '' ?>
+												<input <?= $checked ?> type="radio" name="shipping" value="melhor_envio"/>
+												<span class="checkmark"></span>
+												<span class="mp-checkbox-label">Melhor envio</span>
+											</label>
+										<?php } ?>
 									</div>
 								</div>
 							</fieldset>
@@ -170,7 +178,31 @@ $this->data['balconies_nearby'] = $this->data['balconies_nearby'] == null ? [] :
 									<strong class="mp-primary-color">Carrinho possui produtos sem envio via correios</strong>
 								<?php } ?>
 							</div>	
-							
+							<?php $display = ('melhor_envio' == $inputs['shipping']) ? '' : 'display:none;' ?>
+							<div class="mp-form-group" data-shipping="melhor_envio" style="<?= $display ?>">
+								<label class="mp-label">Melhor Envio: </label>
+								<?php if (!empty($this->data['melhor_envio'])) { ?>
+									<?php foreach ($this->data['melhor_envio'] as $melhor_envio) { ?>
+										<?php if (isset($melhor_envio['id'])) { ?>
+											<?php $name = "MENV-" . $melhor_envio['company']['name'] . "-" . str_replace("-", "_", $melhor_envio['name']);
+											?>
+											<input type="hidden" value='<?= base64_encode(json_encode($melhor_envio)); ?>' name="shipping_data_<?= $name ?>" />
+											<label class="mp-checkbox">
+												<?php $checked = ($name == $inputs['shipping_code']) ? 'checked' : '';  ?>
+												<input <?= $checked ?> type="radio" data-value="<?= $melhor_envio['price'] ?>" name="shipping_code" value="<?= $name ?>" data-prazo="<?php echo str_replace('-', '/', $melhor_envio['prazoData']) ?>" data-titulo="<?php echo $name ?> escolhido via CEP" />
+												<span class="checkmark"></span>
+												<span class="mp-checkbox-label">
+													<?php echo $name ?>
+													<strong><?php echo money($melhor_envio['price']) ?> -
+														<?= $melhor_envio['custom_delivery_time'] ?> <?= $melhor_envio['custom_delivery_time'] <= 1 ? 'Dia útil' : 'Dias úteis' ?>
+													</strong>
+												</span>
+											</label>
+										<?php } ?>
+									<?php } ?>
+									<span class="mp-alert mp-alert-error mp-alert-light">Prazos de produção e entrega são contados a partir da confirmação do pagamento e envio da arte</span>
+								<?php } ?>
+							</div>
 						</fieldset>
 					</div>
 					<div data-type="withdraw" style="<?= ('withdraw' != $inputs['shipping_type']) ? 'display:none;' : '' ?>">
