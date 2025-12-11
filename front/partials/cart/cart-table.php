@@ -179,7 +179,9 @@ echo (new View('misc/errors', [
 			: "https://"+window.location.hostname;
 
 		jQuery('.loader').css('display', "block");
-		sendinblue.track('cart_deleted');
+		if (window.sendinblue && window.sendinblue.track !== undefined){
+			sendinblue.track('cart_deleted');
+		}
 		var url = base_url+'/wp-admin/admin-ajax.php?action=mp_clear_cart';		
 		fetch(url).then(function(response) {
 			jQuery('.loader').css('display', "none");
