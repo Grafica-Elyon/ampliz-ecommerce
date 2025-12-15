@@ -82,10 +82,12 @@ echo (new View('misc/errors', [
 							?>
 						</td>
 						<td>
+							<input class="mp-input" type="number" id="qtd-<?php echo $item['id'] ?>" min="1" max="50" pattern="[0-9]" placeholder="Quantidade (máx. 50)">
+							<small class="mp-input-hint" style="display: block; font-size: 11px; color: #666; margin-top: 2px;">Máximo: 50 unidades</small>
+							<br />
 							<a href="#" data-action="copy" data-cart="<?php echo $item['id'] ?>">
 								<strong><i class="mp-icon mp-icon-copy"></i> Duplicar</strong>
 							</a>
-							<input class="mp-input" type="number" id="qtd-<?php echo $item['id'] ?>" min="1" pattern="[0-9]" placeholder="Quantidade">
 							<br /><br />
 							<a href="#" data-action="delete" data-cart="<?php echo $item['id'] ?>">
 								<strong><i class="mp-icon mp-icon-trash"></i> Remover</strong>
@@ -150,10 +152,12 @@ echo (new View('misc/errors', [
 				</div>
 				<div class="mp-col-5">
 					<div class="mp-text-right">
+						<input class="mp-input" type="number" id="qtd-<?php echo $item['id'] ?>" min="1" max="50" pattern="[0-9]" placeholder="Quantidade (máx. 50)">
+						<small class="mp-input-hint" style="display: block; font-size: 11px; color: #666; margin-top: 2px;">Máximo: 50 unidades</small>
+						<br />
 						<a href="#" data-action="copy" data-cart="<?php echo $item['id'] ?>">
 							<strong><i class="mp-icon mp-icon-copy"></i> Duplicar</strong>
 						</a>
-						<input  type="text" id="qtd" >
 						<br /><br />
 						<a href="#" data-action="delete" data-cart="<?php echo $item['id'] ?>">
 							<strong><i class="mp-icon mp-icon-trash"></i> Remover</strong>
@@ -263,10 +267,25 @@ echo (new View('misc/errors', [
     	max-width: 130px !important;
 	}
 
-	td:hover > .mp-input {
+	.mp-input-hint {
+	    opacity:0;
+	    max-height:0;
+	    overflow:hidden;
+	    transition: all 0.3s !important;
+	}
+
+	td:hover > .mp-input,
+	td:hover > .mp-input-hint {
 	    opacity:1;
+	}
+
+	td:hover > .mp-input {
 	    line-height: 35px;
 	    max-height:30px;
 	    font-size:14px;
+	}
+
+	td:hover > .mp-input-hint {
+	    max-height:20px;
 	}
 </style>
