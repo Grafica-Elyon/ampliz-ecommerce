@@ -99,7 +99,7 @@
 								<?php if($product['quantidade_maxima'] == $product['quantidade_minima']){ ?>
 									<input type="number" class="mp-input" value="<?php echo $product['quantidade_maxima']; ?>" name="data[custom_quantity]" readonly data-minimum="<?php echo $this->data['minimum'] * $this->data['quant'] ?>"/>
 									<?php }else{ ?>
-									<input type="number" class="mp-input" value="<?php echo $this->data['minimum'] * $this->data['quant'] ?>" data-minimum="<?php echo $this->data['minimum'] * $this->data['quant'] ?>" name="data[custom_quantity]"/>
+									<input type="number" readonly class="mp-input" value="<?php echo $this->data['minimum'] * $this->data['quant'] ?>" data-minimum="<?php echo $this->data['minimum'] * $this->data['quant'] ?>" name="data[custom_quantity]"/>
 									<?php } ?>
 								</div>
 							</div>
