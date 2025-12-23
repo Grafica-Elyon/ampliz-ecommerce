@@ -33,6 +33,18 @@ class Login extends Component
     {
         $redirect = (isset($_GET['redirectTo'])) ? $_GET['redirectTo'] : '/';
         $hidden = "<input type='hidden' name='params' value='" . base64_encode(json_encode($atts)) . "'>";
+
+        if (isset($_POST['action']) && $_POST['action'] === 'mp_login') {
+            $_POST['data'] = $_POST;
+            $_POST['params'] = isset($_POST['params']) ? $_POST['params'] : base64_encode(json_encode($atts));
+            
+            $login = self::action()();
+            if (is_string($login)) {
+                return '<div data-component="' . $this->base . '" data-redirect="' . $redirect . '" class="mp-component">' . $login . $this->component() . $hidden . '</div><div class="loader"></div>';
+            } else {
+                wp_redirect($login['redirect']);
+            }
+        }
         
         if (isset($_POST['mp_system_login'])) {
             error_log("[DEBUG] Tentativa de login recebida.");
