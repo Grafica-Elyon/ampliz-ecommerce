@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once('/home/dev_ecommerce_ampliz/vendor/autoload.php'); // Caminho absoluto para o autoload do Composer
+require_once dirname(__DIR__, 3) . '/vendor/autoload.php';
+
+$storeUrl = rtrim(config('plugin', 'url_loja', home_url('/')), '/');
+$storeUrl = $storeUrl ? $storeUrl : home_url('/');
 
 // Função para registrar log
 function registrarLog($mensagem) {
@@ -60,8 +63,8 @@ try {
             registrarLog("Dados do usuário obtidos: Nome = " . $user['name'] . ", ID = " . $user['id'] . ", Email = " . $user['email']);
             
             // Redireciona o usuário para a página desejada após o login
-            registrarLog("Redirecionando usuário para https://dev.ampliz.com.br");
-            header("Location: https://dev.ampliz.com.br");
+        registrarLog("Redirecionando usuário para {$storeUrl}");
+        header("Location: {$storeUrl}");
         } catch (\Facebook\Exceptions\FacebookResponseException $e) {
             registrarLog("Erro do Graph: " . $e->getMessage());
         } catch (\Facebook\Exceptions\FacebookSDKException $e) {

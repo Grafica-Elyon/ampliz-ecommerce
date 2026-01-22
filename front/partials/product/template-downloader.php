@@ -5,6 +5,7 @@ $has_arte = $data['has_arte'];
 $gabaritos = $data['gabaritos'];
 
 ?>
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <?php if($gabaritos[0] != 0 || $gabaritos[1] != 0 ){ ?>
 	<div class="<?= $data['class'] ?>" style="display:<?php echo $has_arte==1 ? 'block' : 'none'; ?>">
 		<h4> <?= $data['text'] ?> </h4>
@@ -25,6 +26,7 @@ $gabaritos = $data['gabaritos'];
 		var id = jQuery('.quantidade:checked').val();
 		var x = jQuery('.finishing-options .mp-checkbox input:checked');
 		resposta = x[0] ? x[0].value : "nenhum";
-		window.open("<?= config('plugin', 'api') ?>gabarito/"+id+"/"+hv+"/"+resposta, '_blank');
+		var apiBase = window.MrPrint && window.MrPrint.apiUrl ? window.MrPrint.apiUrl.replace(/\/$/, '') : "<?= esc_js( $apiConfig['apiBase'] ) ?>";
+		window.open(apiBase + "/gabarito/"+id+"/"+hv+"/"+resposta, '_blank');
 	}
 </script>

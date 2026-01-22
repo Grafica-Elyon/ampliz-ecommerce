@@ -2,7 +2,7 @@
 //comentado momentaneamente enquanto é resolvido o login social do facebook que está quebrando a tela.
 //require_once('faceboockconfig.php');
 //
-//$redirectTo = "https://ampliz.com.br";
+//$redirectTo = config('plugin', 'url_loja', home_url('/'));
 //$data = ['email'];
 //$fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>

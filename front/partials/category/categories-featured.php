@@ -202,9 +202,10 @@ $compras = $this->data['compras'];
 </div>
 <script type="text/javascript">
 	jQuery('.remover_favorito').click(function() {
-		var base_url = window.location.hostname == "localhost" ?
-			"https://ampliz.com.br" :
-			"https://" + window.location.hostname;
+		var defaultStoreUrl = "<?= rtrim( esc_url( config('plugin', 'url_loja', home_url('/') ) ), '/' ) ?>";
+		var base_url = (window.MrPrint && window.MrPrint.storeUrl)
+			? window.MrPrint.storeUrl
+			: defaultStoreUrl || ("https://" + window.location.hostname);
 
 		jQuery('#salvar_favorito').attr('disabled', "true");
 		jQuery('.loader').css('display', "block");

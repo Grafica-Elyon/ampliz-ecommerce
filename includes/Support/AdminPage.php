@@ -43,7 +43,7 @@ class AdminPage
 			'manage_options',
 			$this->getMenuSlug(),
 			$this->view,
-			'https://ampliz.com.br/wp-content/uploads/2021/01/logo.png',
+			config('plugin', 'url') . 'front/assets/imgs/logo.png',
 			6
 		);
 	}

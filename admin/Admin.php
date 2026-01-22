@@ -201,16 +201,18 @@ class Admin
 				$table = $wpdb->prefix . 'mapmarker_marker';
 
 				// excluindo pontos antigos
+				$apiConfig = mp_get_api_configuration();
 				//$url = config('plugin', 'api')."get-all-freights";
-				$url = "https://api.misterprint.com.br/v3/get-all-freights";
+				$url = "{$apiConfig['apiBase']}/v3/get-all-freights";
 				$table = $wpdb->prefix . 'mapmarker_marker';
 
 				$query = $wpdb->query("DELETE FROM $table WHERE id > 0");
 				//atualizando mapa com balcoes da tabela
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic bHVjaWFub0BtaXN0ZXJwcmludC5jb20uYnI6TjVvc3FmYUNHTzRXUXowaWJvcm1wOFdBZlpMUExOY1ZrU1NmMHhHV1U0VVEwWEtDRUZoeVN4MkJ0WDdY'
-				));
+				if ($apiConfig['authorization'] !== '') {
+					curl_setopt($ch, CURLOPT_HTTPHEADER, array($apiConfig['authorization']));
+				}
 				$response = curl_exec($ch);
 				$placeholder = null;
 				$response = json_decode($response, true);

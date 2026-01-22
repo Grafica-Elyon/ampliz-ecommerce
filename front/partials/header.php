@@ -72,11 +72,22 @@
 
 	<?php endif; ?>
 </style>
+<?php
+$storeUrl = rtrim(config('plugin', 'url_loja', home_url('/')), '/');
+$storeUrl = $storeUrl ?: home_url('/');
+$apiConfig = mp_get_api_configuration();
+$apiUrl = $apiConfig['apiBase'];
+$authorizationToken = $apiConfig['authorization'];
+?>
 <script type="text/javascript">
 	window.MrPrint = {
 		plugin: <?= json_encode([
 					'version' => config('plugin', 'version'),
-				], JSON_PRETTY_PRINT) ?>
+				], JSON_PRETTY_PRINT) ?>,
+		storeUrl: "<?= esc_url( $storeUrl ) ?>",
+		apiUrl: "<?= esc_url( $apiUrl ) ?>"
+		,
+		authorizationToken: "<?= esc_attr( $authorizationToken ) ?>"
 	};
 	<?php if (user()->isLogged()) { ?>
 		window.user_login = "<?= user()->getEmail(); ?>";

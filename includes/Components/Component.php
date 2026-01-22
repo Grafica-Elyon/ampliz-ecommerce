@@ -40,7 +40,7 @@ class Component extends \WPBakeryShortCode
 			'show_settings_on_create' => true,
 			'category' => 'Mister Print',
 			'params' => $this->params,
-			'icon' => $this->icon ?: "http://ampliz.com.br/wp-content/uploads/2021/01/logo1.png",
+			'icon' => $this->icon ?: (config('plugin', 'url') . 'front/assets/imgs/logo.png'),
 		]);
 	}
 

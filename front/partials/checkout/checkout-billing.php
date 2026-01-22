@@ -241,8 +241,12 @@
 		</aside>
 	</form>
 </div>
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <script type="text/javascript">
-	let url = 'https://api.dev.ampliz.com.br/ajax/atualiza-preferencia-cliente/<?= user()->getId() ?>/';
+	let apiBase = (window.MrPrint && window.MrPrint.apiUrl)
+		? window.MrPrint.apiUrl.replace(/\/$/, '')
+		: "<?= esc_js( $apiConfig['apiBase'] ) ?>";
+	let url = apiBase + '/ajax/atualiza-preferencia-cliente/<?= user()->getId() ?>/';
 	jQuery('[name="pessoa"]').on("click", (e) =>{
 		let pfpj = e.target.value == "Pessoa Física"? "cpf" : "cnpj";
 		fetch(url+pfpj, {

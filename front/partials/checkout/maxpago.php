@@ -141,6 +141,7 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
 
 <!-- jQuery Mask Plugin CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <script>
     $(document).ready(function(){
     $('.year-expiry-date').mask('0000');
@@ -288,14 +289,18 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
         //se todos os campos do formulário de pagamento estiverem corretamente preenxidos o post será feito para o endpoint
         if (isValid) {
             overlayMaxiPago.style.display = 'block';
-            //url do endpoint da api Mr Print para receber os dados de pagamento cartão REDE.
-            const url = 'https://apiteste.misterprint.com.br/v2/maxi-pago/solicitar-pagamento';
+            const apiBaseMaxiPago = window.MrPrint && window.MrPrint.apiUrl
+                ? window.MrPrint.apiUrl.replace(/\/$/, '')
+                : "<?= esc_js( $apiConfig['apiBase'] ) ?>";
+            const url = apiBaseMaxiPago + '/v2/maxi-pago/solicitar-pagamento';
             const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'User-Agent': "https://mrprint.com.br",
-                'Authorization': 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo='
+                'User-Agent': "<?= esc_js( config('plugin', 'url_loja') ) ?>",
             };
+            <?php if (!empty($apiConfig['authorization'])): ?>
+            headers['Authorization'] = '<?= esc_js( $apiConfig['authorization'] ) ?>';
+            <?php endif; ?>
 
             const order = {
                 referenceNum: "<?php echo  $orderid; ?>",

@@ -23,6 +23,25 @@ function get_id_loja() {
 	return $codSite;
 }
 
+function mp_get_api_configuration(): array
+{
+	$apiBase = rtrim(config('plugin', 'api', ''), '/');
+	$email = config('env', 'APP_PLUGIN_EMAIL', '');
+	$password = config('env', 'APP_PLUGIN_PASSWORD', '');
+	$authorization = '';
+
+	if ($email !== '' && $password !== '') {
+		$authorization = 'Authorization: Basic ' . base64_encode("{$email}:{$password}");
+	}
+
+	return [
+		'apiBase' => $apiBase,
+		'email' => $email,
+		'password' => $password,
+		'authorization' => $authorization,
+	];
+}
+
 /**
  * Helper para pegar configurações do sistema.
  */

@@ -14,7 +14,9 @@ use MisterPrint\Support\View;
 <?php 
 	$subcategorias = $this->data['subcats'];
 	foreach($subcategorias as $item){
-		$host = strpos($_SERVER['HTTP_HOST'], "localhost") !== false ? "ampliz.com.br" : $_SERVER['HTTP_HOST'];
+		$storeUrl = rtrim(config('plugin', 'url_loja', home_url('/')), '/');
+		$storeHost = parse_url($storeUrl, PHP_URL_HOST) ?: $_SERVER['HTTP_HOST'];
+		$host = strpos($_SERVER['HTTP_HOST'], "localhost") !== false ? $storeHost : $_SERVER['HTTP_HOST'];
 		$url_item = "https://{$host}/configuracao/{$item['slug']}/{$item['codigoMenu']}";
 		$url = "https://{$host}/product/{$item['slug']}";
 		$item['precoAPartirDe'] = number_format($item['precoAPartirDe'], 2,",","");
