@@ -43,7 +43,7 @@ class AdminPage
 			'manage_options',
 			$this->getMenuSlug(),
 			$this->view,
-			config('plugin', 'url') . 'front/assets/imgs/logo.png',
+			config('plugin', 'url_loja') . '/wp-content/uploads/2021/01/logo.png',
 			6
 		);
 	}

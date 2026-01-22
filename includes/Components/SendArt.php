@@ -25,11 +25,10 @@ class SendArt extends Component
 		$lista = array_filter($pedido['produtosPedido'], function($item) {
 			return $item['need_upload'];
 		});
-		$uploadUrlLoja2 = config('env', 'APP_UPLOAD_URL_LOJA_2', config('plugin', 'upload_url'));
 
 		if($loja == 2){
 			return (new View('user/send-art', [
-				'iframe_url' => $uploadUrlLoja2,
+				'iframe_url' => config('plugin', 'upload_url'),
 				'pedido' => $data['pedido'],
 				'produtos' => $lista
 			]))->get();

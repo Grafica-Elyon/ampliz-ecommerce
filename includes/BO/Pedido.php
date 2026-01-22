@@ -170,7 +170,15 @@ class Pedido
 
 	public function get_user_token()
 	{
-		$request = new Request('upload-arte/get-token', [], [], config('plugin', 'upload_url'));
+		$email = config('credentials','email');
+		$password = config('credentials','password');
+		$headers = [
+			'headers' => [
+				'Authorization' => 'Basic ' . base64_encode($email . ':' . $password)
+			]
+		];
+
+		$request = new Request('upload-arte/get-token', [], $headers, config('plugin', 'upload_url'));
 		$response = new RegisterOrderResponse($request->get());
 
 		if (!$response->is_positive()) {
