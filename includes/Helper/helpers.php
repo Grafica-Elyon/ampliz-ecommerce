@@ -26,13 +26,9 @@ function get_id_loja() {
 function mp_get_api_configuration(): array
 {
 	$apiBase = rtrim(config('plugin', 'api', ''), '/');
-	$email = config('env', 'APP_PLUGIN_EMAIL', '');
-	$password = config('env', 'APP_PLUGIN_PASSWORD', '');
-	$authorization = '';
-
-	if ($email !== '' && $password !== '') {
-		$authorization = 'Authorization: Basic ' . base64_encode("{$email}:{$password}");
-	}
+	$email = config('credentials', 'email', '');
+	$password = config('credentials', 'password', '');
+	$authorization = "basic " . config('credentials', 'authorization', '');
 
 	return [
 		'apiBase' => $apiBase,
