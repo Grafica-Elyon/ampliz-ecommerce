@@ -23,6 +23,21 @@ function get_id_loja() {
 	return $codSite;
 }
 
+function mp_get_api_configuration(): array
+{
+	$apiBase = rtrim(config('plugin', 'api', ''), '/');
+	$email = config('credentials', 'email', '');
+	$password = config('credentials', 'password', '');
+	$authorization = "basic " . config('credentials', 'authorization', '');
+
+	return [
+		'apiBase' => $apiBase,
+		'email' => $email,
+		'password' => $password,
+		'authorization' => $authorization,
+	];
+}
+
 /**
  * Helper para pegar configurações do sistema.
  */

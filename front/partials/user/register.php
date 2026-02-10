@@ -4,6 +4,8 @@ use MisterPrint\Support\View;
 use MisterPrint\Support\SessionSupport;
 
 $data = $this->data['params'];
+$termsUrl = rtrim(config('plugin', 'url_loja', home_url('/')), '/');
+$termsUrl = $termsUrl ? $termsUrl . '/termos-de-uso/' : '#';
 ?>
 <input type="hidden" name="params" value="<?= base64_encode(json_encode($data)) ?>" />
 <div class="mp-heading mp-pb-1">
@@ -454,7 +456,7 @@ $data = $this->data['params'];
 							<input type="checkbox" name="receber-ofertas" value="receber-ofertas" checked />
 							<span class="checkmark"></span>
 							<!-- <div class="mp-checkbox-label"><strong><?= $data['formulario_receber_email'] ?></strong></div> -->
-							<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; ">Ao me cadastrar, eu confirmo que li e concordo com os <a href="https://ampliz.com.br/termos-de-uso/" title="Link para a página de detalhes do termo de uso"><b>Termos de Uso</b></a>, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento. </span></div>
+							<div class="mp-checkbox-label" style="text-align: justify; padding: 0 15px; flex-wrap: wrap; ">Ao me cadastrar, eu confirmo que li e concordo com os <a href="<?= esc_url($termsUrl) ?>" title="Link para a página de detalhes do termo de uso"><b>Termos de Uso</b></a>, Privacidade e Garantia da Ampliz e que receberei notificações, orientações e promoções através dos canais de contato. Podendo desabilitar essa função a qualquer momento. </span></div>
 
 						</label>
 

@@ -70,14 +70,20 @@ $id = user()->getId();
     <img id="qrcode" style="display: none; margin: 0 auto;" alt="QR Code para Pagamento via Pix">
 </div>
 
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <script>
-    const url2 = 'https://apiteste.misterprint.com.br/v2/maxi-pago/solicitar-pix';
+    const apiBaseMaxiPagoPix = window.MrPrint && window.MrPrint.apiUrl
+        ? window.MrPrint.apiUrl.replace(/\/$/, '')
+        : "<?= esc_js( $apiConfig['apiBase'] ) ?>";
+    const url2 = apiBaseMaxiPagoPix + '/v2/maxi-pago/solicitar-pix';
     const headers2 = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'User-Agent': "https://mrprint.com.br",
-        'Authorization': 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo='
     };
+    <?php if (!empty($apiConfig['authorization'])) : ?>
+    headers2['Authorization'] = '<?= esc_js( $apiConfig['authorization'] ) ?>';
+    <?php endif; ?>
     const order2 = {
         referenceNum: "<?php echo  $orderid; ?>",
         fraudCheck: 'Y',

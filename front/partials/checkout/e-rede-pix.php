@@ -73,14 +73,19 @@ $id = user()->getId();
     </div>
 </div>
 
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <script>
-    const baseUrl = window.location.origin;
-    const url_rede_pix = "<?php echo config('plugin', 'api');?>"+'rede/request-pix';
+    const apiBaseRedePix = window.MrPrint && window.MrPrint.apiUrl
+        ? window.MrPrint.apiUrl.replace(/\/$/, '')
+        : "<?= esc_js( $apiConfig['apiBase'] ) ?>";
+    const url_rede_pix = apiBaseRedePix + '/rede/request-pix';
     const headers_rede_pix = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo='
     };
+    <?php if (!empty($apiConfig['authorization'])): ?>
+    headers_rede_pix['Authorization'] = '<?= esc_js( $apiConfig['authorization'] ) ?>';
+    <?php endif; ?>
 
     const body = {
         reference: "<?php echo  $orderid; ?>",

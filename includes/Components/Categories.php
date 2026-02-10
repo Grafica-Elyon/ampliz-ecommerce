@@ -66,22 +66,6 @@ class Categories extends Component
 	public static function getProducts($categories, $special = false)
 	{
 		if($special) {
-			// [prazo] => 01/05
-			// [id] => 136014
-			// [quantidade] => 50
-			// [nome] => Adesivos
-			// [preco] => 17.59
-			// [modelo] => DIG1
-			// [cor] => 4x0
-			// [formato] => 3.00x3.00
-			// [cobertura] => sem-enobrecimento
-			// [sobmedida] => N
-			// [largura_minima] => 3
-			// [altura_minima] => 3
-			// [gabarito_horizontal_corel] => https://gabaritos.misterprint.com.br/.cdr
-			// [gabarito_vertical_corel] => https://gabaritos.misterprint.com.br/110541_adesivos__50x50_4x0.cdr
-			// [gabarito_horizontal_illustrator] => https://gabaritos.misterprint.com.br/illustrator-new/.ai
-			// [gabarito_vertical_illustrator] => https://gabaritos.misterprint.com.br/illustrator-new/110541_adesivos__50x50_4x0.ai
 			$categories = $categories['data'] != null ? array_map(function ($category) {
 				return $category = [
 					'id' => $category['id'],

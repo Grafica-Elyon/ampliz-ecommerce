@@ -6,17 +6,11 @@
   $dados = (new Pagamento)->get_iframe_info();
   $dados = json_decode($dados, true);
 
-  #$sellerId = $dados['seller']; //producao
-  #$clientId = $dados['client']; //producao
-  #$clientSecret = $dados['secret']; //producao 
-  #$url = "https://api.getnet.com.br/auth/oauth/v2/token";
-
-
-  #teste prog
-  $sellerId = "85e80b1e-5a5e-40a5-ac56-46e928254e51"; 
-  $clientId = "e22f70f7-d8ea-40c9-870a-82d87d503baf";
-  $clientSecret = "70a9a918-f4ed-45a8-9ce9-c450227b6e7a";
-  $url = "https://api-homologacao.getnet.com.br/auth/oauth/v2/token"; 
+  $sellerId = config('env', 'GETNET_SELLER_ID', '');
+  $clientId = config('env', 'GETNET_CLIENT_ID', '');
+  $clientSecret = config('env', 'GETNET_CLIENT_SECRET', '');
+  $url = config('env', 'GETNET_TOKEN_URL');
+  $checkoutScript = config('env', 'GETNET_CHECKOUT_SCRIPT');
 
   $token = base64_encode("{$clientId}:{$clientSecret}");
   $curl = curl_init($url);
@@ -75,8 +69,7 @@
 
 <span id="teste" class="mp-btn-primary pay-button-getnet">Efetuar pagamento</span>
 
-<!-- <script id="iframe-script" async src="https://checkout.getnet.com.br/loader.js" -->
-<script id="iframe-script" async src="https://checkout-homologacao.getnet.com.br/loader.js" 
+<script id="iframe-script" async src="<?= esc_url($checkoutScript) ?>"
 data-getnet-sellerid="<?= $sellerId  ?>" 
 data-getnet-token="Bearer <?= $result_token ?>" 
   data-getnet-amount="1000000.00"

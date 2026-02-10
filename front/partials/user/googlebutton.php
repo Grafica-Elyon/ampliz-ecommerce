@@ -6,7 +6,6 @@
 
 <script src="https://accounts.google.com/gsi/client" async></script>
 <div id="g_id_onload" data-client_id="<?php echo $data_client_id; ?>" data-login_uri="<?php echo $data_login_uri; ?>" data-auto_prompt="false">  
-<!-- <div id="g_id_onload" data-client_id="153943376301-1qq5op592m8or24imeggsj60r1hi5756.apps.googleusercontent.com" data-login_uri="http://localhost/mrprint/" data-auto_prompt="false">  -->
 </div>
 <div class="g_id_signin" data-type="standard" data-size="large" 
      data-theme="outline" data-text="sign_in_with" data-shape="rectangular" 

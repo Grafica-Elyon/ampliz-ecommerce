@@ -178,9 +178,10 @@ echo (new View('misc/errors', [
 </div>
 <script type="text/javascript">
 	document.getElementById('clear').addEventListener("click", function(){
-		var base_url = window.location.hostname == "localhost" 
-			? "https://ampliz.com.br" 
-			: "https://"+window.location.hostname;
+		var defaultStoreUrl = "<?= rtrim( esc_url( config('plugin', 'url_loja', home_url('/') ) ), '/' ) ?>";
+		var base_url = (window.MrPrint && window.MrPrint.storeUrl)
+			? window.MrPrint.storeUrl
+			: defaultStoreUrl || ("https://" + window.location.hostname);
 
 		jQuery('.loader').css('display', "block");
 		if (window.sendinblue && window.sendinblue.track !== undefined){

@@ -17,7 +17,7 @@ class SendArt extends Component
 	{
 		$data = $_POST['data'];
 
-		$response = (new Pedido)->get_user_token(); //http://up4.ampliz.com.br/upload-arte/get-token
+		$response = (new Pedido)->get_user_token();
 		$verificacao = (new Pedido)->check_id_client($data['pedido'], user()->getId());
 		$pedido = (new Pedido())->get_detalhes_do_pedido( $data['pedido'] );
 		$loja = config("plugin", "franquia");
@@ -25,9 +25,10 @@ class SendArt extends Component
 		$lista = array_filter($pedido['produtosPedido'], function($item) {
 			return $item['need_upload'];
 		});
+
 		if($loja == 2){
 			return (new View('user/send-art', [
-				'iframe_url' => "https://up4.ampliz.com.br/",
+				'iframe_url' => config('plugin', 'upload_url'),
 				'pedido' => $data['pedido'],
 				'produtos' => $lista
 			]))->get();

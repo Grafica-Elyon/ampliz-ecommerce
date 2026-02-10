@@ -142,6 +142,7 @@ $orderid = user()->getId() . ":{$usuario['dadosCliente']['qtde_pedidos']}:{$fili
 
 <!-- jQuery Mask Plugin CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<?php $apiConfig = mp_get_api_configuration(); ?>
 <script>
 	$(document).ready(function () {
 		$('#monthExpiryDate').mask('00');

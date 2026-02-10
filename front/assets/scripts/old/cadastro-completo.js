@@ -1,3 +1,14 @@
+var amplizApiBase = (function(){
+	var defaultUrl = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : '';
+	if (typeof window !== 'undefined' && window.MrPrint && window.MrPrint.apiUrl) {
+		defaultUrl = window.MrPrint.apiUrl;
+	}
+
+	return defaultUrl.replace(/\/$/, '');
+})();
+var amplizAuthorizationToken = (typeof window !== 'undefined' && window.MrPrint && window.MrPrint.authorizationToken)
+	? window.MrPrint.authorizationToken
+	: '';
 (function ($) {
 	window.CadastroCompleto = {
 		cadastro: $('.cadastro'),
@@ -512,10 +523,11 @@
 						data: JSON.stringify({
 							'cep': cep
 						}),
-						url: 'http://api.misterprint.com.br/cliente/auto-completar-endereco',
+						url: amplizApiBase + '/cliente/auto-completar-endereco',
 						beforeSend: function(xhr){
-							xhr.setRequestHeader('Access-Control-Allow-origin', 'POST');
-							xhr.setRequestHeader('Authorization', 'Basic ZXplcXVpZWxAc3R1ZGlvdmlzdWFsLmNvbS5icjpKVzJCM1RIeE1PanJPYjcxVGdTNlpzOWFDaG4yUm1ibHIwdUIxc1RTWnhwd2YxSlFvbVdnTTJmdDdyTGo=');
+							if (amplizAuthorizationToken) {
+								xhr.setRequestHeader('Authorization', amplizAuthorizationToken);
+							}
 						},
 						success: function (d) {
 							if (('erro' in d)) {

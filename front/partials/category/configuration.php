@@ -207,9 +207,10 @@
 
 	jQuery('#salvar_favorito').click(function(e){
 		e.preventDefault();
-		var base_url = window.location.hostname == "localhost" 
-			? "https://ampliz.com.br" 
-			: "https://"+window.location.hostname;
+		var defaultStoreUrl = "<?= rtrim( esc_url( config('plugin', 'url_loja', home_url('/') ) ), '/' ) ?>";
+		var base_url = (window.MrPrint && window.MrPrint.storeUrl)
+			? window.MrPrint.storeUrl
+			: defaultStoreUrl || ("https://" + window.location.hostname);
 
 		jQuery('.loader').css('display', "block");
 		var cat = window.location.pathname.split("/");

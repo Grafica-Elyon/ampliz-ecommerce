@@ -11,10 +11,9 @@ class Request extends HttpRequest
 
 	public function __construct($method, $body = [], $headers = [], $base_url = null)
 	{
-		if ($base_url === null) {
-			$base_url = config('plugin', 'api') ?: 'http://localhost:8000/v3/';
-		}
-		$this->url = $base_url . $method;
+		$apiConfig = mp_get_api_configuration();
+		$apiBase = $base_url ?? $apiConfig['apiBase'];
+		$this->url = ($apiBase ?: config('plugin', 'api')) . $method;
 
 		//pegando id de empresa no bd
 		global $wpdb;
@@ -35,12 +34,17 @@ class Request extends HttpRequest
 			$this->body['funcionary'] = $funcionario['email'];
 		}
 
+		$authorization = $apiConfig['authorization'];
+
 		$this->headers = array_merge([
 			'Content-Type'  => 'application/json',
 			'Accept'        => 'application/json',
 			'User-Agent'    => $_SERVER['HTTP_HOST'],
-			'Authorization' => 'Basic ' . base64_encode(config('credentials', 'email') . ':' . config('credentials', 'password')),
 		], $headers);
+
+		if ( $authorization && ! isset( $this->headers['Authorization'] ) ) {
+			$this->headers['Authorization'] = $authorization;
+		}
 	}
 
 	public function get($params = [])
