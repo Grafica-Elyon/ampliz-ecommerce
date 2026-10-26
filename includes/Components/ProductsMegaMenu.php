@@ -33,6 +33,7 @@ class ProductsMegaMenu extends Component
 			$item['label_colors'] = $category['labelColors'];
 			$item['gray_scale'] = $category['grayScale'];
 			$item['image'] = $category['urlImagem'];
+			$item['alt_text_imagem'] = $category['altTextImagem'] ?? '';
 			$item['is_master'] = isset($category['is_master']) ? $category['is_master'] : null;
 			$item['master_id'] = isset($category['master_id']) ? $category['master_id'] : null;
 			$item['grupo'] = $category['grupo'];

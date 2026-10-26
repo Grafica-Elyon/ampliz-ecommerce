@@ -54,7 +54,7 @@ $grupos = $this->data['grupos'];
 									<?php echo $produto['label'] == null ?:'has_img_label'; ?>"
 									<?php echo $produto['label'] == null ?:'style="background:'.$produto['label_colors'].';"'; ?>
 									>
-									<img src="<?php echo $produto['image']; ?>" class="img-fluid"  />
+									<img src="<?php echo $produto['image']; ?>" class="img-fluid" alt="<?= esc_attr($produto['alt_text_imagem'] ?? '') ?>" />
 								</div>
 								<div>
 									<h3 class="mp-card-title"><?php echo $produto['name'] ?></h3>

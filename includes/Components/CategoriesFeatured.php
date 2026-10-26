@@ -42,6 +42,7 @@ class CategoriesFeatured extends Component
 					'name' => $category['nomeMenu'],
 					'slug' => $category['slug'],
 					'image' => $category['urlImagem'],
+					'alt_text_imagem' => $category['altTextImagem'] ?? '',
 					'is_master' => $category['is_master'],
 					'master_id' => $category['master_id'],
 					'description' => $category['descricao'],
@@ -70,6 +71,7 @@ class CategoriesFeatured extends Component
 					'name' => $category['nomeMenu'],
 					'slug' => $category['slug'],
 					'image' => $category['urlImagem'],
+					'alt_text_imagem' => $category['altTextImagem'] ?? '',
 					'description' => $category['descricao'],
 					'price' => number_format($category['precoAPartirDe'], 2, ',', ''),
 					'price_quant' => $category['quantidadeMenorPreco'],
@@ -145,6 +147,7 @@ class CategoriesFeatured extends Component
 		//             'name' => $category['nomeMenu'],
 		//             'slug' => $category['slug'],
 		//             'image' => $category['urlImagem'],
+		//             'alt_text_imagem' => $category['altTextImagem'] ?? '',
 		//             'description' => $category['descricao'],
 		//             'price' => number_format($category['precoAPartirDe'], 2, ',', ''),
 		//         ];
@@ -161,6 +164,7 @@ class CategoriesFeatured extends Component
 		//             'name' => $category['nomeMenu'],
 		//             'slug' => $category['slug'],
 		//             'image' => $category['urlImagem'],
+		//             'alt_text_imagem' => $category['altTextImagem'] ?? '',
 		//             'description' => $category['descricao'],
 		//             'price' => number_format($category['precoAPartirDe'], 2, ',', ''),
 		//         ];
