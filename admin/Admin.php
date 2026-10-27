@@ -176,6 +176,9 @@ class Admin
 		AjaxRequest::register('mp_balconies', CheckoutShipping::balconies(), []);
 		AjaxRequest::register('mp_remessas', CheckoutShipping::remessas(), []);
 		AjaxRequest::register('mp_coupon', CheckoutBilling::coupon(), []);
+		AjaxRequest::register('mp_erede_parcelas', CheckoutBilling::eredeParcelas(), []);
+		AjaxRequest::register('mp_erede_pagar_cartao', CheckoutBilling::eredePagarCartao(), []);
+		AjaxRequest::register('mp_erede_gerar_pix', CheckoutBilling::eredeGerarPix(), []);
 		AjaxRequest::register('mp_continue_pagseguro', CheckoutBilling::continuePagseguro(), []);
 		//AjaxRequest::register('mp_checkout_e_rede_card', CheckoutERedeCard::action(), []);
 		AjaxRequest::register('mp_orders', PanelOrders::orders(), []);

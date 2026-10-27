@@ -2,6 +2,7 @@ import StickSidebar from "../StickSidebar";
 import Form from "../Form";
 import Components from "../Components";
 import Factory from "../Factory";
+import eredeCard from "./mp-erede-card";
 let count=0;
 export default function (el) {
 	let registerEvents = () => {
@@ -196,8 +197,8 @@ export default function (el) {
 				$('#iframe-script').attr('data-getnet-installments', parcelas);
 			}
 		}
-		console.log("credito: "+credit+"\n"+"total: "+total+"\n"+"cupom: "+coupon);
 		updateCreditPayment()
+		$(document).trigger('mp:cart-total-changed', { origem: 'credito' });
 	}
 
 	function updateCreditPayment()
@@ -359,4 +360,5 @@ export default function (el) {
 	registerEvents();
 	scrollToErrors();
 	applyCredit();
+	eredeCard(el);
 }

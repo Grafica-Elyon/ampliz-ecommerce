@@ -55,11 +55,19 @@
 					<th>Frete:</th>
 					<td data-freight-price="<?= $this->data['freight']?>" align="right"><?= money($this->data['freight'])?></td>
 				</tr>
+				<tr class="surcharge" data-surcharge-row style="display: none;">
+					<th>Acréscimo do parcelamento:</th>
+					<td data-surcharge-price align="right"></td>
+				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total:</th>
 					<td data-total-price="<?= $this->data['total']?>" align="right"><?php echo money($this->data['total_credito']); ?></td>
+				</tr>
+				<tr class="installment-total" data-installment-total-row style="display: none;">
+					<th>Total parcelado:</th>
+					<td data-installment-total align="right"></td>
 				</tr>
 			</tfoot>
 		</table>
