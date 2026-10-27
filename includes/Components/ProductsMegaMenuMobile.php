@@ -2,7 +2,7 @@
 namespace MisterPrint\Components;
 
 use MisterPrint\BO\Produto;
-use MisterPrint\Factory\Vc;
+use MisterPrint\Support\MenuTree;
 use MisterPrint\Support\View;
 
 class ProductsMegaMenuMobile extends Component
@@ -16,69 +16,20 @@ class ProductsMegaMenuMobile extends Component
 		return $this->render();
 	}
 
-	public function render(){
-
+	public function render()
+	{
 		$productBO = new Produto();
 
-		$lista_produtos = $productBO->get_produtos_mega_menu(user()->getId(), 1, 4 * 200);
-		$categories = [];
-		if(isset($lista_produtos['data']) && is_array($lista_produtos['data'])) {
-			usort(
-				$lista_produtos['data'],
-				function ($a, $b) {
-					return $a['ordem'] - $b['ordem'];
-				}
-			);
-			usort(
-				$lista_produtos['data'],
-				function ($a, $b){
-					if ($a == $b) {
-						return 0;
-					}
-					return ($a < $b) ? -1 : 1;
-				}
-			);
-			$categories['all'] = array_map(function ($category) {
-				return $category = [
-					'id' => $category['codigoMenu'],
-					'name' => $category['nomeMenu'],
-					'slug' => $category['slug'],
-					'label' => $category['labels'],
-					'image' => $category['urlImagem']
-				];
-			}, $lista_produtos['data']);
+		$grupos = json_decode( $productBO->get_grupos_de_produtos(), true );
+		$itens = json_decode( $productBO->get_produtos_mega_menu(), true );
+
+		if ( empty( $grupos ) || empty( $itens ) || ! is_array( $grupos ) || ! is_array( $itens ) ) {
+			return '';
 		}
 
-		$especial = $productBO->get_produtos_negociacao_especial(1, 4 * 200);
-		$categories['especial'] = [];
-		if(is_array($especial['data'])) {
-			usort(
-				$especial['data'],
-				function ($a, $b) {
-					return strcmp($a['nome'], $b['nome']);
-				}
-			);
-			usort(
-				$especial['data'],
-				function ($a, $b){
-					if ($a == $b) {
-						return 0;
-					}
-					return ($a < $b) ? -1 : 1;
-				}
-			);
-			$categories['especial'] = array_map(function ($category) {
-				return $category = [
-					'id' => $category['id'],
-					'name' => $category['nome'],
-					'slug' => $category['slug'],
-					'image' => $category['image'],
-					'label' => $category['labels'],
-					'special_product' => true
-				];
-			}, $especial['data']);
-		}
-
-		return (new View('menu/do-mobile-mega-menu', $categories))->get();
+		return ( new View( 'menu/do-mobile-mega-menu', array(
+			'grupos' => $grupos,
+			'arvore' => MenuTree::porGrupo( $itens, $grupos ),
+		) ) )->get();
 	}
 }

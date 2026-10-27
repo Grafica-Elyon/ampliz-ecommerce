@@ -149,6 +149,8 @@ export default function (el) {
 			$(' .mp-shipping-date', el).text('');
 			$(' .mp-arrival-day-week', el).text('');
 		}
+
+		$(document).trigger('mp:cart-total-changed', { origem: 'frete' });
 	}
 
 	function addressChanged() {

@@ -1,0 +1,293 @@
+// O prefixo .mp-form empata a especificidade do _forms.scss; quem desempata é o glob alfabético.
+
+.mp-form .mp-pagamento-cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+
+	// o card é irmão do input, então o marcado sai por `input:checked ~ ...` sem :has()
+	> .mp-checkbox {
+		flex: 1 1 160px;
+		max-width: 240px;
+		// flex faz o card interno esticar; sem isso a fileira sai desalinhada
+		display: flex;
+		position: relative;
+		margin: 0;
+		padding: 0;
+
+		> .checkmark {
+			position: absolute;
+			top: -9px;
+			right: -9px;
+			left: auto;
+			bottom: auto;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			opacity: 0;
+			transform: scale(0.6);
+			transition: opacity 0.15s ease, transform 0.15s ease;
+			z-index: 1;
+
+			&::after {
+				left: 7px;
+				top: 2px;
+				width: 5px;
+				height: 12px;
+			}
+		}
+
+		> [type="radio"]:checked ~ .checkmark {
+			opacity: 1;
+			transform: scale(1);
+
+			// _forms.scss põe um inset azul no :hover, que no toque fica grudado depois do tap
+			box-shadow: none;
+		}
+
+		&.mp-checkbox-icon {
+			margin-top: 0;
+
+			.mp-checkbox-label-icon {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 10px;
+				min-height: 104px;
+				padding: 16px 12px;
+				border: 1px solid $grey-lighter;
+				border-radius: 10px;
+				background-color: #fff;
+				text-align: center;
+				transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+				// altura fixa: as artes têm alturas diferentes e os rótulos desalinham
+				i {
+					position: static;
+					margin: 0;
+					top: auto;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					height: 40px;
+				}
+
+				strong {
+					font-size: $font-size-sm;
+					line-height: 1.3;
+				}
+			}
+
+			&:hover .mp-checkbox-label-icon {
+				border-color: $grey-light;
+			}
+		}
+
+		> [type="radio"]:checked ~ .mp-checkbox-label-icon {
+			border-color: $secundary-color;
+			box-shadow: 0 0 0 1px $secundary-color;
+		}
+
+		> [type="radio"]:focus-visible ~ .mp-checkbox-label-icon {
+			outline: 2px solid $secundary-color;
+			outline-offset: 2px;
+		}
+	}
+
+	@media (max-width: $small) {
+		gap: 8px;
+
+		> .mp-checkbox {
+			flex: 1 1 100%;
+			max-width: none;
+
+			// o card é o filho; padding aqui vira espaço morto fora da borda
+			padding: 0;
+
+			&.mp-checkbox-icon .mp-checkbox-label-icon {
+				flex-direction: row;
+				justify-content: flex-start;
+				gap: 14px;
+				min-height: 0;
+				// reserva à direita a pista do selo, que aqui fica dentro do card
+				padding: 14px 46px 14px 16px;
+				text-align: left;
+			}
+
+			// no empilhado o selo encostaria na borda da tela
+			> .checkmark {
+				top: 50%;
+				right: 12px;
+				margin-top: -11px;
+			}
+		}
+	}
+}
+
+// fora do sprite, que só aceita PNG; o ?v= supre o cache-bust que url() não tem
+.icon-pix {
+	display: inline-block;
+	width: 39px;
+	height: 39px;
+	background: url("../assets/imgs/pagamento/pix.svg?v=#{$asset-version}") no-repeat center / contain;
+}
+
+
+.mp-form .mp-campo {
+	// linha da mensagem sempre reservada: criada só no erro, o layout pulava no blur
+	.mp-campo-msg {
+		display: block;
+		visibility: hidden;
+		min-height: 16px;
+		margin-top: 4px;
+		font-size: 12px;
+		line-height: 1.3;
+		color: $error;
+	}
+
+	&.is-invalid {
+		.mp-input {
+			border-color: $error;
+			background-color: #fff6f6;
+		}
+
+		.mp-campo-msg {
+			visibility: visible;
+		}
+	}
+
+	&.is-valid .mp-input {
+		border-color: $secundary-color;
+	}
+}
+
+.mp-form .mp-cartao {
+	// par validade + CVV fora do grid .mp-form-col-N, que vira 100% !important abaixo de 576px
+	.mp-cartao-duo {
+		display: flex;
+		gap: 12px;
+
+		> .mp-form-group {
+			flex: 1 1 0;
+			min-width: 0;
+
+			&:first-child {
+				flex-grow: 1.4;
+			}
+		}
+	}
+
+	// espaço para o selo da bandeira não cobrir os últimos dígitos
+	#cardNumber {
+		padding-right: 56px;
+	}
+
+	.mp-input:focus-visible {
+		outline: 2px solid $secundary-color;
+		outline-offset: 1px;
+	}
+
+	// abaixo de 16px o Safari do iOS aplica zoom ao focar o campo
+	@media (max-width: $small) {
+		.mp-input,
+		.mp-select {
+			font-size: 16px;
+			height: 48px;
+		}
+
+		// a linha reservada da mensagem já separa os campos empilhados
+		.mp-campo {
+			margin-bottom: 0;
+		}
+	}
+}
+
+@media (max-width: $small) {
+	// o captcha é irmão de #formCartaoRede, então a regra do .mp-cartao não o alcança
+	.mp-form .mp-captcha .mp-input {
+		font-size: 16px;
+		height: 48px;
+	}
+
+	// o rodapé legado joga o botão à direita com meia largura e o padding de 75px espreme o alvo
+	.mp-form .mp-cartao .mp-form-footer .mp-link,
+	.mp-form .mp-captcha .mp-btn-primary {
+		float: none;
+		display: block;
+		width: 100%;
+		max-width: none;
+		padding-left: 20px;
+		padding-right: 20px;
+		text-align: center;
+	}
+}
+
+.mp-captcha.mp-captcha .is-invalid {
+	color: $error;
+}
+
+// Faixa de bandeiras aceitas — a lista sai do e-rede-cartao.php
+
+.mp-bandeiras-aceitas {
+	margin-top: 6px;
+
+	.mp-bandeiras-titulo {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 12px;
+		color: $grey;
+	}
+
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	img {
+		display: block;
+		width: 50px;
+		height: 32px;
+		object-fit: contain;
+	}
+}
+
+// Overlay de processamento, compartilhado pelos meios de pagamento
+
+.mp-overlay-pagamento {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.mp-overlay-spinner {
+	width: 100px;
+	height: 100px;
+	background-color: #000000; // Ampliz: spinner preto
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: mp-overlay-spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes mp-overlay-spin {
+	0% {
+		transform: translate(-50%, -50%) rotateY(0deg);
+	}
+
+	100% {
+		transform: translate(-50%, -50%) rotateY(360deg);
+	}
+}

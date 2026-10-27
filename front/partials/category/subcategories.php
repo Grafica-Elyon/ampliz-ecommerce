@@ -28,9 +28,12 @@ use MisterPrint\Support\View;
 			<?= $item['labels'] == null ?'':'style="background:'.$item['labelColors'].';"'; ?>
 			>
 				<?php if(!empty($item['urlImagem'])) { ?>
-					<img src="<?= $item['urlImagem'] ?>" />
+					<img src="<?= $item['urlImagem'] ?>" alt="<?= esc_attr($item['altTextImagem'] ?? '') ?>" />
 				<?php } else { ?>
-					<?= new View('misc/async-image', $item['urlImagem']) ?>
+					<?= new View('misc/async-image', [
+						'src' => $item['urlImagem'],
+						'alt_text_imagem' => $item['altTextImagem'] ?? '',
+					]) ?>
 				<?php } ?>
 				<div class="mp-card-overlay mp-hide-small">
 					<div class="mp-link-overlay">

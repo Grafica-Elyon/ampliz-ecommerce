@@ -34,7 +34,7 @@
 			<?php if (!empty($this->data['images'])) { ?>
 				<?php foreach ($this->data['images'] as $image) { ?>
 					<div class="mp-category-image">
-						<img src="<?php echo $image ?>"/>
+						<img src="<?php echo $image ?>" alt="<?= esc_attr($this->data['alt_text_imagem'] ?? '') ?>" />
 					</div>
 				<?php } ?>
 			<?php } else { ?>

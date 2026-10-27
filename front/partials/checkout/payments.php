@@ -13,10 +13,11 @@ $icons = [
 	'sinal' => 'icon-transfer-money',
 	'pagseguro' => 'icon-transfer-money',
 	'e-rede-cartao' => 'icon-credit-card',
-	'e-rede-pix' => 'icon-transfer-money',
+	'e-rede-pix' => 'icon-pix',
+	'maxipago-pix' => 'icon-pix',
 ];
-if (!$this->data['payments']) { //se vier vazio
-	?>
+if (!$this->data['payments']) { //se vier vazio 
+?>
 	<div class="mp-checkbox-group">
 		<label class="mp-checkbox mp-checkbox-icon">
 			<div class="mp-checkbox-label mp-checkbox-label-icon">
@@ -24,7 +25,7 @@ if (!$this->data['payments']) { //se vier vazio
 			</div>
 		</label>
 	</div>
-	<?php
+<?php
 	return;
 }
 
@@ -35,7 +36,7 @@ $selectablePayments = array_filter(
 	}
 );
 ?>
-<div class="mp-checkbox-group">
+<div class="mp-checkbox-group mp-pagamento-cards">
 	<input type="radio" name="payment" style="display: none" data-payment="" value="" />
 	<?php foreach ($selectablePayments as $payment) { ?>
 		<?php $slug = sanitize_title($payment['slugFormPgto']) ?>
@@ -92,12 +93,12 @@ $selectablePayments = array_filter(
 						<?php if ($temParcelas) : ?>
 							<?php foreach (range(1, $payment['parcelas']) as $numParcelas) : ?>
 								<option value="<?= $numParcelas ?>" <?= $numParcelas == 1 ? 'selected' : '' ?>><?=
-									str_replace(
-										['%qtde%', '%valor%'],
-										[$numParcelas, number_format(($this->data['info']['total'] / $numParcelas) - 0.0049, 2, ',', '.')],
-										$numParcelas == 1 ? $data['painel_pagamento_cartao_parcelas_1'] : $data['painel_pagamento_cartao_parcelas_outros']
-									)
-									?></option>
+																												str_replace(
+																													['%qtde%', '%valor%'],
+																													[$numParcelas, number_format(($this->data['info']['total'] / $numParcelas) - 0.0049, 2, ',', '.')],
+																													$numParcelas == 1 ? $data['painel_pagamento_cartao_parcelas_1'] : $data['painel_pagamento_cartao_parcelas_outros']
+																												)
+																												?></option>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</select>
@@ -111,24 +112,24 @@ $selectablePayments = array_filter(
 					<div class="mp-cart-table" id="tabelaContas">
 						<table cellspacing="0" cellpadding="0">
 							<thead>
-							<tr>
-								<th><?= $data['painel_pagamento_banco'] ?></th>
-								<th><?= $data['painel_pagamento_conta'] ?></th>
-								<th><?= $data['painel_pagamento_agencia'] ?></th>
-								<th><?= $data['painel_pagamento_cnpj'] ?></th>
-								<th><?= $data['painel_pagamento_titular'] ?></th>
-							</tr>
+								<tr>
+									<th><?= $data['painel_pagamento_banco'] ?></th>
+									<th><?= $data['painel_pagamento_conta'] ?></th>
+									<th><?= $data['painel_pagamento_agencia'] ?></th>
+									<th><?= $data['painel_pagamento_cnpj'] ?></th>
+									<th><?= $data['painel_pagamento_titular'] ?></th>
+								</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($this->data['banks'] as $bank) { ?>
-								<tr>
-									<td><strong><?= $bank['banco'] ?></strong>(<?= $bank['codigoBanco'] ?>)</td>
-									<td><?= $bank['conta'] ?></td>
-									<td><?= $bank['agencia'] ?></td>
-									<td><?= $bank['cnpj'] ?></td>
-									<td><?= $bank['titular'] ?></td>
-								</tr>
-							<?php } ?>
+								<?php foreach ($this->data['banks'] as $bank) { ?>
+									<tr>
+										<td><strong><?= $bank['banco'] ?></strong>(<?= $bank['codigoBanco'] ?>)</td>
+										<td><?= $bank['conta'] ?></td>
+										<td><?= $bank['agencia'] ?></td>
+										<td><?= $bank['cnpj'] ?></td>
+										<td><?= $bank['titular'] ?></td>
+									</tr>
+								<?php } ?>
 							</tbody>
 						</table>
 					</div>
@@ -224,43 +225,38 @@ $selectablePayments = array_filter(
 			<!-- start PAGAMENTO UTILIZANDO A E.REDE -->
 			<?php if ('e-rede-cartao' == $slug) { ?>
 				<div class="mp-form-group">
-					<div class="mp-checkout-payment" data-inputs="<?= $slug ?>">
-						<!-- start captcha -->
-						<div id="captchaFormRede" >
-							<div class="mp-form-col-5">
-								<div class="mp-form-group">
-									<label id="captchaQuestionRede" class="mp-label"  for="captcha-e-rede"></label>
-									<input type="text" id="captcha-e-rede" name="captcha-e-rede" class="mp-input">
-								</div>
-								<button type="button" class="mp-btn-primary "  onclick="validateCaptchaRede()">Validar</button>
+					<div id="captchaFormRede" class="mp-captcha">
+						<div class="mp-form-col-5">
+							<div class="mp-form-group">
+								<label id="captchaQuestionRede" class="mp-label" for="captcha-e-rede"></label>
+								<input type="text" id="captcha-e-rede" name="captcha-e-rede" class="mp-input" inputmode="numeric">
+								<span class="mp-campo-msg" data-captcha-msg role="alert"></span>
 							</div>
+							<button type="button" class="mp-btn-primary" data-captcha-validar>Validar</button>
 						</div>
-
-						<!-- end captcha -->
-						<br>
-						<?php echo (new View('checkout/e-rede-cartao', [
-							'user' => $this->data['user'],
-							'slug' => $slug,
-						]))->get()  ?>
 					</div>
+					<?php echo (new View('checkout/e-rede-cartao', [
+						'user' => $this->data['user'],
+						'slug' => $slug,
+					]))->get()  ?>
 				</div>
 			<?php } ?>
 
 			<?php if ('e-rede-pix' == $slug) { ?>
 				<div class="mp-form-group">
 					<?php echo (new View('checkout/e-rede-pix', [
-						'user' => $this->data['user'],
-						'slug' => $slug,
-					]))->get()  ?>
+							'user' => $this->data['user'],
+							'slug' => $slug,
+						]))->get()  ?>
 				</div>
 			<?php } ?>
 
 			<?php if ('maxipago-pix' == $slug) { ?>
 				<div class="mp-form-group">
 					<?php echo (new View('checkout/maxipago-pix', [
-						'user' => $this->data['user'],
-						'slug' => $slug,
-					]))->get()  ?>
+							'user' => $this->data['user'],
+							'slug' => $slug,
+						]))->get()  ?>
 				</div>
 			<?php } ?>
 
@@ -273,7 +269,7 @@ $selectablePayments = array_filter(
 		input.addEventListener('change', function() {
 			// Verifica qual radio está selecionado
 			const selectedValue = document.querySelector('input[name="payment"]:checked').value;
-
+			
 			// Verifica se o valor é igual a "e-rede-cartao"
 			if (selectedValue === 'e-rede-cartao') {
 				document.querySelector('.mp-checkout-content-footer-right').style.display = 'none';

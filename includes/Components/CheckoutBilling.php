@@ -429,6 +429,73 @@ class CheckoutBilling extends CheckoutComponent
 		};
 	}
 
+	public static function eredeParcelas()
+	{
+		return function() {
+			$dados = $_POST['data'] ?? [];
+
+			$bin = preg_replace('/\D/', '', $dados['bin'] ?? '');
+
+			return (new Pagamento())->get_opcoes_parcelamento(
+				user()->getId(),
+				substr($bin, 0, 6),
+				! empty($dados['usar_saldo_conta_corrente']),
+				($dados['payment_type'] ?? 'credit') === 'debit' ? 'debit' : 'credit'
+			);
+		};
+	}
+
+	public static function eredePagarCartao()
+	{
+		return function () {
+			$dados = $_POST['data'] ?? [];
+
+			$parcelas = isset($dados['installments']) ? (int) $dados['installments'] : null;
+
+			return (new Pagamento())->pagar_cartao(user()->getId(), array_filter([
+				'reference' => self::referenciaDoPedido(),
+				'card_number' => preg_replace('/\D/', '', $dados['card_number'] ?? ''),
+				'card_holder_name' => $dados['card_holder_name'] ?? '',
+				'expiration_month' => $dados['expiration_month'] ?? '',
+				'expiration_year' => $dados['expiration_year'] ?? '',
+				'cvv' => preg_replace('/\D/', '', $dados['cvv'] ?? ''),
+				'payment_type' => ($dados['payment_type'] ?? 'credit') === 'debit' ? 'debit' : 'credit',
+				'installments' => $parcelas,
+				'usar_saldo_conta_corrente' => ! empty($dados['usar_saldo_conta_corrente']) ? 1 : 0,
+				'cart_fingerprint' => $dados['cart_fingerprint'] ?? null,
+			], fn ($valor) => $valor !== null && $valor !== ''));
+		};
+	}
+
+	public static function eredeGerarPix()
+	{
+		return function () {
+			$dados = $_POST['data'] ?? [];
+
+			return (new Pagamento())->gerar_pix(user()->getId(), [
+				'reference' => self::referenciaDoPedido(),
+				'amount' => (float) ($dados['amount'] ?? 0),
+			]);
+		};
+	}
+
+	private static function referenciaDoPedido()
+	{
+		$usuario = json_decode(json_encode(user()->getData()), true);
+		$site = $_SERVER['HTTP_HOST'] ?? '';
+		$filial = '';
+
+		if ($site && strpos($site, 'localhost') !== 0) {
+			$filial = explode('.', $site)[0];
+			$filial = $filial === 'mrprint' ? 'PRO' : ucwords($filial);
+		}
+
+		return user()->getId()
+			. ':' . ($usuario['dadosCliente']['qtde_pedidos'] ?? 0)
+			. ':' . $filial
+			. ':' . config('plugin', 'franquia');
+	}
+
 	public static function continueGetnet()
 	{
 		return function () {return 0;};

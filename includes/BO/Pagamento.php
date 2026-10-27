@@ -17,6 +17,74 @@ class Pagamento
 		return $response->get_data();
 	}
 
+	public function get_opcoes_parcelamento( $client_id, $bin, $usar_saldo, $payment_type = 'credit' )
+	{
+		$data = [
+			'codigoCliente' => $client_id,
+			'bin' => $bin,
+			'usar_saldo_conta_corrente' => $usar_saldo ? 1 : 0,
+			'payment_type' => $payment_type,
+		];
+
+		$request = new Request('pagamento/opcoes-parcelamento');
+		$response = $request->get($data);
+
+		$erro = [
+			'response' => 'error',
+			'message' => 'Não foi possível calcular o parcelamento.',
+		];
+
+		// wp_remote_get devolve WP_Error quando a rede falha, e aí $response['body'] dá fatal
+		if (\is_wp_error($response) || ! \is_array($response)) {
+			return $erro;
+		}
+
+		return json_decode($response['body'] ?? '', true) ?: $erro;
+	}
+
+	public function pagar_cartao( $client_id, $dados )
+	{
+		$data = array_merge( $dados, [ 'customer_id' => $client_id ] );
+		$request = new Request('rede/process-card-payment', $data);
+
+		return $this->resposta_da_api(
+			$request->post(),
+			'Não foi possível realizar o pagamento. Tente novamente mais tarde ou contate o suporte.'
+		);
+	}
+
+	public function gerar_pix( $client_id, $dados )
+	{
+		$data = array_merge( $dados, [ 'customer_id' => $client_id, 'payment_type' => 'Pix' ] );
+		$request = new Request('rede/request-pix', $data);
+
+		return $this->resposta_da_api(
+			$request->post(),
+			'Não foi possível gerar o QR Code. Atualize a página e tente novamente.'
+		);
+	}
+
+	// O checkout reage a 409 e 422 recotando, então o status precisa vir junto
+	private function resposta_da_api( $response, $mensagemErro )
+	{
+		$erro = [ 'success' => false, 'message' => $mensagemErro, 'http_status' => 0 ];
+
+		if ( \is_wp_error($response) || ! \is_array($response) ) {
+			return $erro;
+		}
+
+		$corpo = json_decode( $response['body'] ?? '', true );
+		$erro['http_status'] = (int) \wp_remote_retrieve_response_code($response);
+
+		if ( ! is_array($corpo) ) {
+			return $erro;
+		}
+
+		$corpo['http_status'] = $erro['http_status'];
+
+		return $corpo;
+	}
+
 	public function usar_cupom( $client_id, $cupom )
 	{
 		$data = [

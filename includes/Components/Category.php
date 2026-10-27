@@ -39,6 +39,7 @@ class Category extends Component
 				'short_description' => 'Placeholder',
 				'slug' => $category['slug'],
 				'images' => !empty($category['urlImagem']) ? [$category['urlImagem']] : [],
+				'alt_text_imagem' => $category['altTextImagem'] ?? '',
 				'description' => $category['descricao'],
 				'price' => number_format($category['precoAPartirDe'], 2, ',', ''),
 				'discount' => $category['discount'],

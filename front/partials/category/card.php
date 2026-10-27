@@ -17,7 +17,10 @@ if (isset($this->data['special_product']) && $this->data['special_product']) {
 	<?php echo $this->data['label'] == null ?:'style="background:'.$this->data['label_colors'].';"'; ?>
 	>
 		<?php if(!empty($this->data['image'])) { ?>
-			<?= new View('misc/async-image', $this->data['image']) ?>
+			<?= new View('misc/async-image', [
+				'src' => $this->data['image'],
+				'alt_text_imagem' => $this->data['alt_text_imagem'] ?? '',
+			]) ?>
 		<?php } else { ?>
 			<img src="<?php echo config('plugin', 'url') ?>front/assets/imgs/logo.png" />
 		<?php } ?>

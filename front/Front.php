@@ -230,7 +230,10 @@ class Front
 	 */
 	public function enqueue_styles()
 	{
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'dist/app.css', [], $this->version, 'all');
+		$arquivo = plugin_dir_path(__FILE__) . 'dist/app.css';
+		$versao = file_exists($arquivo) ? filemtime($arquivo) : $this->version;
+
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'dist/app.css', [], $versao, 'all');
 	}
 
 	/**

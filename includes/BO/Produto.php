@@ -2,6 +2,7 @@
 
 namespace MisterPrint\BO;
 
+use MisterPrint\Helper\Log;
 use MisterPrint\Request;
 use MisterPrint\Response\CategoryDataResponse;
 use MisterPrint\Response\ProductCategoriesMostVisitedResponse;
@@ -56,12 +57,37 @@ class Produto
 
 	public function get_grupos_de_produtos()
 	{
+		// Desktop e mobile renderizam na mesma página e pedem o mesmo dado.
+		static $cache = null;
+
+		if ( ! is_null( $cache ) ) {
+			return $cache;
+		}
+
 		$request = new Request('produto/get-grupos-produtos');
-		$response = $request->get();
 
-		$result = $response['body'];
+		$cache = self::corpoOuNulo( $request->get(), 'produto/get-grupos-produtos' );
 
-		return $result;
+		return $cache;
+	}
+
+	private static function corpoOuNulo( $resposta, $rota )
+	{
+		if ( is_wp_error( $resposta ) ) {
+			Log::error( "[menu] {$rota} falhou: " . $resposta->get_error_message() );
+
+			return null;
+		}
+
+		$status = (int) \wp_remote_retrieve_response_code( $resposta );
+
+		if ( $status < 200 || $status >= 300 ) {
+			Log::error( "[menu] {$rota} respondeu HTTP {$status}" );
+
+			return null;
+		}
+
+		return isset( $resposta['body'] ) ? $resposta['body'] : null;
 	}
 
 	public function get_menu_de_produtos_sync($client_id=null,$page=1,$numPerPage=12,$showDisabled=false,$ignoreCache=true){
@@ -99,13 +125,18 @@ class Produto
 
 	public function get_produtos_mega_menu()
 	{
+		static $cache = null;
+
+		if ( ! is_null( $cache ) ) {
+			return $cache;
+		}
+
 		$data = ['codigoCliente' => user()->getId()];
 		$request = new Request('produto/get-produtos-mega-menu', $data);
-		$response = $request->get();
 
-		$result = $response['body'];
+		$cache = self::corpoOuNulo( $request->get(), 'produto/get-produtos-mega-menu' );
 
-		return $result;
+		return $cache;
 	}
 
 	public function get_favoritos()
